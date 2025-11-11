@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+option csharp_namespace = "ProviderData.Protos";
+import "google/protobuf/empty.proto";
+
+package products;
+
+service ProductService {
+  rpc GetAll (google.protobuf.Empty) returns (ProductList);
+  rpc GetById (ProductIdRequest) returns (ProductResponse);
+  rpc Create (ProductRequest) returns (ProductResponse);
+  rpc Update (ProductRequest) returns (ProductResponse);
+  rpc Delete (ProductIdRequest) returns (google.protobuf.Empty);
+  rpc CreateOrder (OrderRequest) returns (OrderReply);
+}
+
+message ProductIdRequest {
+  int32 id = 1;
+}
+
+message ProductRequest {
+  int32 id = 1;
+  string name = 2;
+  string description = 3;
+  int32 price = 4;
+  int32 quantity = 5;
+  int32 priceType = 6;
+  int32 quantityType = 7;
+}
+
+message ProductResponse {
+  int32 id = 1;
+  string name = 2;
+  string description = 3;
+  int32 price = 4;
+  int32 quantity = 5;
+  int32 priceType = 6;
+  int32 quantityType = 7;
+}
+
+message ProductList {
+  repeated ProductResponse products = 1;
+}
+
+message OrderRequest {
+  int32 product_id = 1;
+  string buyer_email = 2;
+  int32 quantity = 3;
+}
+
+message OrderReply {
+  int32 order_id = 1;
+  string status = 2;
+}

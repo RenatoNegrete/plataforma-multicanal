@@ -1,0 +1,99 @@
+version: '3.9'
+
+services:
+  mysql:
+    build: ./Db
+    container_name: mysql-provider
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: providerdb
+      MYSQL_USER: provider_user
+      MYSQL_PASSWORD: provider_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - provider-net
+
+  kafka:
+    image: apache/kafka:latest
+    container_name: kafka
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_NUM_PARTITIONS: 3
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+    ports:
+      - "9092:9092"
+    networks:
+      - provider-net
+
+  providerdata:
+    build:
+      context: ./ProviderData
+      dockerfile: Dockerfile
+    container_name: provider-data
+    depends_on:
+      - mysql
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ConnectionStrings__DefaultConnection: "server=mysql-provider;port=3306;database=providerdb;user=provider_user;password=provider_pass;"
+    ports:
+      - "5117:8080"
+    networks:
+      - provider-net
+
+  providerapi:
+    build:
+      context: ./ProviderAPI
+      dockerfile: Dockerfile
+    container_name: provider-api
+    depends_on:
+      - providerdata
+      - kafka
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      GrpcSettings__ProviderDataUrl: "http://provider-data:5117"
+    ports:
+      - "8080:8080"
+    networks:
+      - provider-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health" ]
+      interval: 5s
+      timeout: 2s
+      retries: 5
+
+  orderconsumer:
+    build:
+      context: ./OrderConsumer
+      dockerfile: Dockerfile
+    container_name: order-consumer
+    depends_on:
+      providerapi:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      OUTLOOK_EMAIL: "renatonegrete563@gmail.com"
+      OUTLOOK_PASSWORD: "ytpi vjfh kbvr ngay"
+    ports:
+      - "5118:8080"
+    networks:
+      - provider-net
+
+networks:
+  provider-net:
+
+volumes:
+  mysql_data:
