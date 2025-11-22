@@ -64,7 +64,7 @@ services:
       - kafka
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
-      GrpcSettings__ProviderDataUrl: "http://provider-data:5117"
+      GrpcSettings__ProviderDataUrl: "http://provider-data:8080"
     ports:
       - "8080:8080"
     networks:
@@ -89,6 +89,19 @@ services:
       OUTLOOK_PASSWORD: "ytpi vjfh kbvr ngay"
     ports:
       - "5118:8080"
+    networks:
+      - provider-net
+
+  apigateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    container_name: api-gateway
+    depends_on:
+      providerapi:
+        condition: service_healthy
+    ports:
+      - "8085:8080"
     networks:
       - provider-net
 
