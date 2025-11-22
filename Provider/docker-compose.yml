@@ -87,26 +87,4 @@ services:
       ASPNETCORE_ENVIRONMENT: "Development"
       OUTLOOK_EMAIL: "renatonegrete563@gmail.com"
       OUTLOOK_PASSWORD: "ytpi vjfh kbvr ngay"
-    ports:
-      - "5118:8080"
-    networks:
-      - provider-net
-
-  apigateway:
-    build:
-      context: ./api-gateway
-      dockerfile: Dockerfile
-    container_name: api-gateway
-    depends_on:
-      providerapi:
-        condition: service_healthy
-    ports:
-      - "8085:8080"
-    networks:
-      - provider-net
-
-networks:
-  provider-net:
-
-volumes:
-  mysql_data:
+    

@@ -1,0 +1,56 @@
+services:
+  apigateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    container_name: api-gateway
+    depends_on:
+      catalogoapi:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    networks:
+      - microservicios-net
+
+  catalogoapi:
+    build:
+      context: ./catalogo
+    container_name: catalogo-api
+    ports:
+      - "8086:8080"
+    networks:
+      - microservicios-net
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - MONGO_CONNECTION_STRING=mongodb://mongo:27017
+      - MONGO_DATABASE=catalogodb
+    depends_on:
+      mongo:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  mongo:
+    image: mongo:6.0
+    container_name: mongo-db
+    restart: always
+    ports:
+      - "27017:27017"
+    networks:
+      - microservicios-net
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.runCommand({ ping: 1 })"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - mongodbdata:/data/db
+
+networks:
+  microservicios-net:
+
+volumes:
+  mongodbdata:

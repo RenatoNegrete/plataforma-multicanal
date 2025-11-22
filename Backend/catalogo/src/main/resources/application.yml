@@ -1,0 +1,7 @@
+server:
+  port: 8086
+
+spring:
+  data:
+    mongodb:
+      uri: "mongodb://mongo:haLRwuliaFwbLKiuzQVTnbWSILCxvZLV@nozomi.proxy.rlwy.net:22466/catalogdb?authSource=admin"
