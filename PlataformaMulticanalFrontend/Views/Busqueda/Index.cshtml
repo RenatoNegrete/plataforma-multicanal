@@ -1,0 +1,256 @@
+@{
+    ViewData["Title"] = "Resultados de Búsqueda";
+    var query = ViewData["Query"] as string ?? "";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/busqueda.css" asp-append-version="true" />
+}
+
+<!-- Breadcrumb -->
+<div class="breadcrumb-section">
+    <div class="container-fluid px-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Inicio</a></li>
+                <li class="breadcrumb-item active">Búsqueda</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<!-- Search Section -->
+<section class="search-section">
+    <div class="container-fluid px-4">
+        <!-- Search Header -->
+        <div class="search-header">
+            <div class="search-info">
+                <h2>Resultados de búsqueda</h2>
+                @if (!string.IsNullOrEmpty(query))
+                {
+                    <p>Mostrando resultados para: <strong>"@query"</strong></p>
+                }
+            </div>
+            <div class="search-box-main">
+                <form asp-controller="Busqueda" asp-action="Index" method="get">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="q" value="@query" placeholder="¿Qué estás buscando?">
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Filters Sidebar -->
+            <div class="col-lg-2 col-md-3 mb-4">
+                <div class="filters-sidebar">
+                    <div class="filter-group">
+                        <h5 class="filter-title">
+                            <i class="fas fa-filter me-2"></i>Filtros
+                        </h5>
+                    </div>
+
+                    <div class="filter-group">
+                        <h6 class="filter-subtitle">Categorías</h6>
+                        <div class="filter-options">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="cat-tech">
+                                <label class="form-check-label" for="cat-tech">
+                                    Tecnología <span class="count">(45)</span>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="cat-fashion">
+                                <label class="form-check-label" for="cat-fashion">
+                                    Moda <span class="count">(32)</span>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="cat-home">
+                                <label class="form-check-label" for="cat-home">
+                                    Hogar <span class="count">(28)</span>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="cat-services">
+                                <label class="form-check-label" for="cat-services">
+                                    Servicios <span class="count">(15)</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <h6 class="filter-subtitle">Rango de Precio</h6>
+                        <div class="price-range">
+                            <div class="d-flex gap-2 mb-3">
+                                <input type="number" class="form-control form-control-sm" placeholder="Min" value="0">
+                                <input type="number" class="form-control form-control-sm" placeholder="Max" value="1000">
+                            </div>
+                            <input type="range" class="form-range" min="0" max="1000" value="500">
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <h6 class="filter-subtitle">Calificación</h6>
+                        <div class="filter-options">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="rating-5">
+                                <label class="form-check-label" for="rating-5">
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="rating-4">
+                                <label class="form-check-label" for="rating-4">
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="far fa-star text-warning"></i>
+                                    y más
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <button class="btn btn-outline-danger w-100 btn-sm">
+                            <i class="fas fa-redo me-2"></i>Limpiar Filtros
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search Results -->
+            <div class="col-lg-10 col-md-9">
+                <!-- Results Toolbar -->
+                <div class="results-toolbar">
+                    <div class="results-count">
+                        <strong>120 resultados</strong> encontrados
+                    </div>
+                    <div class="toolbar-actions">
+                        <select class="form-select form-select-sm">
+                            <option>Más Relevantes</option>
+                            <option>Menor Precio</option>
+                            <option>Mayor Precio</option>
+                            <option>Mejor Calificados</option>
+                        </select>
+                        <div class="view-toggle">
+                            <button class="btn btn-sm btn-outline-secondary active">
+                                <i class="fas fa-th"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-secondary">
+                                <i class="fas fa-list"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Suggested Searches -->
+                @if (!string.IsNullOrEmpty(query))
+                {
+                    <div class="suggested-searches">
+                        <span class="label">Búsquedas relacionadas:</span>
+                        <a href="#" class="suggestion-tag">laptop gaming</a>
+                        <a href="#" class="suggestion-tag">computadores portátiles</a>
+                        <a href="#" class="suggestion-tag">accesorios gaming</a>
+                        <a href="#" class="suggestion-tag">laptops HP</a>
+                    </div>
+                }
+
+                <!-- Results Grid -->
+                <div class="results-grid">
+                    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-3">
+                        @for (int i = 1; i <= 15; i++)
+                        {
+                            <div class="col">
+                                <div class="product-card">
+                                    <div class="product-image-wrapper">
+                                        @if (i % 3 == 0)
+                                        {
+                                            <span class="badge bg-danger product-badge">-20%</span>
+                                        }
+                                        <button class="btn-wishlist">
+                                            <i class="far fa-heart"></i>
+                                        </button>
+                                        <a asp-controller="Catalogo" asp-action="Detalle" asp-route-id="@i">
+                                            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop" alt="Producto @i">
+                                        </a>
+                                    </div>
+                                    <div class="product-card-body">
+                                        <div class="product-category">TECNOLOGÍA</div>
+                                        <h5 class="product-title">
+                                            <a asp-controller="Catalogo" asp-action="Detalle" asp-route-id="@i">
+                                                Producto de Búsqueda @i
+                                            </a>
+                                        </h5>
+                                        <div class="product-rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                            <span>(4.0)</span>
+                                        </div>
+                                        <div class="product-price-section">
+                                            <div>
+                                                @if (i % 3 == 0)
+                                                {
+                                                    <span class="product-price-old">$@((i * 50) + 150)</span>
+                                                }
+                                                <div class="product-price">$@((i * 50) + 99)</div>
+                                            </div>
+                                            <button class="btn-add-cart">
+                                                <i class="fas fa-cart-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination-wrapper">
+                    <nav>
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#"><i class="fas fa-chevron-left"></i></a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">4</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        // Wishlist toggle
+        document.querySelectorAll('.btn-wishlist').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const icon = this.querySelector('i');
+                icon.classList.toggle('far');
+                icon.classList.toggle('fas');
+            });
+        });
+    </script>
+}

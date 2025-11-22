@@ -1,0 +1,153 @@
+/* ========== SEARCH PAGE ========== */
+
+.search-section {
+    padding: 2rem 0;
+    background: #f8f9fa;
+}
+
+/* Search Header */
+.search-header {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    margin-bottom: 2rem;
+    border: 2px solid #e5e7eb;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.search-info h2 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #111827;
+    margin-bottom: 0.5rem;
+}
+
+.search-info p {
+    color: #6b7280;
+    margin: 0;
+}
+
+.search-info strong {
+    color: #2563eb;
+}
+
+.search-box-main {
+    margin-top: 1.5rem;
+}
+
+.search-box-main .input-group {
+    max-width: 600px;
+}
+
+.search-box-main .form-control {
+    border: 2px solid #d1d5db;
+    border-radius: 12px 0 0 12px;
+    padding: 0.9rem 1.2rem;
+    font-size: 1rem;
+}
+
+.search-box-main .form-control:focus {
+    border-color: #2563eb;
+    box-shadow: none;
+}
+
+.search-box-main .btn {
+    border-radius: 0 12px 12px 0;
+    padding: 0.9rem 2rem;
+}
+
+/* Results Toolbar */
+.results-toolbar {
+    background: white;
+    padding: 1.2rem 1.5rem;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border: 2px solid #e5e7eb;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.results-count {
+    font-size: 0.95rem;
+    color: #6b7280;
+}
+
+.results-count strong {
+    color: #111827;
+    font-weight: 700;
+}
+
+.toolbar-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.view-toggle {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.view-toggle .btn.active {
+    background: #2563eb;
+    color: white;
+    border-color: #2563eb;
+}
+
+/* Suggested Searches */
+.suggested-searches {
+    background: #eff6ff;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    border: 2px solid #bfdbfe;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    align-items: center;
+}
+
+.suggested-searches .label {
+    font-weight: 600;
+    color: #1e40af;
+    font-size: 0.9rem;
+}
+
+.suggestion-tag {
+    background: white;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    color: #2563eb;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: 2px solid #bfdbfe;
+    transition: all 0.3s;
+}
+
+.suggestion-tag:hover {
+    background: #2563eb;
+    color: white;
+    border-color: #2563eb;
+}
+
+/* Results Grid */
+.results-grid {
+    margin-bottom: 2rem;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .results-toolbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .toolbar-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
