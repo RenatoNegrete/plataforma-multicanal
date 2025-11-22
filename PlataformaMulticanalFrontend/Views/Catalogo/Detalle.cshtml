@@ -1,0 +1,588 @@
+@{
+    ViewData["Title"] = "Detalle del Producto";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/product-detail.css" asp-append-version="true" />
+}
+
+<!-- Breadcrumb -->
+<div class="breadcrumb-section">
+    <div class="container-fluid px-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Inicio</a></li>
+                <li class="breadcrumb-item"><a asp-controller="Catalogo" asp-action="Index">Catálogo</a></li>
+                <li class="breadcrumb-item active">Laptop Gaming Pro 15"</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<!-- Product Detail Section -->
+<section class="product-detail-section">
+    <div class="container-fluid px-4">
+        <div class="row">
+            <!-- Product Images -->
+            <div class="col-lg-5 mb-4">
+                <div class="product-images-wrapper">
+                    <!-- Main Image -->
+                    <div class="main-image">
+                        <span class="badge bg-danger product-badge-large">-20%</span>
+                        <button class="btn-wishlist-large">
+                            <i class="far fa-heart"></i>
+                        </button>
+                        <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=800&h=600&fit=crop" 
+                             alt="Laptop Gaming Pro" id="mainProductImage">
+                        <div class="image-zoom-hint">
+                            <i class="fas fa-search-plus"></i> Haz clic para ampliar
+                        </div>
+                    </div>
+                    
+                    <!-- Thumbnails -->
+                    <div class="product-thumbnails">
+                        <div class="thumbnail-item active">
+                            <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=150&h=150&fit=crop" alt="Imagen 1">
+                        </div>
+                        <div class="thumbnail-item">
+                            <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=150&h=150&fit=crop" alt="Imagen 2">
+                        </div>
+                        <div class="thumbnail-item">
+                            <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=150&h=150&fit=crop" alt="Imagen 3">
+                        </div>
+                        <div class="thumbnail-item">
+                            <img src="https://images.unsplash.com/photo-1484788984921-03950022c9ef?w=150&h=150&fit=crop" alt="Imagen 4">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Info -->
+            <div class="col-lg-7">
+                <div class="product-info-wrapper">
+                    <!-- Title & Rating -->
+                    <div class="product-header">
+                        <span class="product-category-badge">TECNOLOGÍA</span>
+                        <h1 class="product-detail-title">Laptop Gaming Pro 15" Intel Core i7</h1>
+                        <div class="product-rating-detail">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span class="rating-number">4.5</span>
+                            </div>
+                            <span class="reviews-count">(248 reseñas)</span>
+                            <span class="separator">|</span>
+                            <span class="sold-count"><i class="fas fa-check-circle text-success"></i> 1,234 vendidos</span>
+                        </div>
+                    </div>
+
+                    <!-- Price -->
+                    <div class="product-price-detail">
+                        <div class="price-row">
+                            <span class="price-old">$2,000</span>
+                            <span class="discount-percentage">20% OFF</span>
+                        </div>
+                        <div class="price-current">$1,600</div>
+                        <div class="price-info">
+                            <i class="fas fa-credit-card me-2"></i>
+                            12 cuotas de $133.33 sin interés
+                        </div>
+                    </div>
+
+                    <!-- Stock & Shipping -->
+                    <div class="product-availability">
+                        <div class="availability-item">
+                            <i class="fas fa-check-circle text-success"></i>
+                            <span><strong>En stock</strong> - 45 unidades disponibles</span>
+                        </div>
+                        <div class="availability-item">
+                            <i class="fas fa-truck text-primary"></i>
+                            <span>Envío <strong>gratis</strong> a Bogotá</span>
+                        </div>
+                        <div class="availability-item">
+                            <i class="fas fa-clock text-warning"></i>
+                            <span>Llega <strong>mañana</strong> si compras antes de las 6pm</span>
+                        </div>
+                    </div>
+
+                    <!-- Variants -->
+                    <div class="product-variants">
+                        <div class="variant-group">
+                            <label class="variant-label">Color:</label>
+                            <div class="variant-options">
+                                <button class="variant-btn active" data-variant="negro">
+                                    <span class="color-circle" style="background: #000;"></span>
+                                    Negro
+                                </button>
+                                <button class="variant-btn" data-variant="plata">
+                                    <span class="color-circle" style="background: #c0c0c0;"></span>
+                                    Plata
+                                </button>
+                                <button class="variant-btn" data-variant="azul">
+                                    <span class="color-circle" style="background: #2563eb;"></span>
+                                    Azul
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="variant-group">
+                            <label class="variant-label">Memoria RAM:</label>
+                            <div class="variant-options">
+                                <button class="variant-btn">8GB</button>
+                                <button class="variant-btn active">16GB</button>
+                                <button class="variant-btn">32GB (+$200)</button>
+                            </div>
+                        </div>
+
+                        <div class="variant-group">
+                            <label class="variant-label">Almacenamiento:</label>
+                            <div class="variant-options">
+                                <button class="variant-btn">256GB SSD</button>
+                                <button class="variant-btn active">512GB SSD</button>
+                                <button class="variant-btn">1TB SSD (+$150)</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quantity & Actions -->
+                    <div class="product-actions">
+                        <div class="quantity-selector">
+                            <label>Cantidad:</label>
+                            <div class="quantity-controls">
+                                <button class="btn-quantity" id="decreaseQty">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <input type="number" class="quantity-input" value="1" min="1" max="45" id="quantityInput">
+                                <button class="btn-quantity" id="increaseQty">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="action-buttons">
+                            <button class="btn btn-primary btn-lg btn-add-to-cart">
+                                <i class="fas fa-shopping-cart me-2"></i>
+                                Agregar al Carrito
+                            </button>
+                            <button class="btn btn-success btn-lg btn-buy-now">
+                                <i class="fas fa-bolt me-2"></i>
+                                Comprar Ahora
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Features Highlights -->
+                    <div class="product-features-highlight">
+                        <div class="feature-highlight-item">
+                            <i class="fas fa-shield-alt"></i>
+                            <div>
+                                <strong>Garantía de 2 años</strong>
+                                <p>Cobertura completa del fabricante</p>
+                            </div>
+                        </div>
+                        <div class="feature-highlight-item">
+                            <i class="fas fa-undo"></i>
+                            <div>
+                                <strong>Devolución gratis en 30 días</strong>
+                                <p>Si no te gusta, te devolvemos el dinero</p>
+                            </div>
+                        </div>
+                        <div class="feature-highlight-item">
+                            <i class="fas fa-lock"></i>
+                            <div>
+                                <strong>Compra 100% segura</strong>
+                                <p>Certificado PCI DSS</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Tabs -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="product-tabs-wrapper">
+                    <ul class="nav nav-tabs product-tabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#description">
+                                <i class="fas fa-info-circle me-2"></i>Descripción
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#specifications">
+                                <i class="fas fa-list me-2"></i>Especificaciones
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#reviews">
+                                <i class="fas fa-star me-2"></i>Reseñas (248)
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#questions">
+                                <i class="fas fa-question-circle me-2"></i>Preguntas (15)
+                            </button>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content product-tab-content">
+                        <!-- Description Tab -->
+                        <div class="tab-pane fade show active" id="description" role="tabpanel">
+                            <div class="tab-content-inner">
+                                <h3>Descripción del Producto</h3>
+                                <p>
+                                    La Laptop Gaming Pro 15" está diseñada para jugadores exigentes que buscan el máximo rendimiento. 
+                                    Equipada con un procesador Intel Core i7 de última generación, 16GB de RAM DDR4 y 512GB de almacenamiento SSD, 
+                                    esta laptop ofrece velocidad y capacidad excepcionales.
+                                </p>
+                                <p>
+                                    Su pantalla Full HD de 15.6" con tecnología IPS proporciona colores vibrantes y ángulos de visión amplios. 
+                                    La tarjeta gráfica dedicada NVIDIA GeForce RTX garantiza gráficos fluidos incluso en los juegos más demandantes.
+                                </p>
+
+                                <h4 class="mt-4">Características Principales:</h4>
+                                <ul class="features-list">
+                                    <li><i class="fas fa-check text-success me-2"></i>Procesador Intel Core i7 de 11ª generación</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>16GB RAM DDR4 expandible hasta 32GB</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>512GB SSD NVMe para arranque ultra rápido</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>NVIDIA GeForce RTX 3060 con 6GB GDDR6</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Pantalla Full HD 15.6" 144Hz</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Teclado retroiluminado RGB</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Sistema de refrigeración avanzado</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Batería de larga duración (hasta 8 horas)</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Specifications Tab -->
+                        <div class="tab-pane fade" id="specifications" role="tabpanel">
+                            <div class="tab-content-inner">
+                                <h3>Especificaciones Técnicas</h3>
+                                <div class="specifications-table">
+                                    <div class="spec-row">
+                                        <div class="spec-label">Procesador</div>
+                                        <div class="spec-value">Intel Core i7-11800H (2.3GHz hasta 4.6GHz)</div>
+                                    </div>
+                                    <div class="spec-row">
+                                        <div class="spec-label">Memoria RAM</div>
+                                        <div class="spec-value">16GB DDR4 3200MHz (2x8GB)</div>
+                                    </div>
+                                    <div class="spec-row">
+                                        <div class="spec-label">Almacenamiento</div>
+                                        <div class="spec-value">512GB SSD NVMe M.2 PCIe Gen 4</div>
+                                    </div>
+                                    <div class="spec-row">
+                                        <div class="spec-label">Tarjeta Gráfica</div>
+                                        <div class="spec-value">NVIDIA GeForce RTX 3060 6GB GDDR6</div>
+                                    </div>
+                                    <div class="spec-row">
+                                        <div class="spec-label">Pantalla</div>
+                                        <div class="spec-value">15.6" Full HD (1920x1080) IPS 144Hz</div>
+                                    </div>
+                                    <div class="spec-row">
+                                        <div class="spec-label">Sistema Operativo</div>
+                                        <div class="spec-value">Windows 11 Home</div>
+                                    </div>
+                                    <div class="spec-row">
+                                        <div class="spec-label">Conectividad</div>
+                                        <div class="spec-value">WiFi 6, Bluetooth 5.1, USB-C, HDMI 2.1</div>
+                                    </div>
+                                    <div class="spec-row">
+                                        <div class="spec-label">Batería</div>
+                                        <div class="spec-value">90Wh, hasta 8 horas de uso</div>
+                                    </div>
+                                    <div class="spec-row">
+                                        <div class="spec-label">Peso</div>
+                                        <div class="spec-value">2.3 kg</div>
+                                    </div>
+                                    <div class="spec-row">
+                                        <div class="spec-label">Dimensiones</div>
+                                        <div class="spec-value">35.9 x 25.9 x 2.49 cm</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Reviews Tab -->
+                        <div class="tab-pane fade" id="reviews" role="tabpanel">
+                            <div class="tab-content-inner">
+                                <div class="reviews-summary">
+                                    <div class="rating-overview">
+                                        <div class="overall-rating">
+                                            <div class="rating-number">4.5</div>
+                                            <div class="stars-large">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star-half-alt"></i>
+                                            </div>
+                                            <div class="rating-text">248 reseñas</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="rating-bars">
+                                        <div class="rating-bar-item">
+                                            <span class="stars-label">5★</span>
+                                            <div class="progress">
+                                                <div class="progress-bar" style="width: 68%"></div>
+                                            </div>
+                                            <span class="percentage">68%</span>
+                                        </div>
+                                        <div class="rating-bar-item">
+                                            <span class="stars-label">4★</span>
+                                            <div class="progress">
+                                                <div class="progress-bar" style="width: 20%"></div>
+                                            </div>
+                                            <span class="percentage">20%</span>
+                                        </div>
+                                        <div class="rating-bar-item">
+                                            <span class="stars-label">3★</span>
+                                            <div class="progress">
+                                                <div class="progress-bar" style="width: 8%"></div>
+                                            </div>
+                                            <span class="percentage">8%</span>
+                                        </div>
+                                        <div class="rating-bar-item">
+                                            <span class="stars-label">2★</span>
+                                            <div class="progress">
+                                                <div class="progress-bar" style="width: 3%"></div>
+                                            </div>
+                                            <span class="percentage">3%</span>
+                                        </div>
+                                        <div class="rating-bar-item">
+                                            <span class="stars-label">1★</span>
+                                            <div class="progress">
+                                                <div class="progress-bar" style="width: 1%"></div>
+                                            </div>
+                                            <span class="percentage">1%</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Individual Reviews -->
+                                <div class="reviews-list mt-4">
+                                    <div class="review-item">
+                                        <div class="review-header">
+                                            <div class="reviewer-info">
+                                                <div class="reviewer-avatar">JD</div>
+                                                <div>
+                                                    <div class="reviewer-name">Juan Pérez</div>
+                                                    <div class="review-date">15 de noviembre, 2024</div>
+                                                </div>
+                                            </div>
+                                            <div class="review-rating">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                            </div>
+                                        </div>
+                                        <div class="review-content">
+                                            <h5>¡Excelente laptop para gaming!</h5>
+                                            <p>
+                                                Llevo un mes usándola y estoy muy satisfecho. Corre todos los juegos a máxima calidad 
+                                                sin problemas. La pantalla de 144Hz hace una gran diferencia. Totalmente recomendada.
+                                            </p>
+                                        </div>
+                                        <div class="review-footer">
+                                            <button class="btn-review-action"><i class="far fa-thumbs-up me-1"></i> Útil (45)</button>
+                                            <button class="btn-review-action"><i class="far fa-comment me-1"></i> Responder</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="review-item">
+                                        <div class="review-header">
+                                            <div class="reviewer-info">
+                                                <div class="reviewer-avatar">MG</div>
+                                                <div>
+                                                    <div class="reviewer-name">María García</div>
+                                                    <div class="review-date">10 de noviembre, 2024</div>
+                                                </div>
+                                            </div>
+                                            <div class="review-rating">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="far fa-star"></i>
+                                            </div>
+                                        </div>
+                                        <div class="review-content">
+                                            <h5>Muy buena relación calidad-precio</h5>
+                                            <p>
+                                                Gran rendimiento por el precio. El único detalle es que los ventiladores pueden ser un poco ruidosos 
+                                                cuando está al máximo, pero nada grave. La compraría de nuevo.
+                                            </p>
+                                        </div>
+                                        <div class="review-footer">
+                                            <button class="btn-review-action"><i class="far fa-thumbs-up me-1"></i> Útil (32)</button>
+                                            <button class="btn-review-action"><i class="far fa-comment me-1"></i> Responder</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button class="btn btn-outline-primary mt-4">Ver Todas las Reseñas</button>
+                            </div>
+                        </div>
+
+                        <!-- Questions Tab -->
+                        <div class="tab-pane fade" id="questions" role="tabpanel">
+                            <div class="tab-content-inner">
+                                <h3>Preguntas y Respuestas</h3>
+                                <div class="question-form mb-4">
+                                    <h5>¿Tienes alguna pregunta?</h5>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Escribe tu pregunta...">
+                                        <button class="btn btn-primary">Preguntar</button>
+                                    </div>
+                                </div>
+
+                                <div class="questions-list">
+                                    <div class="question-item">
+                                        <div class="question-content">
+                                            <i class="fas fa-question-circle text-primary me-2"></i>
+                                            <div>
+                                                <p class="question-text">¿Viene con Windows instalado?</p>
+                                                <div class="question-meta">Por Carlos M. - 18 nov 2024</div>
+                                            </div>
+                                        </div>
+                                        <div class="answer-content">
+                                            <i class="fas fa-check-circle text-success me-2"></i>
+                                            <div>
+                                                <p class="answer-text">Sí, viene con Windows 11 Home preinstalado y activado.</p>
+                                                <div class="answer-meta">Vendedor - 18 nov 2024</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="question-item">
+                                        <div class="question-content">
+                                            <i class="fas fa-question-circle text-primary me-2"></i>
+                                            <div>
+                                                <p class="question-text">¿Se puede ampliar la RAM?</p>
+                                                <div class="question-meta">Por Ana L. - 17 nov 2024</div>
+                                            </div>
+                                        </div>
+                                        <div class="answer-content">
+                                            <i class="fas fa-check-circle text-success me-2"></i>
+                                            <div>
+                                                <p class="answer-text">Sí, tiene 2 slots de RAM y soporta hasta 32GB en total.</p>
+                                                <div class="answer-meta">Vendedor - 17 nov 2024</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Products -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="section-header mb-4">
+                    <h3 class="section-title">Productos Relacionados</h3>
+                    <p class="section-subtitle">También te puede interesar</p>
+                </div>
+
+                <div class="row row-cols-2 row-cols-md-4 row-cols-lg-6 g-3">
+                    @for (int i = 1; i <= 6; i++)
+                    {
+                        <div class="col">
+                            <div class="product-card">
+                                <div class="product-image-wrapper">
+                                    <a href="#">
+                                        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop" alt="Producto relacionado">
+                                    </a>
+                                </div>
+                                <div class="product-card-body">
+                                    <div class="product-category">TECNOLOGÍA</div>
+                                    <h5 class="product-title">
+                                        <a href="#">Producto Relacionado @i</a>
+                                    </h5>
+                                    <div class="product-rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <span>(4.0)</span>
+                                    </div>
+                                    <div class="product-price-section">
+                                        <div>
+                                            <div class="product-price">$@((i * 50) + 99)</div>
+                                        </div>
+                                        <button class="btn-add-cart">
+                                            <i class="fas fa-cart-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        // Thumbnail image switching
+        document.querySelectorAll('.thumbnail-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelector('.thumbnail-item.active').classList.remove('active');
+                this.classList.add('active');
+                const newSrc = this.querySelector('img').src.replace('w=150&h=150', 'w=800&h=600');
+                document.getElementById('mainProductImage').src = newSrc;
+            });
+        });
+
+        // Quantity controls
+        document.getElementById('decreaseQty').addEventListener('click', function() {
+            const input = document.getElementById('quantityInput');
+            if (input.value > 1) input.value = parseInt(input.value) - 1;
+        });
+
+        document.getElementById('increaseQty').addEventListener('click', function() {
+            const input = document.getElementById('quantityInput');
+            const max = parseInt(input.getAttribute('max'));
+            if (input.value < max) input.value = parseInt(input.value) + 1;
+        });
+
+        // Variant selection
+        document.querySelectorAll('.variant-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const parent = this.closest('.variant-group');
+                parent.querySelectorAll('.variant-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Wishlist toggle
+        document.querySelector('.btn-wishlist-large').addEventListener('click', function() {
+            this.classList.toggle('active');
+            const icon = this.querySelector('i');
+            icon.classList.toggle('far');
+            icon.classList.toggle('fas');
+        });
+
+        // Add to cart
+        document.querySelector('.btn-add-to-cart').addEventListener('click', function() {
+            alert('Producto agregado al carrito');
+        });
+
+        // Buy now
+        document.querySelector('.btn-buy-now').addEventListener('click', function() {
+            alert('Redirigiendo a checkout...');
+        });
+    </script>
+}
