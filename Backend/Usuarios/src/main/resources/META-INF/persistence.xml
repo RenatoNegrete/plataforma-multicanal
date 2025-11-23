@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="jakarta.persistence" version="3.0">
+
+    <persistence-unit name="MyPU">
+        <jta-data-source>java:/MySqlDS</jta-data-source>
+
+        <properties>
+            <property name="jakarta.persistence.schema-generation.database.action" value="update" />
+        </properties>
+    </persistence-unit>
+
+</persistence>
