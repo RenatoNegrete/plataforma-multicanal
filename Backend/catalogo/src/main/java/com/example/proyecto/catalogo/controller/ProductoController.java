@@ -1,7 +1,9 @@
 package com.example.proyecto.catalogo.controller;
 
 import com.example.proyecto.catalogo.model.Producto;
-import com.example.proyecto.catalogo.repository.ProductoRepository;
+import com.example.proyecto.catalogo.service.ProductoService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,20 +12,31 @@ import java.util.List;
 @RequestMapping("/api/productos")
 public class ProductoController {
 
-    private final ProductoRepository repository;
-
-    public ProductoController(ProductoRepository repository) {
-        this.repository = repository;
-    }
+    @Autowired
+    private ProductoService service;
 
     @GetMapping("/all")
     public List<Producto> listar() {
-        return repository.findAll();
+        return service.listar();
     }
 
-    @SuppressWarnings("null")
+    @GetMapping("/{id}")
+    public Producto obtener(@PathVariable String id) {
+        return service.obtenerPorId(id);
+    }
+
     @PostMapping
     public Producto guardar(@RequestBody Producto producto) {
-        return repository.save(producto);
+        return service.guardar(producto);
+    }
+
+    @PutMapping("/{id}")
+    public Producto actualizar(@PathVariable String id, @RequestBody Producto producto) {
+        return service.actualizar(id, producto);
+    }
+
+    @DeleteMapping("/{id}")
+    public void eliminar(@PathVariable String id) {
+        service.eliminar(id);
     }
 }

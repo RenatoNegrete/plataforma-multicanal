@@ -1,0 +1,7 @@
+server:
+  port: 8081
+
+spring:
+  data:
+    mongodb:
+      uri: "mongodb://mongo:lcyLMyGistfuKsZIYyhGVjlJlIegWIGS@nozomi.proxy.rlwy.net:54666/recomendacionesdb?authSource=admin"
