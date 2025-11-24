@@ -1,31 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Usuario\\Desktop\\Universidad\\Semestre_7\\Arquitectura SW\\Provider\\ProviderData\\ProviderData.csproj": {}
+    "C:\\Users\\Usuario\\Desktop\\Universidad\\Semestre_7\\Arquitectura SW\\plataforma-multicanal\\Provider\\ProviderData\\ProviderData.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Usuario\\Desktop\\Universidad\\Semestre_7\\Arquitectura SW\\Provider\\ProviderData\\ProviderData.csproj": {
+    "C:\\Users\\Usuario\\Desktop\\Universidad\\Semestre_7\\Arquitectura SW\\plataforma-multicanal\\Provider\\ProviderData\\ProviderData.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Usuario\\Desktop\\Universidad\\Semestre_7\\Arquitectura SW\\Provider\\ProviderData\\ProviderData.csproj",
+        "projectUniqueName": "C:\\Users\\Usuario\\Desktop\\Universidad\\Semestre_7\\Arquitectura SW\\plataforma-multicanal\\Provider\\ProviderData\\ProviderData.csproj",
         "projectName": "ProviderData",
-        "projectPath": "C:\\Users\\Usuario\\Desktop\\Universidad\\Semestre_7\\Arquitectura SW\\Provider\\ProviderData\\ProviderData.csproj",
+        "projectPath": "C:\\Users\\Usuario\\Desktop\\Universidad\\Semestre_7\\Arquitectura SW\\plataforma-multicanal\\Provider\\ProviderData\\ProviderData.csproj",
         "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Usuario\\Desktop\\Universidad\\Semestre_7\\Arquitectura SW\\Provider\\ProviderData\\obj\\",
+        "outputPath": "C:\\Users\\Usuario\\Desktop\\Universidad\\Semestre_7\\Arquitectura SW\\plataforma-multicanal\\Provider\\ProviderData\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -43,8 +37,7 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.300"
+        }
       },
       "frameworks": {
         "net8.0": {
@@ -88,7 +81,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.415/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

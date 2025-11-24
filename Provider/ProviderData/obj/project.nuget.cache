@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "MbEZ7Nm9wgM=",
+  "dgSpecHash": "2okDQ3DvzOc=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Usuario\\Desktop\\Universidad\\Semestre_7\\Arquitectura SW\\Provider\\ProviderData\\ProviderData.csproj",
+  "projectFilePath": "C:\\Users\\Usuario\\Desktop\\Universidad\\Semestre_7\\Arquitectura SW\\plataforma-multicanal\\Provider\\ProviderData\\ProviderData.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Usuario\\.nuget\\packages\\google.protobuf\\3.23.1\\google.protobuf.3.23.1.nupkg.sha512",
     "C:\\Users\\Usuario\\.nuget\\packages\\grpc.aspnetcore\\2.57.0\\grpc.aspnetcore.2.57.0.nupkg.sha512",

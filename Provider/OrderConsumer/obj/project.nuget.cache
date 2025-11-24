@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "V+1wxcb54Yw=",
+  "dgSpecHash": "JoOuCcu9JNE=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Usuario\\Desktop\\Universidad\\Semestre_7\\Arquitectura SW\\Provider\\OrderConsumer\\OrderConsumer.csproj",
+  "projectFilePath": "C:\\Users\\Usuario\\Desktop\\Universidad\\Semestre_7\\Arquitectura SW\\plataforma-multicanal\\Provider\\OrderConsumer\\OrderConsumer.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Usuario\\.nuget\\packages\\confluent.kafka\\2.12.0\\confluent.kafka.2.12.0.nupkg.sha512",
     "C:\\Users\\Usuario\\.nuget\\packages\\librdkafka.redist\\2.12.0\\librdkafka.redist.2.12.0.nupkg.sha512",

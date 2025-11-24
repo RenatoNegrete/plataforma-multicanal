@@ -1,6 +1,16 @@
 server:
   port: 8083
 
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.add.type.headers: false
+
 stripe:
-  secret-key: ${STRIPE_SECRET_KEY}
-  public-key: ${STRIPE_PUBLIC_KEY}
+  secret-key: sk_test_51SWkFYKC3GxJyZfeg8vRib8yMq2o3SVVSPVNr58G9O39fFj1zu1iKiBDIp5WJEAQ8QrMKq9Zzjq4QflvAXsaJDDT00M4kI9snf
+  public-key: pk_test_51SWkFYKC3GxJyZfeLHsSrh4HB1rpTasS8tObyYZjIbPghH27FvRo98SwCW0eBDQbl9oL0g9q0VZiyIS5j9vsPMZt00ynebV3Ff

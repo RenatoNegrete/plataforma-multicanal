@@ -5,13 +5,15 @@ public class PagosRequest {
     private long amount;
     private String currency;
     private String description;
+    private String clientMail;
 
     public PagosRequest() {}
 
-    public PagosRequest(long amount, String currency, String description) {
+    public PagosRequest(long amount, String currency, String description, String clientMail) {
         this.amount = amount;
         this.currency = currency;
         this.description = description;
+        this.clientMail = clientMail;
     }
 
     public long getAmount() {
@@ -36,5 +38,13 @@ public class PagosRequest {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getClientMail() {
+        return clientMail;
+    }
+
+    public void setClientMail(String clientMail) {
+        this.clientMail = clientMail;
     }
 }
