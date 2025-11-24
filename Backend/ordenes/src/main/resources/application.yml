@@ -1,0 +1,7 @@
+server:
+  port: 8082
+
+spring:
+  data:
+    mongodb:
+      uri: "mongodb://mongo:ibUfMftVvUUsTtDoOkclCIJfmgrvyWnZ@mainline.proxy.rlwy.net:33104/ordenes?authSource=admin"
