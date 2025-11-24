@@ -61,7 +61,7 @@ public class AuthController {
         extraData.put("direccion", request.get("direccion"));
 
         restTemplate.postForEntity(
-            "http://localhost:8085/usuarios-service/api/usuarios/register",
+            "http://usuarios-service:8080/usuarios-service/api/usuarios/register",
             extraData,
             Void.class
         );
