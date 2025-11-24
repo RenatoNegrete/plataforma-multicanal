@@ -67,32 +67,88 @@
                 </div>
                 
                 <!-- User Actions -->
-                <div class="col-lg-4 col-md-4">
-                    <div class="user-actions">
-                        <a asp-controller="Account" asp-action="Login" class="action-item">
-                            <i class="fas fa-user"></i>
-                            <div class="action-text">
-                                <small>Hola, Ingresar</small>
-                                <strong>Mi Cuenta</strong>
-                            </div>
-                        </a>
-                        <a asp-controller="Perfil" asp-action="Historial" class="action-item">
-                            <i class="fas fa-box"></i>
-                            <div class="action-text">
-                                <small>Mis</small>
-                                <strong>Pedidos</strong>
-                            </div>
-                        </a>
-                        <a asp-controller="Carrito" asp-action="Index" class="action-item cart">
-                            <i class="fas fa-shopping-cart"></i>
-                            <span class="cart-badge">3</span>
-                            <div class="action-text">
-                                <small>Mi</small>
-                                <strong>Carrito</strong>
-                            </div>
-                        </a>
+               <!-- User Actions -->
+<div class="col-lg-4 col-md-4">
+    <div class="user-actions">
+        @{
+            var userName = Context.Session.GetString("UserName");
+            var userEmail = Context.Session.GetString("UserEmail");
+            var isAuthenticated = !string.IsNullOrEmpty(userEmail);
+        }
+
+        @if (isAuthenticated)
+        {
+            <!-- Usuario Autenticado -->
+            <div class="action-item dropdown">
+                <a href="#" class="dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-user-circle"></i>
+                    <div class="action-text">
+                        <small>Hola,</small>
+                        <strong>@(userName ?? "Usuario")</strong>
                     </div>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                    <li><a class="dropdown-item" asp-controller="Perfil" asp-action="Index">
+                        <i class="fas fa-user me-2"></i>Mi Perfil
+                    </a></li>
+                    <li><a class="dropdown-item" asp-controller="Perfil" asp-action="Historial">
+                        <i class="fas fa-box me-2"></i>Mis Pedidos
+                    </a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#">
+                        <i class="fas fa-heart me-2"></i>Lista de Deseos
+                    </a></li>
+                    <li><a class="dropdown-item" href="#">
+                        <i class="fas fa-map-marker-alt me-2"></i>Direcciones
+                    </a></li>
+                    <li><a class="dropdown-item" href="#">
+                        <i class="fas fa-credit-card me-2"></i>Métodos de Pago
+                    </a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" asp-controller="Account" asp-action="Logout">
+                        <i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión
+                    </a></li>
+                </ul>
+            </div>
+
+            <a asp-controller="Perfil" asp-action="Historial" class="action-item">
+                <i class="fas fa-box"></i>
+                <div class="action-text">
+                    <small>Mis</small>
+                    <strong>Pedidos</strong>
                 </div>
+            </a>
+        }
+        else
+        {
+            <!-- Usuario NO Autenticado -->
+            <a asp-controller="Account" asp-action="Login" class="action-item">
+                <i class="fas fa-sign-in-alt"></i>
+                <div class="action-text">
+                    <small>Hola,</small>
+                    <strong>Ingresar</strong>
+                </div>
+            </a>
+
+            <a asp-controller="Account" asp-action="Registro" class="action-item">
+                <i class="fas fa-user-plus"></i>
+                <div class="action-text">
+                    <small>Crear</small>
+                    <strong>Cuenta</strong>
+                </div>
+            </a>
+        }
+
+        <a asp-controller="Carrito" asp-action="Index" class="action-item cart">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-badge">0</span>
+            <div class="action-text">
+                <small>Mi</small>
+                <strong>Carrito</strong>
+            </div>
+        </a>
+    </div>
+</div>
             </div>
         </div>
     </nav>
