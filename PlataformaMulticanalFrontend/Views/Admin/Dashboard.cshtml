@@ -67,9 +67,7 @@
                         <button class="btn btn-outline-primary">
                             <i class="fas fa-download me-2"></i>Exportar
                         </button>
-                        <button class="btn btn-primary">
-                            <i class="fas fa-plus me-2"></i>Nuevo Producto
-                        </button>
+                        
                     </div>
                 </div>
 
@@ -124,7 +122,7 @@
                             </div>
                             <div class="stat-info">
                                 <span class="stat-label">Stock Bajo</span>
-                                <h3 class="stat-value">12</h3>
+                                <h3 class="stat-value">@ViewBag.ProductosStockBajo</h3>
                                 <span class="stat-change negative">
                                     <i class="fas fa-arrow-down"></i> Atención
                                 </span>
@@ -227,37 +225,30 @@
                     <div class="col-lg-5">
                         <div class="admin-card">
                             <div class="card-header">
-                                <h5><i class="fas fa-fire me-2"></i>Productos Más Vendidos</h5>
+                                <h5><i class="fas fa-fire me-2"></i>Productos del Catálogo</h5>
                             </div>
                             <div class="card-body">
                                 <div class="top-products">
-                                    <div class="product-item">
-                                        <div class="product-rank">1</div>
-                                        <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=60&h=60&fit=crop" alt="Producto">
-                                        <div class="product-info">
-                                            <h6>Laptop Gaming Pro</h6>
-                                            <p>124 vendidos</p>
-                                        </div>
-                                        <div class="product-sales">$198,400</div>
-                                    </div>
-                                    <div class="product-item">
-                                        <div class="product-rank">2</div>
-                                        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=60&h=60&fit=crop" alt="Producto">
-                                        <div class="product-info">
-                                            <h6>Auriculares Bluetooth</h6>
-                                            <p>98 vendidos</p>
-                                        </div>
-                                        <div class="product-sales">$8,722</div>
-                                    </div>
-                                    <div class="product-item">
-                                        <div class="product-rank">3</div>
-                                        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=60&h=60&fit=crop" alt="Producto">
-                                        <div class="product-info">
-                                            <h6>Smartwatch Pro</h6>
-                                            <p>87 vendidos</p>
-                                        </div>
-                                        <div class="product-sales">$26,013</div>
-                                    </div>
+                                    @if (ViewBag.TopProductos != null && ViewBag.TopProductos.Count > 0)
+                                    {
+                                        @for (int i = 0; i < ViewBag.TopProductos.Count; i++)
+                                        {
+                                            var producto = ViewBag.TopProductos[i];
+                                            <div class="product-item">
+                                                <div class="product-rank">@(i + 1)</div>
+                                                
+                                                <div class="product-info">
+                                                    <h6>@producto.Nombre</h6>
+                                                    <p>Stock: @producto.Stock unidades</p>
+                                                </div>
+                                                <div class="product-sales">$@producto.Precio.ToString("N0")</div>
+                                            </div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <p class="text-muted text-center">No hay productos disponibles</p>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -295,15 +286,15 @@
             }
         });
 
-        // Categories Chart
+        // Categories Chart - CON DATOS REALES DEL BACKEND
         const categoriesCtx = document.getElementById('categoriesChart').getContext('2d');
         new Chart(categoriesCtx, {
             type: 'doughnut',
             data: {
-                labels: ['Tecnología', 'Moda', 'Hogar', 'Servicios'],
+                labels: [@Html.Raw(ViewBag.CategoriasLabels ?? "'Sin categorías'")],
                 datasets: [{
-                    data: [45, 25, 20, 10],
-                    backgroundColor: ['#2563eb', '#10b981', '#f59e0b', '#ef4444']
+                    data: [@Html.Raw(ViewBag.CategoriasData ?? "0")],
+                    backgroundColor: ['#2563eb', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899']
                 }]
             },
             options: {

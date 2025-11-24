@@ -1,3 +1,5 @@
+@model List<PlataformaMulticanalFrontend.Models.Producto>
+
 @{
     ViewData["Title"] = "Gestión de Catálogo";
 }
@@ -22,7 +24,7 @@
                             <i class="fas fa-chart-line"></i>
                             <span>Dashboard</span>
                         </a>
-                        <a href="#" class="menu-item active">
+                        <a asp-controller="Admin" asp-action="Catalogo" class="menu-item active">
                             <i class="fas fa-box"></i>
                             <span>Catálogo</span>
                         </a>
@@ -57,6 +59,22 @@
 
             <!-- Main Content -->
             <div class="col-lg-10">
+                <!-- Mensajes de alerta -->
+                @if (TempData["Success"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="fas fa-check-circle me-2"></i>@TempData["Success"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                }
+                @if (TempData["Error"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="fas fa-exclamation-circle me-2"></i>@TempData["Error"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                }
+
                 <!-- Page Header -->
                 <div class="admin-header">
                     <div>
@@ -76,40 +94,32 @@
                 <!-- Filters -->
                 <div class="admin-card mb-3">
                     <div class="card-body">
-                        <div class="row g-3">
-                            <div class="col-md-4">
-                                <input type="text" class="form-control" placeholder="Buscar productos...">
+                        <form asp-controller="Admin" asp-action="Catalogo" method="get">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <input type="text" name="buscar" class="form-control" 
+                                           placeholder="Buscar productos..." 
+                                           value="@ViewBag.BuscarTexto">
+                                </div>
+                                <div class="col-md-4">
+                                    <select name="categoria" class="form-select">
+                                        <option value="">Todas las categorías</option>
+                                        @if (ViewBag.Categorias != null)
+                                        {
+                                            @foreach (var cat in ViewBag.Categorias)
+                                            {
+                                                <option value="@cat" selected="@(cat == ViewBag.CategoriaSeleccionada)">@cat</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="submit" class="btn btn-outline-secondary w-100">
+                                        <i class="fas fa-filter me-2"></i>Filtrar
+                                    </button>
+                                </div>
                             </div>
-                            <div class="col-md-2">
-                                <select class="form-select">
-                                    <option>Todas las categorías</option>
-                                    <option>Tecnología</option>
-                                    <option>Moda</option>
-                                    <option>Hogar</option>
-                                </select>
-                            </div>
-                            <div class="col-md-2">
-                                <select class="form-select">
-                                    <option>Todos los estados</option>
-                                    <option>Activo</option>
-                                    <option>Inactivo</option>
-                                    <option>Agotado</option>
-                                </select>
-                            </div>
-                            <div class="col-md-2">
-                                <select class="form-select">
-                                    <option>Tipo de producto</option>
-                                    <option>Físico</option>
-                                    <option>Servicio</option>
-                                    <option>Digital</option>
-                                </select>
-                            </div>
-                            <div class="col-md-2">
-                                <button class="btn btn-outline-secondary w-100">
-                                    <i class="fas fa-filter me-2"></i>Filtrar
-                                </button>
-                            </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
 
@@ -124,7 +134,7 @@
                                             <input type="checkbox" class="form-check-input">
                                         </th>
                                         <th>Producto</th>
-                                        <th>SKU</th>
+                                        <th>ID</th>
                                         <th>Categoría</th>
                                         <th>Precio</th>
                                         <th>Stock</th>
@@ -133,172 +143,146 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            <input type="checkbox" class="form-check-input">
-                                        </td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=60&h=60&fit=crop" 
-                                                     class="product-thumb me-3" alt="Producto">
-                                                <div>
-                                                    <h6 class="mb-0">Laptop Gaming Pro 15"</h6>
-                                                    <small class="text-muted">Intel Core i7</small>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td><code>LAP-001</code></td>
-                                        <td>Tecnología</td>
-                                        <td><strong>$1,600</strong></td>
-                                        <td>
-                                            <span class="badge bg-success">45 unidades</span>
-                                        </td>
-                                        <td>
-                                            <span class="badge bg-success">Activo</span>
-                                        </td>
-                                        <td>
-                                            <div class="btn-group btn-group-sm">
-                                                <button class="btn btn-outline-primary" title="Editar">
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
-                                                <button class="btn btn-outline-info" title="Ver">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                                <button class="btn btn-outline-danger" title="Eliminar">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input type="checkbox" class="form-check-input">
-                                        </td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=60&h=60&fit=crop" 
-                                                     class="product-thumb me-3" alt="Producto">
-                                                <div>
-                                                    <h6 class="mb-0">Auriculares Bluetooth</h6>
-                                                    <small class="text-muted">Cancelación de ruido</small>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td><code>AUD-002</code></td>
-                                        <td>Audio</td>
-                                        <td><strong>$89</strong></td>
-                                        <td>
-                                            <span class="badge bg-warning">8 unidades</span>
-                                        </td>
-                                        <td>
-                                            <span class="badge bg-success">Activo</span>
-                                        </td>
-                                        <td>
-                                            <div class="btn-group btn-group-sm">
-                                                <button class="btn btn-outline-primary" title="Editar">
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
-                                                <button class="btn btn-outline-info" title="Ver">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                                <button class="btn btn-outline-danger" title="Eliminar">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input type="checkbox" class="form-check-input">
-                                        </td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=60&h=60&fit=crop" 
-                                                     class="product-thumb me-3" alt="Producto">
-                                                <div>
-                                                    <h6 class="mb-0">Smartwatch Pro Serie 6</h6>
-                                                    <small class="text-muted">44mm Plata</small>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td><code>WAT-003</code></td>
-                                        <td>Tecnología</td>
-                                        <td><strong>$299</strong></td>
-                                        <td>
-                                            <span class="badge bg-danger">0 unidades</span>
-                                        </td>
-                                        <td>
-                                            <span class="badge bg-danger">Agotado</span>
-                                        </td>
-                                        <td>
-                                            <div class="btn-group btn-group-sm">
-                                                <button class="btn btn-outline-primary" title="Editar">
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
-                                                <button class="btn btn-outline-info" title="Ver">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                                <button class="btn btn-outline-danger" title="Eliminar">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input type="checkbox" class="form-check-input">
-                                        </td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=60&h=60&fit=crop" 
-                                                     class="product-thumb me-3" alt="Producto">
-                                                <div>
-                                                    <h6 class="mb-0">Curso Python Avanzado</h6>
-                                                    <small class="text-muted">Contenido Digital</small>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td><code>CUR-004</code></td>
-                                        <td>Educación</td>
-                                        <td><strong>$49</strong></td>
-                                        <td>
-                                            <span class="badge bg-info">Ilimitado</span>
-                                        </td>
-                                        <td>
-                                            <span class="badge bg-success">Activo</span>
-                                        </td>
-                                        <td>
-                                            <div class="btn-group btn-group-sm">
-                                                <button class="btn btn-outline-primary" title="Editar">
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
-                                                <button class="btn btn-outline-info" title="Ver">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                                <button class="btn btn-outline-danger" title="Eliminar">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    @if (Model != null && Model.Any())
+                                    {
+                                        @foreach (var producto in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <input type="checkbox" class="form-check-input">
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <img src="@(string.IsNullOrEmpty(producto.Imagen) ? "https://via.placeholder.com/60" : producto.Imagen)" 
+                                                             class="product-thumb me-3" 
+                                                             alt="@producto.Nombre"
+                                                             style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
+                                                        <div>
+                                                            <h6 class="mb-0">@producto.Nombre</h6>
+                                                            <small class="text-muted">
+    @(string.IsNullOrEmpty(producto.Descripcion)
+        ? ""
+        : producto.Descripcion.Substring(0, Math.Min(30, producto.Descripcion.Length)))
+</small>
+
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><code>@producto.Id</code></td>
+                                                <td>@(producto.Categoria ?? "Sin categoría")</td>
+                                                <td><strong>$@producto.Precio.ToString("N0")</strong></td>
+                                                <td>
+                                                    @if (producto.Stock == 0)
+                                                    {
+                                                        <span class="badge bg-danger">@producto.Stock unidades</span>
+                                                    }
+                                                    else if (producto.Stock < 10)
+                                                    {
+                                                        <span class="badge bg-warning">@producto.Stock unidades</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="badge bg-success">@producto.Stock unidades</span>
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @if (producto.Stock == 0)
+                                                    {
+                                                        <span class="badge bg-danger">Agotado</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="badge bg-success">Activo</span>
+                                                    }
+                                                </td>
+                                                <td>
+                                                    <div class="btn-group btn-group-sm">
+                                                        <button class="btn btn-outline-primary" 
+                                                                title="Editar"
+                                                                onclick="editarProducto('@producto.Id')">
+                                                            <i class="fas fa-edit"></i>
+                                                        </button>
+                                                        <a asp-controller="Catalogo" 
+                                                           asp-action="Detalle" 
+                                                           asp-route-id="@producto.Id" 
+                                                           class="btn btn-outline-info" 
+                                                           title="Ver"
+                                                           target="_blank">
+                                                            <i class="fas fa-eye"></i>
+                                                        </a>
+                                                        <button class="btn btn-outline-danger" 
+                                                                title="Eliminar"
+                                                                onclick="confirmarEliminar('@producto.Id', '@producto.Nombre')">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="8" class="text-center py-4">
+                                                <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
+                                                <p class="text-muted">No hay productos disponibles</p>
+                                            </td>
+                                        </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    <div class="card-footer">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="text-muted">Mostrando 1-4 de 248 productos</span>
-                            <nav>
-                                <ul class="pagination pagination-sm mb-0">
-                                    <li class="page-item disabled"><a class="page-link" href="#">Anterior</a></li>
-                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
-                                </ul>
-                            </nav>
+                    
+                    @if (ViewBag.TotalProductos > 0)
+                    {
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted">
+                                    Mostrando @Model.Count de @ViewBag.TotalProductos productos
+                                </span>
+                                <nav>
+                                    <ul class="pagination pagination-sm mb-0">
+                                        <li class="page-item @(ViewBag.PaginaActual == 1 ? "disabled" : "")">
+                                            <a class="page-link" 
+                                               asp-controller="Admin" 
+                                               asp-action="Catalogo" 
+                                               asp-route-pagina="@(ViewBag.PaginaActual - 1)"
+                                               asp-route-buscar="@ViewBag.BuscarTexto"
+                                               asp-route-categoria="@ViewBag.CategoriaSeleccionada">
+                                                Anterior
+                                            </a>
+                                        </li>
+                                        
+                                        @for (int i = 1; i <= ViewBag.TotalPaginas; i++)
+                                        {
+                                            <li class="page-item @(ViewBag.PaginaActual == i ? "active" : "")">
+                                                <a class="page-link" 
+                                                   asp-controller="Admin" 
+                                                   asp-action="Catalogo" 
+                                                   asp-route-pagina="@i"
+                                                   asp-route-buscar="@ViewBag.BuscarTexto"
+                                                   asp-route-categoria="@ViewBag.CategoriaSeleccionada">
+                                                    @i
+                                                </a>
+                                            </li>
+                                        }
+                                        
+                                        <li class="page-item @(ViewBag.PaginaActual == ViewBag.TotalPaginas ? "disabled" : "")">
+                                            <a class="page-link" 
+                                               asp-controller="Admin" 
+                                               asp-action="Catalogo" 
+                                               asp-route-pagina="@(ViewBag.PaginaActual + 1)"
+                                               asp-route-buscar="@ViewBag.BuscarTexto"
+                                               asp-route-categoria="@ViewBag.CategoriaSeleccionada">
+                                                Siguiente
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
                         </div>
-                    </div>
+                    }
                 </div>
             </div>
         </div>
@@ -309,58 +293,115 @@
 <div class="modal fade" id="addProductModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">
-                    <i class="fas fa-plus me-2"></i>Nuevo Producto
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <form>
+            <form asp-controller="Admin" asp-action="CrearProducto" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-plus me-2"></i>Nuevo Producto
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
                     <div class="row g-3">
                         <div class="col-12">
-                            <label class="form-label">Nombre del Producto</label>
-                            <input type="text" class="form-control" placeholder="Ej: Laptop Gaming Pro">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">SKU</label>
-                            <input type="text" class="form-control" placeholder="LAP-001">
+                            <label class="form-label">Nombre del Producto *</label>
+                            <input type="text" class="form-control" name="Nombre" 
+                                   placeholder="Ej: Laptop Gaming Pro" required>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Categoría</label>
-                            <select class="form-select">
-                                <option>Seleccionar...</option>
-                                <option>Tecnología</option>
-                                <option>Moda</option>
-                                <option>Hogar</option>
-                            </select>
+                            <input type="text" class="form-control" name="Categoria" 
+                                   placeholder="Ej: Tecnología">
                         </div>
-                        <div class="col-md-4">
-                            <label class="form-label">Precio</label>
-                            <input type="number" class="form-control" placeholder="0.00">
+                        <div class="col-md-6">
+                            <label class="form-label">Proveedor ID</label>
+                            <input type="text" class="form-control" name="ProveedorId" 
+                                   placeholder="Opcional">
                         </div>
-                        <div class="col-md-4">
-                            <label class="form-label">Stock</label>
-                            <input type="number" class="form-control" placeholder="0">
+                        <div class="col-md-6">
+                            <label class="form-label">Precio *</label>
+                            <input type="number" step="0.01" class="form-control" name="Precio" 
+                                   placeholder="0.00" required>
                         </div>
-                        <div class="col-md-4">
-                            <label class="form-label">Estado</label>
-                            <select class="form-select">
-                                <option>Activo</option>
-                                <option>Inactivo</option>
-                            </select>
+                        <div class="col-md-6">
+                            <label class="form-label">Stock *</label>
+                            <input type="number" class="form-control" name="Stock" 
+                                   placeholder="0" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">URL de Imagen</label>
+                            <input type="url" class="form-control" name="Imagen" 
+                                   placeholder="https://ejemplo.com/imagen.jpg">
                         </div>
                         <div class="col-12">
                             <label class="form-label">Descripción</label>
-                            <textarea class="form-control" rows="3"></textarea>
+                            <textarea class="form-control" name="Descripcion" rows="3" 
+                                      placeholder="Describe el producto..."></textarea>
                         </div>
                     </div>
-                </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-2"></i>Guardar Producto
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Editar Producto -->
+<div class="modal fade" id="editarProductoModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="editarProductoContent">
+            <!-- El contenido se cargará dinámicamente -->
+        </div>
+    </div>
+</div>
+
+<!-- Modal Confirmar Eliminar -->
+<div class="modal fade" id="eliminarProductoModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title"><i class="fas fa-exclamation-triangle me-2"></i>Confirmar Eliminación</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>¿Estás seguro de que deseas eliminar el producto <strong id="productoNombre"></strong>?</p>
+                <p class="text-muted">Esta acción no se puede deshacer.</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary">Guardar Producto</button>
+                <form asp-controller="Admin" asp-action="EliminarProducto" method="post" id="formEliminar">
+                    <input type="hidden" name="id" id="productoIdEliminar">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash me-2"></i>Eliminar
+                    </button>
+                </form>
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        // Función para editar producto
+        function editarProducto(id) {
+            fetch(`/Admin/EditarProducto/${id}`)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('editarProductoContent').innerHTML = html;
+                    new bootstrap.Modal(document.getElementById('editarProductoModal')).show();
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Función para confirmar eliminación
+        function confirmarEliminar(id, nombre) {
+            document.getElementById('productoIdEliminar').value = id;
+            document.getElementById('productoNombre').textContent = nombre;
+            new bootstrap.Modal(document.getElementById('eliminarProductoModal')).show();
+        }
+    </script>
+}
