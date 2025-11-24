@@ -22,7 +22,7 @@ services:
   catalogo: ${CATALOGO_SERVICE_URL:http://catalogo-service:8080}
   ordenes: ${ORDENES_SERVICE_URL:http://localhost:8081}
   pagos: ${PAGOS_SERVICE_URL:http://pagos-service:8080}
-  proveedores: ${PROVEEDORES_SERVICE_URL:http://localhost:8084}
+  proveedores: ${PROVEEDORES_SERVICE_URL:http://proveedores-service:8080}
   notificaciones: ${NOTIFICACIONES_SERVICE_URL:http://notificaciones-service:8080}
   reportes: ${REPORTES_SERVICE_URL:http://localhost:8088}
   recomendaciones: ${RECOMENDACIONES_SERVICE_URL:http://localhost:8086}

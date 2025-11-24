@@ -55,6 +55,19 @@ public class UsuarioResource {
     }
 
     @GET
+    @Path("/email/{email}")
+    public Usuario obtenerPorEmail(@PathParam("email") String email) {
+        return usuarioService.obtenerUsuarioPorEmail(email);
+    }
+
+    @GET
+    @Path("/count")
+    public Response contar() {
+        Long total = usuarioService.contarUsuarios();
+        return Response.ok("{\"totalUsuarios\": " + total + "}").build();
+    }
+
+    @GET
     @Path("/health")
     public Response health() {
         return Response.ok("{\"status\":\"UP\"}").build();

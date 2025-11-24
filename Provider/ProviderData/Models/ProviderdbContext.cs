@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
 
-namespace ProviderData.Entities;
+namespace ProviderData.Models;
 
-public partial class ProviderDbContext : DbContext
+public partial class ProviderdbContext : DbContext
 {
-    public ProviderDbContext()
+    public ProviderdbContext()
     {
     }
 
-    public ProviderDbContext(DbContextOptions<ProviderDbContext> options)
+    public ProviderdbContext(DbContextOptions<ProviderdbContext> options)
         : base(options)
     {
     }
@@ -19,6 +19,10 @@ public partial class ProviderDbContext : DbContext
     public virtual DbSet<Order> Orders { get; set; }
 
     public virtual DbSet<Product> Products { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseMySql("server=mysql-provider;port=3306;database=providerdb;user=provider_user;password=provider_pass", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.44-mysql"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -62,16 +66,20 @@ public partial class ProviderDbContext : DbContext
             entity.ToTable("products");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Description)
+            entity.Property(e => e.Categoria)
                 .HasColumnType("text")
-                .HasColumnName("description");
-            entity.Property(e => e.Name)
+                .HasColumnName("categoria");
+            entity.Property(e => e.Descripcion)
+                .HasColumnType("text")
+                .HasColumnName("descripcion");
+            entity.Property(e => e.Imagen)
+                .HasColumnType("text")
+                .HasColumnName("imagen");
+            entity.Property(e => e.Nombre)
                 .HasMaxLength(100)
-                .HasColumnName("name");
-            entity.Property(e => e.Price).HasColumnName("price");
-            entity.Property(e => e.PriceType).HasColumnName("price_type");
-            entity.Property(e => e.Quantity).HasColumnName("quantity");
-            entity.Property(e => e.QuantityType).HasColumnName("quantity_type");
+                .HasColumnName("nombre");
+            entity.Property(e => e.Precio).HasColumnName("precio");
+            entity.Property(e => e.Stock).HasColumnName("stock");
         });
 
         OnModelCreatingPartial(modelBuilder);

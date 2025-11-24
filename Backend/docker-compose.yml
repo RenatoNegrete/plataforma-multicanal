@@ -113,6 +113,18 @@ services:
     networks:
       - microservices-network
 
+  proveedores-service:
+    build:
+      context: ./proveedores
+      dockerfile: Dockerfile
+    container_name: proveedores-service
+    ports:
+      - "8088:8080"
+    depends_on:
+      - catalogo-service
+    networks:
+      - microservices-network
+
   notificaciones-service:
     build:
       context: ./notificaciones
