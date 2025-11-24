@@ -1,0 +1,452 @@
+@{
+    ViewData["Title"] = "Catálogo de Productos";
+    var tipoSeleccionado = ViewData["TipoSeleccionado"] as string;
+}
+
+<!-- Breadcrumb -->
+<div class="breadcrumb-section">
+    <div class="container-fluid px-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Inicio</a></li>
+                <li class="breadcrumb-item active">Catálogo</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<!-- Catalog Section -->
+<section class="catalog-section">
+    <div class="container-fluid px-4">
+        <div class="row">
+            <!-- Sidebar Filters -->
+            <div class="col-lg-2 col-md-3 mb-4">
+                <div class="filters-sidebar">
+                    <!-- Categorías -->
+                    <div class="filter-group">
+                        <h5 class="filter-title">
+                            <i class="fas fa-filter me-2"></i>Filtrar por
+                        </h5>
+                    </div>
+
+                    <!-- Tipo de Producto -->
+                    <div class="filter-group">
+                        <h6 class="filter-subtitle">Tipo de Producto</h6>
+                        <div class="filter-options">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="tipo-fisicos" checked>
+                                <label class="form-check-label" for="tipo-fisicos">
+                                    <i class="fas fa-box text-primary me-2"></i>Productos Físicos
+                                    <span class="count">(248)</span>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="tipo-servicios">
+                                <label class="form-check-label" for="tipo-servicios">
+                                    <i class="fas fa-briefcase text-success me-2"></i>Servicios
+                                    <span class="count">(89)</span>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="tipo-digital">
+                                <label class="form-check-label" for="tipo-digital">
+                                    <i class="fas fa-cloud text-info me-2"></i>Contenido Digital
+                                    <span class="count">(156)</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Categorías -->
+                    <div class="filter-group">
+                        <h6 class="filter-subtitle">Categorías</h6>
+                        <div class="filter-options">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="cat-tecnologia">
+                                <label class="form-check-label" for="cat-tecnologia">
+                                    Tecnología <span class="count">(125)</span>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="cat-moda">
+                                <label class="form-check-label" for="cat-moda">
+                                    Moda <span class="count">(98)</span>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="cat-hogar">
+                                <label class="form-check-label" for="cat-hogar">
+                                    Hogar <span class="count">(76)</span>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="cat-deportes">
+                                <label class="form-check-label" for="cat-deportes">
+                                    Deportes <span class="count">(54)</span>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="cat-educacion">
+                                <label class="form-check-label" for="cat-educacion">
+                                    Educación <span class="count">(89)</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Precio -->
+                    <div class="filter-group">
+                        <h6 class="filter-subtitle">Rango de Precio</h6>
+                        <div class="price-range">
+                            <div class="d-flex gap-2 mb-3">
+                                <input type="number" class="form-control form-control-sm" placeholder="Min" value="0">
+                                <input type="number" class="form-control form-control-sm" placeholder="Max" value="1000">
+                            </div>
+                            <input type="range" class="form-range" min="0" max="1000" value="500">
+                        </div>
+                    </div>
+
+                    <!-- Marca -->
+                    <div class="filter-group">
+                        <h6 class="filter-subtitle">Marca</h6>
+                        <div class="filter-options">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="marca-apple">
+                                <label class="form-check-label" for="marca-apple">
+                                    Apple <span class="count">(45)</span>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="marca-samsung">
+                                <label class="form-check-label" for="marca-samsung">
+                                    Samsung <span class="count">(38)</span>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="marca-sony">
+                                <label class="form-check-label" for="marca-sony">
+                                    Sony <span class="count">(29)</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Calificación -->
+                    <div class="filter-group">
+                        <h6 class="filter-subtitle">Calificación</h6>
+                        <div class="filter-options">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="rating-5">
+                                <label class="form-check-label" for="rating-5">
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <span class="count">(45)</span>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="rating-4">
+                                <label class="form-check-label" for="rating-4">
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <i class="far fa-star text-warning"></i>
+                                    y más <span class="count">(89)</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reset Filters -->
+                    <div class="filter-group">
+                        <button class="btn btn-outline-danger w-100">
+                            <i class="fas fa-redo me-2"></i>Limpiar Filtros
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="col-lg-9 col-md-8">
+                <!-- Toolbar -->
+                <div class="catalog-toolbar">
+                    <div class="toolbar-left">
+                        <h5 class="mb-0">493 Productos Encontrados</h5>
+                    </div>
+                    <div class="toolbar-right">
+                        <div class="view-mode">
+                            <button class="btn btn-sm btn-outline-secondary active">
+                                <i class="fas fa-th"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-secondary">
+                                <i class="fas fa-list"></i>
+                            </button>
+                        </div>
+                        <select class="form-select form-select-sm">
+                            <option>Más Relevantes</option>
+                            <option>Menor Precio</option>
+                            <option>Mayor Precio</option>
+                            <option>Más Vendidos</option>
+                            <option>Mejor Calificados</option>
+                            <option>Más Nuevos</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Products Grid -->
+                <div class="products-grid">
+                    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3">
+                        <!-- Product 1 -->
+                        <div class="col">
+                            <div class="product-card">
+                                <div class="product-image-wrapper">
+                                    <span class="badge bg-danger product-badge">-25%</span>
+                                    <button class="btn-wishlist">
+                                        <i class="far fa-heart"></i>
+                                    </button>
+                                    <a asp-controller="Catalogo" asp-action="Detalle" asp-route-id="1">
+                                        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop" alt="Auriculares">
+                                    </a>
+                                    <div class="product-quick-view">
+                                        <button class="btn btn-sm btn-light">Vista Rápida</button>
+                                    </div>
+                                </div>
+                                <div class="product-card-body">
+                                    <div class="product-category">AUDIO</div>
+                                    <h5 class="product-title">
+                                        <a asp-controller="Catalogo" asp-action="Detalle" asp-route-id="1">
+                                            Auriculares Bluetooth Premium
+                                        </a>
+                                    </h5>
+                                    <div class="product-rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                        <span>(4.5)</span>
+                                    </div>
+                                    <div class="product-price-section">
+                                        <div>
+                                            <span class="product-price-old">$120</span>
+                                            <div class="product-price">$89</div>
+                                        </div>
+                                        <button class="btn-add-cart">
+                                            <i class="fas fa-cart-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Product 2 -->
+                        <div class="col">
+                            <div class="product-card">
+                                <div class="product-image-wrapper">
+                                    <span class="badge bg-success product-badge">Nuevo</span>
+                                    <button class="btn-wishlist">
+                                        <i class="far fa-heart"></i>
+                                    </button>
+                                    <a asp-controller="Catalogo" asp-action="Detalle" asp-route-id="2">
+                                        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=300&fit=crop" alt="Smartwatch">
+                                    </a>
+                                    <div class="product-quick-view">
+                                        <button class="btn btn-sm btn-light">Vista Rápida</button>
+                                    </div>
+                                </div>
+                                <div class="product-card-body">
+                                    <div class="product-category">TECNOLOGÍA</div>
+                                    <h5 class="product-title">
+                                        <a asp-controller="Catalogo" asp-action="Detalle" asp-route-id="2">
+                                            Smartwatch Pro Serie 6
+                                        </a>
+                                    </h5>
+                                    <div class="product-rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <span>(5.0)</span>
+                                    </div>
+                                    <div class="product-price-section">
+                                        <div>
+                                            <div class="product-price">$299</div>
+                                        </div>
+                                        <button class="btn-add-cart">
+                                            <i class="fas fa-cart-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Product 3 -->
+                        <div class="col">
+                            <div class="product-card">
+                                <div class="product-image-wrapper">
+                                    <span class="badge bg-warning product-badge">Popular</span>
+                                    <button class="btn-wishlist active">
+                                        <i class="fas fa-heart"></i>
+                                    </button>
+                                    <a asp-controller="Catalogo" asp-action="Detalle" asp-route-id="3">
+                                        <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=400&h=300&fit=crop" alt="Laptop">
+                                    </a>
+                                    <div class="product-quick-view">
+                                        <button class="btn btn-sm btn-light">Vista Rápida</button>
+                                    </div>
+                                </div>
+                                <div class="product-card-body">
+                                    <div class="product-category">TECNOLOGÍA</div>
+                                    <h5 class="product-title">
+                                        <a asp-controller="Catalogo" asp-action="Detalle" asp-route-id="3">
+                                            Laptop Gaming Pro 15"
+                                        </a>
+                                    </h5>
+                                    <div class="product-rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <span>(4.2)</span>
+                                    </div>
+                                    <div class="product-price-section">
+                                        <div>
+                                            <span class="product-price-old">$2,000</span>
+                                            <div class="product-price">$1,600</div>
+                                        </div>
+                                        <button class="btn-add-cart">
+                                            <i class="fas fa-cart-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Product 4 -->
+                        <div class="col">
+                            <div class="product-card">
+                                <div class="product-image-wrapper">
+                                    <button class="btn-wishlist">
+                                        <i class="far fa-heart"></i>
+                                    </button>
+                                    <a asp-controller="Catalogo" asp-action="Detalle" asp-route-id="4">
+                                        <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400&h=300&fit=crop" alt="Camiseta">
+                                    </a>
+                                    <div class="product-quick-view">
+                                        <button class="btn btn-sm btn-light">Vista Rápida</button>
+                                    </div>
+                                </div>
+                                <div class="product-card-body">
+                                    <div class="product-category">MODA</div>
+                                    <h5 class="product-title">
+                                        <a asp-controller="Catalogo" asp-action="Detalle" asp-route-id="4">
+                                            Camiseta Premium Cotton
+                                        </a>
+                                    </h5>
+                                    <div class="product-rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <span>(4.8)</span>
+                                    </div>
+                                    <div class="product-price-section">
+                                        <div>
+                                            <div class="product-price">$29</div>
+                                        </div>
+                                        <button class="btn-add-cart">
+                                            <i class="fas fa-cart-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Más productos... (repetir estructura) -->
+                        @for (int i = 5; i <= 12; i++)
+                        {
+                            <div class="col">
+                                <div class="product-card">
+                                    <div class="product-image-wrapper">
+                                        <button class="btn-wishlist">
+                                            <i class="far fa-heart"></i>
+                                        </button>
+                                        <a asp-controller="Catalogo" asp-action="Detalle" asp-route-id="@i">
+                                            <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&h=300&fit=crop" alt="Producto @i">
+                                        </a>
+                                        <div class="product-quick-view">
+                                            <button class="btn btn-sm btn-light">Vista Rápida</button>
+                                        </div>
+                                    </div>
+                                    <div class="product-card-body">
+                                        <div class="product-category">CATEGORÍA</div>
+                                        <h5 class="product-title">
+                                            <a asp-controller="Catalogo" asp-action="Detalle" asp-route-id="@i">
+                                                Producto de Ejemplo @i
+                                            </a>
+                                        </h5>
+                                        <div class="product-rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                            <span>(4.0)</span>
+                                        </div>
+                                        <div class="product-price-section">
+                                            <div>
+                                                <div class="product-price">$@((i * 50) + 99)</div>
+                                            </div>
+                                            <button class="btn-add-cart">
+                                                <i class="fas fa-cart-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination-wrapper">
+                    <nav>
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#"><i class="fas fa-chevron-left"></i></a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">4</a></li>
+                            <li class="page-item"><a class="page-link" href="#">5</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        // Wishlist toggle
+        document.querySelectorAll('.btn-wishlist').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.classList.toggle('active');
+                const icon = this.querySelector('i');
+                icon.classList.toggle('far');
+                icon.classList.toggle('fas');
+            });
+        });
+    </script>
+}

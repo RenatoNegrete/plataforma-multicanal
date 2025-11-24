@@ -1,0 +1,141 @@
+@{
+    ViewData["Title"] = "Confirmación de Pedido";
+    var orderId = ViewData["OrderId"];
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/checkout.css" asp-append-version="true" />
+}
+
+<!-- Confirmation Section -->
+<section class="confirmation-section">
+    <div class="container-fluid px-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <!-- Success Message -->
+                <div class="confirmation-card">
+                    <div class="success-animation">
+                        <div class="checkmark-circle">
+                            <div class="checkmark"></div>
+                        </div>
+                    </div>
+
+                    <h1 class="confirmation-title">¡Pedido Confirmado!</h1>
+                    <p class="confirmation-subtitle">
+                        Tu pedido ha sido procesado exitosamente
+                    </p>
+
+                    <div class="order-number">
+                        <span>Número de Orden:</span>
+                        <strong>#@orderId</strong>
+                    </div>
+
+                    <div class="confirmation-details">
+                        <div class="detail-item">
+                            <i class="fas fa-envelope text-primary"></i>
+                            <div>
+                                <strong>Confirmación Enviada</strong>
+                                <p>Hemos enviado los detalles a tu correo electrónico</p>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-truck text-success"></i>
+                            <div>
+                                <strong>Preparando Envío</strong>
+                                <p>Tu pedido será enviado en las próximas 24 horas</p>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-calendar-check text-warning"></i>
+                            <div>
+                                <strong>Fecha Estimada de Entrega</strong>
+                                <p>27 de noviembre, 2024</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Order Summary -->
+                    <div class="order-summary-confirmation">
+                        <h4><i class="fas fa-box me-2"></i>Resumen de tu Pedido</h4>
+                        
+                        <div class="summary-products">
+                            <div class="summary-product-item">
+                                <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=80&h=80&fit=crop" alt="Producto">
+                                <div class="product-info">
+                                    <h6>Laptop Gaming Pro 15"</h6>
+                                    <p>Cantidad: 1</p>
+                                </div>
+                                <div class="product-price">$1,600</div>
+                            </div>
+                            <div class="summary-product-item">
+                                <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=80&h=80&fit=crop" alt="Producto">
+                                <div class="product-info">
+                                    <h6>Auriculares Bluetooth</h6>
+                                    <p>Cantidad: 2</p>
+                                </div>
+                                <div class="product-price">$178</div>
+                            </div>
+                            <div class="summary-product-item">
+                                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=80&h=80&fit=crop" alt="Producto">
+                                <div class="product-info">
+                                    <h6>Smartwatch Pro Serie 6</h6>
+                                    <p>Cantidad: 1</p>
+                                </div>
+                                <div class="product-price">$299</div>
+                            </div>
+                        </div>
+
+                        <div class="summary-totals">
+                            <div class="summary-row">
+                                <span>Subtotal</span>
+                                <span>$2,077</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Envío</span>
+                                <span>GRATIS</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>IVA (19%)</span>
+                                <span>$395</span>
+                            </div>
+                            <div class="summary-total">
+                                <span>Total Pagado</span>
+                                <span>$2,472</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="confirmation-actions">
+                        <a asp-controller="Perfil" asp-action="Historial" class="btn btn-primary btn-lg">
+                            <i class="fas fa-box me-2"></i>Ver Mis Pedidos
+                        </a>
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-primary btn-lg">
+                            <i class="fas fa-home me-2"></i>Volver al Inicio
+                        </a>
+                    </div>
+
+                    <!-- Help Section -->
+                    <div class="help-section">
+                        <p><i class="fas fa-question-circle me-2"></i>¿Necesitas ayuda?</p>
+                        <div class="help-links">
+                            <a href="#">Centro de Ayuda</a>
+                            <a href="#">Contactar Soporte</a>
+                            <a href="#">Seguimiento de Envío</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        // Confetti animation on load
+        window.addEventListener('load', function() {
+            // Simple confetti effect could be added here
+            console.log('Order confirmed!');
+        });
+    </script>
+}

@@ -1,0 +1,688 @@
+@{
+    ViewData["Title"] = "Reportes y Analytics";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+}
+
+<!-- Admin Section -->
+<section class="admin-section">
+    <div class="container-fluid px-4">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-2 mb-4">
+                <div class="admin-sidebar">
+                    <div class="sidebar-brand">
+                        <i class="fas fa-user-shield"></i>
+                        <span>Admin Panel</span>
+                    </div>
+                    <nav class="admin-menu">
+                        <a asp-controller="Admin" asp-action="Dashboard" class="menu-item">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Dashboard</span>
+                        </a>
+                        <a asp-controller="Admin" asp-action="Catalogo" class="menu-item">
+                            <i class="fas fa-box"></i>
+                            <span>Catálogo</span>
+                        </a>
+                        <a asp-controller="Admin" asp-action="Proveedores" class="menu-item">
+                            <i class="fas fa-truck"></i>
+                            <span>Proveedores</span>
+                        </a>
+                        <a asp-controller="Admin" asp-action="Inventarios" class="menu-item">
+                            <i class="fas fa-warehouse"></i>
+                            <span>Inventarios</span>
+                        </a>
+                        <a asp-controller="Admin" asp-action="Precios" class="menu-item">
+                            <i class="fas fa-tags"></i>
+                            <span>Precios</span>
+                        </a>
+                        <a href="#" class="menu-item active">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Reportes</span>
+                        </a>
+                        <hr class="sidebar-divider">
+                        <a asp-controller="Home" asp-action="Index" class="menu-item">
+                            <i class="fas fa-store"></i>
+                            <span>Ver Tienda</span>
+                        </a>
+                        <a href="#" class="menu-item text-danger">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Cerrar Sesión</span>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-10">
+                <!-- Page Header -->
+                <div class="admin-header">
+                    <div>
+                        <h2><i class="fas fa-chart-bar me-3"></i>Reportes y Analytics</h2>
+                        <p>Informes detallados de comportamiento y ventas</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-outline-primary">
+                            <i class="fas fa-file-pdf me-2"></i>Exportar PDF
+                        </button>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-file-excel me-2"></i>Exportar Excel
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filter Panel -->
+                <div class="admin-card mb-4">
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Rango de Fechas</label>
+                                <select class="form-select">
+                                    <option>Últimos 7 días</option>
+                                    <option>Últimos 30 días</option>
+                                    <option selected>Este mes</option>
+                                    <option>Últimos 3 meses</option>
+                                    <option>Este año</option>
+                                    <option>Personalizado</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Categoría</label>
+                                <select class="form-select">
+                                    <option selected>Todas</option>
+                                    <option>Tecnología</option>
+                                    <option>Moda</option>
+                                    <option>Hogar</option>
+                                    <option>Servicios</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Proveedor</label>
+                                <select class="form-select">
+                                    <option selected>Todos</option>
+                                    <option>TechStore Inc.</option>
+                                    <option>Fashion World</option>
+                                    <option>Home Decor Co.</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">&nbsp;</label>
+                                <button class="btn btn-primary w-100">
+                                    <i class="fas fa-sync-alt me-2"></i>Actualizar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KPI Cards -->
+                <div class="row g-3 mb-4">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-primary">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Ingresos Totales</span>
+                                <h3 class="stat-value">$845,290</h3>
+                                <span class="stat-change positive">
+                                    <i class="fas fa-arrow-up"></i> +23.5%
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-success">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Total Pedidos</span>
+                                <h3 class="stat-value">3,847</h3>
+                                <span class="stat-change positive">
+                                    <i class="fas fa-arrow-up"></i> +18.2%
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-warning">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Ticket Promedio</span>
+                                <h3 class="stat-value">$219.70</h3>
+                                <span class="stat-change positive">
+                                    <i class="fas fa-arrow-up"></i> +4.3%
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-danger">
+                                <i class="fas fa-percentage"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Tasa de Conversión</span>
+                                <h3 class="stat-value">3.8%</h3>
+                                <span class="stat-change negative">
+                                    <i class="fas fa-arrow-down"></i> -0.5%
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sales Trend -->
+                <div class="row g-3 mb-4">
+                    <div class="col-lg-8">
+                        <div class="admin-card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-chart-area me-2"></i>Tendencia de Ventas</h5>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-sm btn-outline-primary active">Diario</button>
+                                    <button class="btn btn-sm btn-outline-primary">Semanal</button>
+                                    <button class="btn btn-sm btn-outline-primary">Mensual</button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="salesTrendChart" height="80"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="admin-card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-chart-pie me-2"></i>Ventas por Categoría</h5>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="categorySalesChart"></canvas>
+                                <div class="mt-3">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span><i class="fas fa-square text-primary"></i> Tecnología</span>
+                                        <strong>$380,450</strong>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span><i class="fas fa-square text-success"></i> Moda</span>
+                                        <strong>$211,320</strong>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span><i class="fas fa-square text-warning"></i> Hogar</span>
+                                        <strong>$169,058</strong>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <span><i class="fas fa-square text-danger"></i> Servicios</span>
+                                        <strong>$84,462</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- User Behavior -->
+                <div class="row g-3 mb-4">
+                    <div class="col-lg-6">
+                        <div class="admin-card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-users me-2"></i>Embudo de Conversión</h5>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="userBehaviorChart" height="100"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="admin-card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-clock me-2"></i>Horas Pico de Compra</h5>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="peakHoursChart" height="100"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Top Products and Customers -->
+                <div class="row g-3 mb-4">
+                    <div class="col-lg-6">
+                        <div class="admin-card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-fire me-2"></i>Productos Más Vendidos</h5>
+                                <a href="#" class="text-primary">Ver todo</a>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Producto</th>
+                                                <th>Ventas</th>
+                                                <th>Ingresos</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><span class="badge bg-primary">1</span></td>
+                                                <td>
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=40&h=40&fit=crop" 
+                                                             alt="Producto" class="product-thumb">
+                                                        <span>Laptop Gaming Pro</span>
+                                                    </div>
+                                                </td>
+                                                <td><strong>124</strong></td>
+                                                <td><strong class="text-primary">$198,400</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="badge bg-secondary">2</span></td>
+                                                <td>
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=40&h=40&fit=crop" 
+                                                             alt="Producto" class="product-thumb">
+                                                        <span>Smartwatch Pro</span>
+                                                    </div>
+                                                </td>
+                                                <td><strong>87</strong></td>
+                                                <td><strong class="text-primary">$26,013</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="badge bg-secondary">3</span></td>
+                                                <td>
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=40&h=40&fit=crop" 
+                                                             alt="Producto" class="product-thumb">
+                                                        <span>Auriculares Bluetooth</span>
+                                                    </div>
+                                                </td>
+                                                <td><strong>98</strong></td>
+                                                <td><strong class="text-primary">$8,722</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="badge bg-secondary">4</span></td>
+                                                <td>
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <img src="https://images.unsplash.com/photo-1560343090-f0409e92791a?w=40&h=40&fit=crop" 
+                                                             alt="Producto" class="product-thumb">
+                                                        <span>Cámara Digital 4K</span>
+                                                    </div>
+                                                </td>
+                                                <td><strong>56</strong></td>
+                                                <td><strong class="text-primary">$50,344</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="badge bg-secondary">5</span></td>
+                                                <td>
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <img src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=40&h=40&fit=crop" 
+                                                             alt="Producto" class="product-thumb">
+                                                        <span>Zapatillas Deportivas</span>
+                                                    </div>
+                                                </td>
+                                                <td><strong>142</strong></td>
+                                                <td><strong class="text-primary">$12,780</strong></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="admin-card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-crown me-2"></i>Mejores Clientes</h5>
+                                <a href="#" class="text-primary">Ver todo</a>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Cliente</th>
+                                                <th>Pedidos</th>
+                                                <th>Total Gastado</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><span class="badge bg-warning">👑</span></td>
+                                                <td>
+                                                    <div>
+                                                        <strong>Ana María García</strong>
+                                                        <br><small class="text-muted">ana.garcia@email.com</small>
+                                                    </div>
+                                                </td>
+                                                <td><strong>47</strong></td>
+                                                <td><strong class="text-primary">$15,890</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="badge bg-secondary">2</span></td>
+                                                <td>
+                                                    <div>
+                                                        <strong>Carlos Rodríguez</strong>
+                                                        <br><small class="text-muted">carlos.r@email.com</small>
+                                                    </div>
+                                                </td>
+                                                <td><strong>38</strong></td>
+                                                <td><strong class="text-primary">$12,450</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="badge bg-secondary">3</span></td>
+                                                <td>
+                                                    <div>
+                                                        <strong>María López Santos</strong>
+                                                        <br><small class="text-muted">maria.lopez@email.com</small>
+                                                    </div>
+                                                </td>
+                                                <td><strong>32</strong></td>
+                                                <td><strong class="text-primary">$9,780</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="badge bg-secondary">4</span></td>
+                                                <td>
+                                                    <div>
+                                                        <strong>Juan Pablo Méndez</strong>
+                                                        <br><small class="text-muted">jp.mendez@email.com</small>
+                                                    </div>
+                                                </td>
+                                                <td><strong>29</strong></td>
+                                                <td><strong class="text-primary">$8,540</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="badge bg-secondary">5</span></td>
+                                                <td>
+                                                    <div>
+                                                        <strong>Laura Fernández</strong>
+                                                        <br><small class="text-muted">laura.f@email.com</small>
+                                                    </div>
+                                                </td>
+                                                <td><strong>25</strong></td>
+                                                <td><strong class="text-primary">$7,920</strong></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Metrics -->
+                <div class="row g-3">
+                    <div class="col-lg-4">
+                        <div class="admin-card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-shopping-bag me-2"></i>Estados de Pedidos</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="text-success">● Completados</span>
+                                        <strong>2,847 (74%)</strong>
+                                    </div>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-success" style="width: 74%"></div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="text-primary">● En Proceso</span>
+                                        <strong>647 (17%)</strong>
+                                    </div>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-primary" style="width: 17%"></div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="text-warning">● Pendientes</span>
+                                        <strong>231 (6%)</strong>
+                                    </div>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-warning" style="width: 6%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="text-danger">● Cancelados</span>
+                                        <strong>122 (3%)</strong>
+                                    </div>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-danger" style="width: 3%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="admin-card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-credit-card me-2"></i>Métodos de Pago</h5>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="paymentMethodsChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="admin-card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-map-marker-alt me-2"></i>Ventas por Región</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>Bogotá D.C.</span>
+                                        <strong>$425,890</strong>
+                                    </div>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-primary" style="width: 50%"></div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>Medellín</span>
+                                        <strong>$253,670</strong>
+                                    </div>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-success" style="width: 30%"></div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>Cali</span>
+                                        <strong>$126,835</strong>
+                                    </div>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-warning" style="width: 15%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>Otras</span>
+                                        <strong>$38,895</strong>
+                                    </div>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-secondary" style="width: 5%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Sales Trend Chart
+        const salesTrendCtx = document.getElementById('salesTrendChart').getContext('2d');
+        new Chart(salesTrendCtx, {
+            type: 'line',
+            data: {
+                labels: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4'],
+                datasets: [{
+                    label: 'Ingresos ($)',
+                    data: [185000, 220000, 245000, 195290],
+                    borderColor: '#2563eb',
+                    backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                    tension: 0.4,
+                    fill: true,
+                    yAxisID: 'y'
+                },
+                {
+                    label: 'Pedidos',
+                    data: [850, 1020, 1150, 827],
+                    borderColor: '#10b981',
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    tension: 0.4,
+                    fill: true,
+                    yAxisID: 'y1'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                scales: {
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        ticks: {
+                            callback: function(value) {
+                                return '$' + value.toLocaleString();
+                            }
+                        }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        grid: {
+                            drawOnChartArea: false,
+                        },
+                    },
+                }
+            }
+        });
+
+        // Category Sales Chart
+        const categorySalesCtx = document.getElementById('categorySalesChart').getContext('2d');
+        new Chart(categorySalesCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Tecnología', 'Moda', 'Hogar', 'Servicios'],
+                datasets: [{
+                    data: [380450, 211320, 169058, 84462],
+                    backgroundColor: ['#2563eb', '#10b981', '#f59e0b', '#ef4444']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+
+        // User Behavior Chart (Funnel)
+        const userBehaviorCtx = document.getElementById('userBehaviorChart').getContext('2d');
+        new Chart(userBehaviorCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Visitas', 'Agregar Carrito', 'Checkout', 'Compra'],
+                datasets: [{
+                    label: 'Usuarios',
+                    data: [12547, 4823, 2145, 1847],
+                    backgroundColor: ['#2563eb', '#10b981', '#f59e0b', '#ef4444'],
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Peak Hours Chart
+        const peakHoursCtx = document.getElementById('peakHoursChart').getContext('2d');
+        new Chart(peakHoursCtx, {
+            type: 'line',
+            data: {
+                labels: ['0h', '3h', '6h', '9h', '12h', '15h', '18h', '21h'],
+                datasets: [{
+                    label: 'Compras',
+                    data: [12, 8, 15, 45, 89, 125, 156, 98],
+                    borderColor: '#2563eb',
+                    backgroundColor: 'rgba(37, 99, 235, 0.2)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Payment Methods Chart
+        const paymentMethodsCtx = document.getElementById('paymentMethodsChart').getContext('2d');
+        new Chart(paymentMethodsCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Tarjeta Crédito', 'Tarjeta Débito', 'Transferencia', 'Efectivo'],
+                datasets: [{
+                    data: [45, 30, 15, 10],
+                    backgroundColor: ['#2563eb', '#10b981', '#f59e0b', '#ef4444']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+    </script>
+}

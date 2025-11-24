@@ -1,0 +1,315 @@
+@{
+    ViewData["Title"] = "Dashboard Administrativo";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+}
+
+<!-- Admin Section -->
+<section class="admin-section">
+    <div class="container-fluid px-4">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-2 mb-4">
+                <div class="admin-sidebar">
+                    <div class="sidebar-brand">
+                        <i class="fas fa-user-shield"></i>
+                        <span>Admin Panel</span>
+                    </div>
+                    <nav class="admin-menu">
+                        <a href="#" class="menu-item active">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Dashboard</span>
+                        </a>
+                        <a asp-controller="Admin" asp-action="Catalogo" class="menu-item">
+                            <i class="fas fa-box"></i>
+                            <span>Catálogo</span>
+                        </a>
+                        <a asp-controller="Admin" asp-action="Proveedores" class="menu-item">
+                            <i class="fas fa-truck"></i>
+                            <span>Proveedores</span>
+                        </a>
+                        <a asp-controller="Admin" asp-action="Inventarios" class="menu-item">
+                            <i class="fas fa-warehouse"></i>
+                            <span>Inventarios</span>
+                        </a>
+                        <a asp-controller="Admin" asp-action="Precios" class="menu-item">
+                            <i class="fas fa-tags"></i>
+                            <span>Precios</span>
+                        </a>
+                        <a asp-controller="Admin" asp-action="Reportes" class="menu-item">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Reportes</span>
+                        </a>
+                        <hr class="sidebar-divider">
+                        <a asp-controller="Home" asp-action="Index" class="menu-item">
+                            <i class="fas fa-store"></i>
+                            <span>Ver Tienda</span>
+                        </a>
+                        <a href="#" class="menu-item text-danger">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Cerrar Sesión</span>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-10">
+                <!-- Page Header -->
+                <div class="admin-header">
+                    <div>
+                        <h2><i class="fas fa-chart-line me-3"></i>Dashboard</h2>
+                        <p>Resumen general de tu plataforma</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-outline-primary">
+                            <i class="fas fa-download me-2"></i>Exportar
+                        </button>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-plus me-2"></i>Nuevo Producto
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="row g-3 mb-4">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-primary">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Ventas Hoy</span>
+                                <h3 class="stat-value">$45,890</h3>
+                                <span class="stat-change positive">
+                                    <i class="fas fa-arrow-up"></i> +12.5%
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-success">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Pedidos</span>
+                                <h3 class="stat-value">234</h3>
+                                <span class="stat-change positive">
+                                    <i class="fas fa-arrow-up"></i> +8.3%
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-warning">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Nuevos Clientes</span>
+                                <h3 class="stat-value">89</h3>
+                                <span class="stat-change positive">
+                                    <i class="fas fa-arrow-up"></i> +15.2%
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-danger">
+                                <i class="fas fa-box"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Stock Bajo</span>
+                                <h3 class="stat-value">12</h3>
+                                <span class="stat-change negative">
+                                    <i class="fas fa-arrow-down"></i> Atención
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="row g-3 mb-4">
+                    <div class="col-lg-8">
+                        <div class="admin-card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-chart-area me-2"></i>Ventas del Mes</h5>
+                                <select class="form-select form-select-sm" style="width: auto;">
+                                    <option>Últimos 30 días</option>
+                                    <option>Últimos 7 días</option>
+                                    <option>Este mes</option>
+                                </select>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="salesChart" height="80"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="admin-card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-chart-pie me-2"></i>Categorías</h5>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="categoriesChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Orders & Top Products -->
+                <div class="row g-3">
+                    <div class="col-lg-7">
+                        <div class="admin-card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-shopping-bag me-2"></i>Pedidos Recientes</h5>
+                                <a href="#" class="text-primary">Ver todos</a>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Pedido</th>
+                                                <th>Cliente</th>
+                                                <th>Fecha</th>
+                                                <th>Total</th>
+                                                <th>Estado</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><strong>#12345</strong></td>
+                                                <td>Juan Pérez</td>
+                                                <td>22 Nov 2024</td>
+                                                <td><strong>$2,472</strong></td>
+                                                <td><span class="badge bg-success">Completado</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>#12344</strong></td>
+                                                <td>María García</td>
+                                                <td>22 Nov 2024</td>
+                                                <td><strong>$899</strong></td>
+                                                <td><span class="badge bg-warning">En proceso</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>#12343</strong></td>
+                                                <td>Carlos Ruiz</td>
+                                                <td>21 Nov 2024</td>
+                                                <td><strong>$1,250</strong></td>
+                                                <td><span class="badge bg-primary">Enviado</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>#12342</strong></td>
+                                                <td>Ana López</td>
+                                                <td>21 Nov 2024</td>
+                                                <td><strong>$650</strong></td>
+                                                <td><span class="badge bg-success">Completado</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>#12341</strong></td>
+                                                <td>Pedro Sánchez</td>
+                                                <td>20 Nov 2024</td>
+                                                <td><strong>$3,200</strong></td>
+                                                <td><span class="badge bg-danger">Cancelado</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="admin-card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-fire me-2"></i>Productos Más Vendidos</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="top-products">
+                                    <div class="product-item">
+                                        <div class="product-rank">1</div>
+                                        <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=60&h=60&fit=crop" alt="Producto">
+                                        <div class="product-info">
+                                            <h6>Laptop Gaming Pro</h6>
+                                            <p>124 vendidos</p>
+                                        </div>
+                                        <div class="product-sales">$198,400</div>
+                                    </div>
+                                    <div class="product-item">
+                                        <div class="product-rank">2</div>
+                                        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=60&h=60&fit=crop" alt="Producto">
+                                        <div class="product-info">
+                                            <h6>Auriculares Bluetooth</h6>
+                                            <p>98 vendidos</p>
+                                        </div>
+                                        <div class="product-sales">$8,722</div>
+                                    </div>
+                                    <div class="product-item">
+                                        <div class="product-rank">3</div>
+                                        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=60&h=60&fit=crop" alt="Producto">
+                                        <div class="product-info">
+                                            <h6>Smartwatch Pro</h6>
+                                            <p>87 vendidos</p>
+                                        </div>
+                                        <div class="product-sales">$26,013</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Sales Chart
+        const salesCtx = document.getElementById('salesChart').getContext('2d');
+        new Chart(salesCtx, {
+            type: 'line',
+            data: {
+                labels: ['1', '5', '10', '15', '20', '25', '30'],
+                datasets: [{
+                    label: 'Ventas',
+                    data: [12000, 19000, 15000, 25000, 22000, 30000, 45890],
+                    borderColor: '#2563eb',
+                    backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                }
+            }
+        });
+
+        // Categories Chart
+        const categoriesCtx = document.getElementById('categoriesChart').getContext('2d');
+        new Chart(categoriesCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Tecnología', 'Moda', 'Hogar', 'Servicios'],
+                datasets: [{
+                    data: [45, 25, 20, 10],
+                    backgroundColor: ['#2563eb', '#10b981', '#f59e0b', '#ef4444']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true
+            }
+        });
+    </script>
+}

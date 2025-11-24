@@ -1,0 +1,560 @@
+@{
+    ViewData["Title"] = "Gestión de Precios";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+}
+
+<!-- Admin Section -->
+<section class="admin-section">
+    <div class="container-fluid px-4">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-2 mb-4">
+                <div class="admin-sidebar">
+                    <div class="sidebar-brand">
+                        <i class="fas fa-user-shield"></i>
+                        <span>Admin Panel</span>
+                    </div>
+                    <nav class="admin-menu">
+                        <a asp-controller="Admin" asp-action="Dashboard" class="menu-item">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Dashboard</span>
+                        </a>
+                        <a asp-controller="Admin" asp-action="Catalogo" class="menu-item">
+                            <i class="fas fa-box"></i>
+                            <span>Catálogo</span>
+                        </a>
+                        <a asp-controller="Admin" asp-action="Proveedores" class="menu-item">
+                            <i class="fas fa-truck"></i>
+                            <span>Proveedores</span>
+                        </a>
+                        <a asp-controller="Admin" asp-action="Inventarios" class="menu-item">
+                            <i class="fas fa-warehouse"></i>
+                            <span>Inventarios</span>
+                        </a>
+                        <a href="#" class="menu-item active">
+                            <i class="fas fa-tags"></i>
+                            <span>Precios</span>
+                        </a>
+                        <a asp-controller="Admin" asp-action="Reportes" class="menu-item">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Reportes</span>
+                        </a>
+                        <hr class="sidebar-divider">
+                        <a asp-controller="Home" asp-action="Index" class="menu-item">
+                            <i class="fas fa-store"></i>
+                            <span>Ver Tienda</span>
+                        </a>
+                        <a href="#" class="menu-item text-danger">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Cerrar Sesión</span>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-10">
+                <!-- Page Header -->
+                <div class="admin-header">
+                    <div>
+                        <h2><i class="fas fa-tags me-3"></i>Gestión de Precios</h2>
+                        <p>Actualización de precios y descuentos</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#bulkUpdateModal">
+                            <i class="fas fa-edit me-2"></i>Actualización Masiva
+                        </button>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#discountModal">
+                            <i class="fas fa-percent me-2"></i>Crear Descuento
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="row g-3 mb-4">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-primary">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Precio Promedio</span>
+                                <h3 class="stat-value">$1,245</h3>
+                                <span class="stat-change positive">
+                                    <i class="fas fa-arrow-up"></i> +3.2%
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-success">
+                                <i class="fas fa-percentage"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Descuentos Activos</span>
+                                <h3 class="stat-value">23</h3>
+                                <span class="stat-change positive">
+                                    <i class="fas fa-check"></i> Vigentes
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-warning">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Precios Desactualizados</span>
+                                <h3 class="stat-value">8</h3>
+                                <span class="stat-change negative">
+                                    <i class="fas fa-clock"></i> +30 días
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-danger">
+                                <i class="fas fa-history"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Cambios Esta Semana</span>
+                                <h3 class="stat-value">47</h3>
+                                <span class="stat-change positive">
+                                    <i class="fas fa-arrow-up"></i> +12
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filters and Search -->
+                <div class="admin-card mb-4">
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Buscar Producto</label>
+                                <input type="text" class="form-control" placeholder="Nombre o código...">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Categoría</label>
+                                <select class="form-select">
+                                    <option selected>Todas las categorías</option>
+                                    <option>Tecnología</option>
+                                    <option>Moda</option>
+                                    <option>Hogar</option>
+                                    <option>Servicios</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Rango de Precio</label>
+                                <select class="form-select">
+                                    <option selected>Todos</option>
+                                    <option>$0 - $100</option>
+                                    <option>$100 - $500</option>
+                                    <option>$500 - $1000</option>
+                                    <option>$1000+</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label fw-bold">&nbsp;</label>
+                                <button class="btn btn-primary w-100">
+                                    <i class="fas fa-search me-2"></i>Filtrar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Products Table -->
+                <div class="admin-card mb-4">
+                    <div class="card-header">
+                        <h5><i class="fas fa-list me-2"></i>Lista de Precios</h5>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-download me-2"></i>Exportar
+                            </button>
+                            <button class="btn btn-sm btn-outline-secondary">
+                                <i class="fas fa-sync-alt me-2"></i>Actualizar
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th><input type="checkbox" class="form-check-input"></th>
+                                        <th>Producto</th>
+                                        <th>Categoría</th>
+                                        <th>Precio Base</th>
+                                        <th>Descuento</th>
+                                        <th>Precio Final</th>
+                                        <th>Última Actualización</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type="checkbox" class="form-check-input"></td>
+                                        <td>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=50&h=50&fit=crop" 
+                                                     alt="Producto" class="product-thumb">
+                                                <div>
+                                                    <h6>Laptop Gaming Pro</h6>
+                                                    <small class="text-muted">SKU: LPT-001</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge bg-primary">Tecnología</span></td>
+                                        <td><strong>$1,599.00</strong></td>
+                                        <td><span class="badge bg-success">15%</span></td>
+                                        <td><strong class="text-primary">$1,359.15</strong></td>
+                                        <td>20 Nov 2024</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editPriceModal">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-secondary">
+                                                <i class="fas fa-history"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="form-check-input"></td>
+                                        <td>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=50&h=50&fit=crop" 
+                                                     alt="Producto" class="product-thumb">
+                                                <div>
+                                                    <h6>Auriculares Bluetooth</h6>
+                                                    <small class="text-muted">SKU: AUR-002</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge bg-primary">Tecnología</span></td>
+                                        <td><strong>$89.00</strong></td>
+                                        <td><span class="badge bg-secondary">0%</span></td>
+                                        <td><strong class="text-dark">$89.00</strong></td>
+                                        <td>18 Nov 2024</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-secondary">
+                                                <i class="fas fa-history"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="form-check-input"></td>
+                                        <td>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=50&h=50&fit=crop" 
+                                                     alt="Producto" class="product-thumb">
+                                                <div>
+                                                    <h6>Smartwatch Pro</h6>
+                                                    <small class="text-muted">SKU: SMW-003</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge bg-primary">Tecnología</span></td>
+                                        <td><strong>$299.00</strong></td>
+                                        <td><span class="badge bg-warning text-dark">20%</span></td>
+                                        <td><strong class="text-primary">$239.20</strong></td>
+                                        <td>15 Nov 2024</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-secondary">
+                                                <i class="fas fa-history"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="form-check-input"></td>
+                                        <td>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <img src="https://images.unsplash.com/photo-1560343090-f0409e92791a?w=50&h=50&fit=crop" 
+                                                     alt="Producto" class="product-thumb">
+                                                <div>
+                                                    <h6>Cámara Digital 4K</h6>
+                                                    <small class="text-muted">SKU: CAM-004</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge bg-primary">Tecnología</span></td>
+                                        <td><strong>$899.00</strong></td>
+                                        <td><span class="badge bg-success">10%</span></td>
+                                        <td><strong class="text-primary">$809.10</strong></td>
+                                        <td>22 Nov 2024</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-secondary">
+                                                <i class="fas fa-history"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="form-check-input"></td>
+                                        <td>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <img src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=50&h=50&fit=crop" 
+                                                     alt="Producto" class="product-thumb">
+                                                <div>
+                                                    <h6>Zapatillas Deportivas</h6>
+                                                    <small class="text-muted">SKU: ZAP-005</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge bg-success">Moda</span></td>
+                                        <td><strong>$120.00</strong></td>
+                                        <td><span class="badge bg-danger">25%</span></td>
+                                        <td><strong class="text-primary">$90.00</strong></td>
+                                        <td>10 Oct 2024</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-secondary">
+                                                <i class="fas fa-history"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="text-muted">Mostrando 1-5 de 145 productos</span>
+                            <nav>
+                                <ul class="pagination pagination-sm mb-0">
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#"><i class="fas fa-chevron-left"></i></a>
+                                    </li>
+                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Discounts -->
+                <div class="admin-card">
+                    <div class="card-header">
+                        <h5><i class="fas fa-percent me-2"></i>Descuentos Activos</h5>
+                        <a href="#" class="text-primary">Ver todos</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="discount-card">
+                                    <div class="discount-badge">-20%</div>
+                                    <div class="discount-info">
+                                        <h6>Black Friday 2024</h6>
+                                        <p class="mb-2"><i class="fas fa-calendar me-2"></i>20 Nov - 30 Nov 2024</p>
+                                        <p class="mb-2"><i class="fas fa-box me-2"></i>Aplica a: Tecnología (45 productos)</p>
+                                        <div class="d-flex justify-content-between align-items-center mt-3">
+                                            <span class="badge bg-success">Activo</span>
+                                            <div>
+                                                <button class="btn btn-sm btn-outline-primary me-2">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="discount-card">
+                                    <div class="discount-badge bg-warning">-15%</div>
+                                    <div class="discount-info">
+                                        <h6>Cyber Monday</h6>
+                                        <p class="mb-2"><i class="fas fa-calendar me-2"></i>25 Nov - 27 Nov 2024</p>
+                                        <p class="mb-2"><i class="fas fa-box me-2"></i>Aplica a: Todos los productos</p>
+                                        <div class="d-flex justify-content-between align-items-center mt-3">
+                                            <span class="badge bg-success">Activo</span>
+                                            <div>
+                                                <button class="btn btn-sm btn-outline-primary me-2">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Edit Price Modal -->
+<div class="modal fade" id="editPriceModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Editar Precio</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Producto</label>
+                    <input type="text" class="form-control" value="Laptop Gaming Pro" readonly>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Precio Base</label>
+                    <input type="number" class="form-control" value="1599.00" step="0.01">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Descuento (%)</label>
+                    <input type="number" class="form-control" value="15" min="0" max="100">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Precio Final</label>
+                    <input type="text" class="form-control bg-light" value="$1,359.15" readonly>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Motivo del Cambio</label>
+                    <textarea class="form-control" rows="3" placeholder="Opcional: Describe el motivo del cambio de precio"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary">Guardar Cambios</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bulk Update Modal -->
+<div class="modal fade" id="bulkUpdateModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Actualización Masiva de Precios</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Aplica cambios a múltiples productos simultáneamente
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Seleccionar Categoría</label>
+                    <select class="form-select">
+                        <option>Todas las categorías</option>
+                        <option>Tecnología</option>
+                        <option>Moda</option>
+                        <option>Hogar</option>
+                        <option>Servicios</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Tipo de Actualización</label>
+                    <select class="form-select">
+                        <option>Aumentar precio (%)</option>
+                        <option>Reducir precio (%)</option>
+                        <option>Establecer descuento (%)</option>
+                        <option>Precio fijo</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Valor</label>
+                    <input type="number" class="form-control" placeholder="Ej: 10" step="0.01">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Motivo</label>
+                    <textarea class="form-control" rows="2" placeholder="Describe el motivo de la actualización masiva"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary">Aplicar Cambios</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Discount Modal -->
+<div class="modal fade" id="discountModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="fas fa-percent me-2"></i>Crear Descuento</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Nombre del Descuento</label>
+                    <input type="text" class="form-control" placeholder="Ej: Black Friday 2024">
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Fecha Inicio</label>
+                        <input type="date" class="form-control">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Fecha Fin</label>
+                        <input type="date" class="form-control">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Porcentaje de Descuento</label>
+                    <input type="number" class="form-control" placeholder="Ej: 20" min="1" max="100">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Aplicar a</label>
+                    <select class="form-select">
+                        <option>Todos los productos</option>
+                        <option>Por categoría</option>
+                        <option>Productos específicos</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Descripción</label>
+                    <textarea class="form-control" rows="3" placeholder="Describe las condiciones del descuento"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary">Crear Descuento</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Price calculator
+        document.querySelectorAll('input[type="number"]').forEach(input => {
+            input.addEventListener('input', function() {
+                // Aquí iría la lógica de cálculo de precio final
+                console.log('Calculando precio...');
+            });
+        });
+    </script>
+}
