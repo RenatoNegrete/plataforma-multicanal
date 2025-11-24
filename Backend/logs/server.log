@@ -643,3 +643,7 @@ Caused by: java.io.FileNotFoundException: /opt/jboss/wildfly/firebase-credential
 2025-11-24 01:29:12,508 INFO  [org.jboss.as] (Controller Boot Thread) WFLYSRV0060: Http management interface listening on http://127.0.0.1:9990/management
 2025-11-24 01:29:12,511 INFO  [org.jboss.as] (Controller Boot Thread) WFLYSRV0051: Admin console listening on http://127.0.0.1:9990
 2025-11-24 01:29:12,518 INFO  [org.jboss.as] (Controller Boot Thread) WFLYSRV0025: WildFly Full 31.0.0.Final (WildFly Core 23.0.1.Final) started in 34974ms - Started 420 of 621 services (323 services are lazy, passive or on-demand) - Server configuration file in use: standalone.xml
+2025-11-24 01:29:40,044 INFO  [stdout] (default task-1) Intentando cargar Firebase desde: /opt/jboss/wildfly/firebase-credentials.json
+2025-11-24 01:29:40,162 INFO  [stdout] (default task-1) Firebase inicializado correctamente
+2025-11-24 01:29:40,353 INFO  [stdout] (default task-1) Hibernate: select u1_0.id,u1_0.direccion,u1_0.email,u1_0.fecha_registro,u1_0.firebase_uid,u1_0.nombre,u1_0.telefono from usuarios u1_0 where u1_0.email=?
+2025-11-24 01:29:42,628 INFO  [stdout] (default task-1) Hibernate: insert into usuarios (direccion,email,fecha_registro,firebase_uid,nombre,telefono) values (?,?,?,?,?,?)
