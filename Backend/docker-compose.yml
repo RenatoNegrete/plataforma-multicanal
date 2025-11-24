@@ -1,56 +1,66 @@
+version: '3.8'
+
 services:
-  apigateway:
-    build:
-      context: ./api-gateway
-      dockerfile: Dockerfile
-    container_name: api-gateway
-    depends_on:
-      catalogoapi:
-        condition: service_healthy
-    ports:
-      - "8080:8080"
-    networks:
-      - microservicios-net
-
-  catalogoapi:
-    build:
-      context: ./catalogo
-    container_name: catalogo-api
-    ports:
-      - "8086:8080"
-    networks:
-      - microservicios-net
+  # ============================================
+  # Base de Datos MySQL
+  # ============================================
+  usuarios-db:
+    image: mysql:8.0
+    container_name: usuarios-db
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - MONGO_CONNECTION_STRING=mongodb://mongo:27017
-      - MONGO_DATABASE=catalogodb
-    depends_on:
-      mongo:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
-      interval: 10s
-      timeout: 3s
-      retries: 5
-
-  mongo:
-    image: mongo:6.0
-    container_name: mongo-db
-    restart: always
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: usuarios_db
+      MYSQL_USER: usuarios_user
+      MYSQL_PASSWORD: usuarios_pass
     ports:
-      - "27017:27017"
+      - "3306:3306"
+    volumes:
+      - usuarios-db-data:/var/lib/mysql
     networks:
-      - microservicios-net
+      - microservices-network
     healthcheck:
-      test: ["CMD", "mongo", "--eval", "db.runCommand({ ping: 1 })"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot_password"]
       interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 30s
+
+  # ============================================
+  # Microservicio de Usuarios (WildFly)
+  # ============================================
+  usuarios-service:
+    build:
+      context: ./Usuarios
+      dockerfile: Dockerfile
+    container_name: usuarios-service
+    ports:
+      - "8085:8080"   # Puerto de la aplicación
+      - "9990:9990"   # Puerto de administración (opcional)
+    environment:
+      # Configuración de base de datos
+      - DB_HOST=usuarios-db
+      - DB_PORT=3306
+      - DB_NAME=usuarios_db
+      - DB_USER=usuarios_user
+      - DB_PASSWORD=usuarios_pass
+      # Ruta donde estará montado el archivo Firebase
+      - FIREBASE_CREDENTIALS_PATH=/opt/jboss/wildfly/firebase-credentials.json
     volumes:
-      - mongodbdata:/data/db
+      # ⭐ AQUÍ ESTÁ LA MAGIA: Montar el archivo como volumen
+      - ./firebase-credentials.json:/opt/jboss/wildfly/firebase-credentials.json:ro
+      # ↑ formato: ./archivo-local:ruta-en-contenedor:permisos(ro=read-only)
+      
+      # Opcional: persistir logs
+      - ./logs:/opt/jboss/wildfly/standalone/log
+    depends_on:
+      usuarios-db:
+        condition: service_healthy
+    networks:
+      - microservices-network
 
 networks:
-  microservicios-net:
+  microservices-network:
+    driver: bridge
 
 volumes:
-  mongodbdata:
+  usuarios-db-data:

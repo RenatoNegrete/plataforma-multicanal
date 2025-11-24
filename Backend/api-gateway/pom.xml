@@ -30,17 +30,20 @@
 		<spring-cloud.version>2024.0.2</spring-cloud.version>
 	</properties>
 	<dependencies>
-
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-gateway-mvc</artifactId>
 		</dependency>
 
-
 		<!-- Necesario para JWT y OAuth (NO en test) -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 
 		<!-- Firebase Admin -->
@@ -57,6 +60,24 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- Actuator para métricas -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+		<!-- Prometheus para observabilidad -->
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+		</dependency>
+
+		<!-- Resilience4j para circuit breaker -->
+		<dependency>
+			<groupId>io.github.resilience4j</groupId>
+			<artifactId>resilience4j-spring-boot3</artifactId>
+			<version>2.1.0</version>
+		</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
