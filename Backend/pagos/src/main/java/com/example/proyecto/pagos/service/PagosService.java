@@ -26,7 +26,6 @@ public class PagosService {
         params.put("description", request.getDescription());
         params.put("automatic_payment_methods", Map.of("enabled", true));
 
-
         // Crear Intent
         return PaymentIntent.create(params);
     }

@@ -2,6 +2,27 @@
     "configurations": [
         {
             "type": "java",
+            "name": "ProveedoresApplication",
+            "request": "launch",
+            "mainClass": "com.example.proyecto.proveedores.ProveedoresApplication",
+            "projectName": ""
+        },
+        {
+            "type": "java",
+            "name": "OrdenesApplication",
+            "request": "launch",
+            "mainClass": "com.example.proyecto.ordenes.OrdenesApplication",
+            "projectName": "ordenes"
+        },
+        {
+            "type": "java",
+            "name": "OrdenApplication",
+            "request": "launch",
+            "mainClass": "com.example.proyecto.ordenes.OrdenApplication",
+            "projectName": ""
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-CatalogoApplication<catalogo>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
