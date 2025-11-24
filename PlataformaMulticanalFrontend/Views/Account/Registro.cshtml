@@ -38,13 +38,23 @@
                     <p>¿Ya tienes cuenta? <a asp-controller="Account" asp-action="Login">Inicia sesión</a></p>
                 </div>
 
-                <form asp-controller="Account" asp-action="Registro" method="post" class="auth-form">
+                <form asp-controller="Account" asp-action="Registro" method="post" class="auth-form" id="registroForm">
+                    
+                    @if (TempData["Error"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-circle me-2"></i>
+                            <strong>Error:</strong> @TempData["Error"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+
                     <div class="social-login">
-                        <button type="button" class="btn-social">
+                        <button type="button" class="btn-social" onclick="alert('Funcionalidad próximamente')">
                             <i class="fab fa-google"></i>
                             Google
                         </button>
-                        <button type="button" class="btn-social">
+                        <button type="button" class="btn-social" onclick="alert('Funcionalidad próximamente')">
                             <i class="fab fa-facebook-f"></i>
                             Facebook
                         </button>
@@ -57,41 +67,101 @@
                     <div class="row g-2">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="firstName">Nombre</label>
-                                <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Juan" required>
+                                <label for="firstName">Nombre <span class="text-danger">*</span></label>
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="firstName" 
+                                       name="firstName" 
+                                       placeholder="Juan" 
+                                       required
+                                       autocomplete="given-name">
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="lastName">Apellido</label>
-                                <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Pérez" required>
+                                <label for="lastName">Apellido <span class="text-danger">*</span></label>
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="lastName" 
+                                       name="lastName" 
+                                       placeholder="Pérez" 
+                                       required
+                                       autocomplete="family-name">
                             </div>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="email">Correo Electrónico</label>
+                        <label for="email">Correo Electrónico <span class="text-danger">*</span></label>
                         <div class="input-with-icon">
                             <i class="fas fa-envelope"></i>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="tu@email.com" required>
+                            <input type="email" 
+                                   class="form-control" 
+                                   id="email" 
+                                   name="email" 
+                                   placeholder="tu@email.com" 
+                                   required
+                                   autocomplete="email">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="password">Contraseña</label>
+                        <label for="telefono">Teléfono</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-phone"></i>
+                            <input type="tel" 
+                                   class="form-control" 
+                                   id="telefono" 
+                                   name="telefono" 
+                                   placeholder="+57 300 123 4567"
+                                   autocomplete="tel">
+                        </div>
+                        <small class="text-muted">Opcional</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="direccion">Dirección</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="direccion" 
+                                   name="direccion" 
+                                   placeholder="Calle 123 #45-67"
+                                   autocomplete="street-address">
+                        </div>
+                        <small class="text-muted">Opcional</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Contraseña <span class="text-danger">*</span></label>
                         <div class="input-with-icon">
                             <i class="fas fa-lock"></i>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="••••••••" required>
+                            <input type="password" 
+                                   class="form-control" 
+                                   id="password" 
+                                   name="password" 
+                                   placeholder="••••••••" 
+                                   required 
+                                   minlength="6"
+                                   autocomplete="new-password">
                             <button type="button" class="btn-toggle-password" onclick="togglePassword('password')">
                                 <i class="fas fa-eye" id="toggleIcon1"></i>
                             </button>
                         </div>
+                        <small class="text-muted">Mínimo 6 caracteres</small>
                     </div>
 
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="terms" required>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" 
+                               type="checkbox" 
+                               id="terms" 
+                               name="terms"
+                               required>
                         <label class="form-check-label" for="terms">
-                            Acepto <a href="#">Términos</a> y <a href="#">Privacidad</a>
+                            Acepto los <a href="#" onclick="alert('Términos próximamente'); return false;">Términos y Condiciones</a> 
+                            y la <a href="#" onclick="alert('Política próximamente'); return false;">Política de Privacidad</a>
+                            <span class="text-danger">*</span>
                         </label>
                     </div>
 
@@ -104,6 +174,7 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function togglePassword(fieldId) {
             const password = document.getElementById(fieldId);
@@ -119,6 +190,51 @@
                 icon.classList.add('fa-eye');
             }
         }
+
+        // Validación del formulario
+        document.getElementById('registroForm').addEventListener('submit', function(e) {
+            const password = document.getElementById('password').value;
+            const terms = document.getElementById('terms').checked;
+
+            if (password.length < 6) {
+                e.preventDefault();
+                alert('La contraseña debe tener al menos 6 caracteres');
+                return false;
+            }
+
+            if (!terms) {
+                e.preventDefault();
+                alert('Debes aceptar los términos y condiciones');
+                return false;
+            }
+        });
+
+        // Auto-cerrar alertas después de 5 segundos
+        setTimeout(function() {
+            var alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                var bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            });
+        }, 5000);
     </script>
 </body>
 </html>
+```
+
+---
+
+## 🎯 **Verificación Final**
+
+### **Archivos que debes tener:**
+```
+PlataformaMulticanalFrontend/
+├── Controllers/
+│   └── AccountController.cs (ya lo tienes del paso anterior)
+├── Services/
+│   └── UsuarioApiService.cs (ya lo tienes del paso anterior)
+├── Views/
+│   └── Account/
+│       ├── Login.cshtml ✅ (usar el de arriba)
+│       └── Registro.cshtml ✅ (usar el de arriba)
+└── Program.cs ✅ (usar el de arriba)
