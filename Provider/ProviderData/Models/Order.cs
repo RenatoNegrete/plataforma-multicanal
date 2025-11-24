@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ProviderData.Entities;
+namespace ProviderData.Models;
 
 public partial class Order
 {

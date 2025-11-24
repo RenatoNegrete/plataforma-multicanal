@@ -20,6 +20,8 @@ public class Proveedor {
 
     private String direccion;
 
+    private String url;
+
     public Long getId() {
         return id;
     }
@@ -58,5 +60,13 @@ public class Proveedor {
 
     public void setDireccion(String direccion) {
         this.direccion = direccion;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

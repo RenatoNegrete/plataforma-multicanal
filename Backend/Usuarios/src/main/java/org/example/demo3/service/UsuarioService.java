@@ -81,4 +81,22 @@ public class UsuarioService {
         Usuario usuario = obtenerUsuario(id);
         em.remove(usuario);
     }
+
+    public Usuario obtenerUsuarioPorEmail(String email) {
+        try {
+            return em.createNamedQuery("Usuario.findByEmail", Usuario.class)
+                    .setParameter("email", email)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            throw new WebApplicationException(
+                "Usuario no encontrado",
+                Response.Status.NOT_FOUND
+            );
+        }
+    }
+
+    public Long contarUsuarios() {
+        return em.createQuery("SELECT COUNT(u) FROM Usuario u", Long.class)
+                .getSingleResult();
+    }
 }

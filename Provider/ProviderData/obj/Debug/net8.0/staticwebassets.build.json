@@ -1,1 +1,11 @@
-{"Version":1,"Hash":"oghXsDug0dx2SZKSh+09EvFRNcsZm6W5aupGWMeKwBY=","Source":"ProviderData","BasePath":"_content/ProviderData","Mode":"Default","ManifestType":"Build","ReferencedProjectsConfiguration":[],"DiscoveryPatterns":[],"Assets":[],"Endpoints":[]}
+{
+  "Version": 1,
+  "Hash": "ogTWeNnzRhaiZLqXU1w6ikcZ2EsYt0aht1SRQcsE7pY=",
+  "Source": "ProviderData",
+  "BasePath": "_content/ProviderData",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

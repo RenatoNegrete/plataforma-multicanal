@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using ProviderData.Entities;
+using ProviderData.Models;
 using ProviderData.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<ProviderDbContext>(options =>
+builder.Services.AddDbContext<ProviderdbContext>(options =>
     options.UseMySql(
         builder.Configuration.GetConnectionString("DefaultConnection"),
         ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
