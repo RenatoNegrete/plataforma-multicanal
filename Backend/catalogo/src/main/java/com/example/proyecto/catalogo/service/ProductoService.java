@@ -9,4 +9,6 @@ public interface ProductoService {
     Producto guardar(Producto producto);
     Producto actualizar(String id, Producto producto);
     void eliminar(String id);
+    List<Producto> listarPorProveedor(String proveedorId);
+    List<Producto> listarPorCategoria(String categoria);
 }
