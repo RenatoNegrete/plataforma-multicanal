@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  # ============================================
+  # Base de Datos MySQL
+  # ============================================
+  usuarios-db:
+    image: mysql:8.0
+    container_name: usuarios-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: usuarios_db
+      MYSQL_USER: usuarios_user
+      MYSQL_PASSWORD: usuarios_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - usuarios-db-data:/var/lib/mysql
+    networks:
+      - microservices-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot_password"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # ============================================
+  # Microservicio de Usuarios (WildFly)
+  # ============================================
+  usuarios-service:
+    build:
+      context: ./Usuarios
+      dockerfile: Dockerfile
+    container_name: usuarios-service
+    ports:
+      - "8085:8080"   # Puerto de la aplicación
+      - "9990:9990"   # Puerto de administración (opcional)
+    environment:
+      # Configuración de base de datos
+      - DB_HOST=usuarios-db
+      - DB_PORT=3306
+      - DB_NAME=usuarios_db
+      - DB_USER=usuarios_user
+      - DB_PASSWORD=usuarios_pass
+      # Ruta donde estará montado el archivo Firebase
+      - FIREBASE_CREDENTIALS_PATH=/opt/jboss/wildfly/firebase-credentials.json
+    volumes:
+      - ./Usuarios/firebase-credentials.json:/opt/jboss/wildfly/firebase-credentials.json:ro
+      
+      - ./logs:/opt/jboss/wildfly/standalone/log
+    depends_on:
+      usuarios-db:
+        condition: service_healthy
+    networks:
+      - microservices-network
+
+networks:
+  microservices-network:
+    driver: bridge
+
+volumes:
+  usuarios-db-data:

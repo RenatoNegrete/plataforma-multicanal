@@ -1,0 +1,6 @@
+server:
+  port: 8083
+
+stripe:
+  secret-key: ${STRIPE_SECRET_KEY}
+  public-key: ${STRIPE_PUBLIC_KEY}

@@ -1,0 +1,32 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      mvc:
+        http-client:
+         connect-timeout: 3000
+         read-timeout: 10000
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: https://www.googleapis.com/service_accounts/v1/jwk/securetoken%40system.gserviceaccount.com
+          issuer-uri: https://securetoken.google.com/plataforma-multicanal-c9826
+
+services:
+  usuarios: ${USUARIOS_SERVICE_URL:http://localhost:8085}
+  catalogo: ${CATALOGO_SERVICE_URL:http://localhost:8083}
+  ordenes: ${ORDENES_SERVICE_URL:http://localhost:8081}
+  pagos: ${PAGOS_SERVICE_URL:http://localhost:8082}
+  proveedores: ${PROVEEDORES_SERVICE_URL:http://localhost:8084}
+  notificaciones: ${NOTIFICACIONES_SERVICE_URL:http://localhost:8087}
+  reportes: ${REPORTES_SERVICE_URL:http://localhost:8088}
+  recomendaciones: ${RECOMENDACIONES_SERVICE_URL:http://localhost:8086}
+  logistica: ${LOGISTICA_SERVICE_URL:http://localhost:8089}
+
+firebase:
+  apiKey: AIzaSyAyoikLdOvSQyz5K5zPgHfKkLV5mwFm5nI
