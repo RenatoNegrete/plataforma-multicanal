@@ -928,19 +928,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Usuario\\.nuget\\packages\\": {}
+    "C:\\Users\\JUAN JOSE BERMUDEZ\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Usuario\\Desktop\\Universidad\\Semestre_7\\Arquitectura SW\\plataforma-multicanal\\Provider\\ProviderAPI\\ProviderAPI.csproj",
+      "projectUniqueName": "C:\\Users\\JUAN JOSE BERMUDEZ\\OneDrive - Pontificia Universidad Javeriana\\Documentos\\Adapterparcial1\\plataforma-multicanal\\Provider\\ProviderAPI\\ProviderAPI.csproj",
       "projectName": "ProviderAPI",
-      "projectPath": "C:\\Users\\Usuario\\Desktop\\Universidad\\Semestre_7\\Arquitectura SW\\plataforma-multicanal\\Provider\\ProviderAPI\\ProviderAPI.csproj",
-      "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Usuario\\Desktop\\Universidad\\Semestre_7\\Arquitectura SW\\plataforma-multicanal\\Provider\\ProviderAPI\\obj\\",
+      "projectPath": "C:\\Users\\JUAN JOSE BERMUDEZ\\OneDrive - Pontificia Universidad Javeriana\\Documentos\\Adapterparcial1\\plataforma-multicanal\\Provider\\ProviderAPI\\ProviderAPI.csproj",
+      "packagesPath": "C:\\Users\\JUAN JOSE BERMUDEZ\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\JUAN JOSE BERMUDEZ\\OneDrive - Pontificia Universidad Javeriana\\Documentos\\Adapterparcial1\\plataforma-multicanal\\Provider\\ProviderAPI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\JUAN JOSE BERMUDEZ\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -1011,7 +1011,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.415/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

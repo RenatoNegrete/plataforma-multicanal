@@ -1,3 +1,5 @@
+using PlataformaMulticanalFrontend.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -15,6 +17,10 @@ builder.Services.AddSession(options =>
 
 // Configurar HttpClient para servicios API
 builder.Services.AddHttpClient();
+
+// ⭐ NUEVO: Registrar el servicio de catálogo
+builder.Services.AddHttpClient<CatalogoService>();
+builder.Services.AddScoped<CatalogoService>();
 
 var app = builder.Build();
 

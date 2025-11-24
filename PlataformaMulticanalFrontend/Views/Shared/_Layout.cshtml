@@ -56,9 +56,9 @@
                 
                 <!-- Search Bar -->
                 <div class="col-lg-6 col-md-5">
-                    <form class="search-form">
+                    <form class="search-form" asp-controller="Catalogo" asp-action="Buscar" method="get">
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Buscar productos, servicios o contenido digital...">
+                            <input type="text" name="q" class="form-control" placeholder="Buscar productos, servicios o contenido digital...">
                             <button class="btn btn-primary" type="submit">
                                 <i class="fas fa-search"></i>
                             </button>
@@ -163,37 +163,37 @@
                     </a>
                 </li>
                 <li class="category-item">
-                    <a asp-controller="Catalogo" asp-action="Index" asp-route-tipo="fisicos">
-                        <i class="fas fa-box me-2"></i>Productos Físicos
+                    <a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="ropa">
+                        <i class="fas fa-tshirt me-2"></i>Ropa
                     </a>
                 </li>
                 <li class="category-item">
-                    <a asp-controller="Catalogo" asp-action="Index" asp-route-tipo="servicios">
-                        <i class="fas fa-briefcase me-2"></i>Servicios Profesionales
+                    <a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="electronica">
+                        <i class="fas fa-laptop me-2"></i>Electrónica
                     </a>
                 </li>
                 <li class="category-item">
-                    <a asp-controller="Catalogo" asp-action="Index" asp-route-tipo="digitales">
-                        <i class="fas fa-cloud-download-alt me-2"></i>Contenido Digital
-                    </a>
-                </li>
-                <li class="category-item">
-                    <a href="#">
-                        <i class="fas fa-laptop me-2"></i>Tecnología
-                    </a>
-                </li>
-                <li class="category-item">
-                    <a href="#">
-                        <i class="fas fa-tshirt me-2"></i>Moda
-                    </a>
-                </li>
-                <li class="category-item">
-                    <a href="#">
+                    <a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="hogar">
                         <i class="fas fa-home me-2"></i>Hogar
                     </a>
                 </li>
+                <li class="category-item">
+                    <a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="tecnologia">
+                        <i class="fas fa-microchip me-2"></i>Tecnología
+                    </a>
+                </li>
+                <li class="category-item">
+                    <a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="deportes">
+                        <i class="fas fa-futbol me-2"></i>Deportes
+                    </a>
+                </li>
+                <li class="category-item">
+                    <a asp-controller="Catalogo" asp-action="Index">
+                        <i class="fas fa-box me-2"></i>Todos los Productos
+                    </a>
+                </li>
                 <li class="category-item ms-auto">
-                    <a href="#" class="text-danger">
+                    <a asp-controller="Catalogo" asp-action="Ofertas" class="text-danger">
                         <i class="fas fa-tags me-2"></i>Ofertas del Día
                     </a>
                 </li>
@@ -230,11 +230,11 @@
                     <div class="col-lg-2 col-md-6 mb-4">
                         <h6 class="footer-subtitle">Categorías</h6>
                         <ul class="footer-links">
-                            <li><a href="#">Productos Físicos</a></li>
-                            <li><a href="#">Servicios</a></li>
-                            <li><a href="#">Contenido Digital</a></li>
-                            <li><a href="#">Tecnología</a></li>
-                            <li><a href="#">Moda & Estilo</a></li>
+                            <li><a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="ropa">Ropa</a></li>
+                            <li><a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="electronica">Electrónica</a></li>
+                            <li><a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="hogar">Hogar</a></li>
+                            <li><a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="tecnologia">Tecnología</a></li>
+                            <li><a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="deportes">Deportes</a></li>
                         </ul>
                     </div>
                     

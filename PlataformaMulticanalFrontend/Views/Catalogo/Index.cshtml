@@ -1,3 +1,4 @@
+@model List<PlataformaMulticanalFrontend.Models.Producto>
 @{
     ViewData["Title"] = "Catálogo de Productos";
     var tipoSeleccionado = ViewData["TipoSeleccionado"] as string;
@@ -174,7 +175,7 @@
                 <!-- Toolbar -->
                 <div class="catalog-toolbar">
                     <div class="toolbar-left">
-                        <h5 class="mb-0">493 Productos Encontrados</h5>
+                        <h5 class="mb-0">@Model.Count Productos Encontrados</h5>
                     </div>
                     <div class="toolbar-right">
                         <div class="view-mode">
@@ -199,196 +200,35 @@
                 <!-- Products Grid -->
                 <div class="products-grid">
                     <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3">
-                        <!-- Product 1 -->
-                        <div class="col">
-                            <div class="product-card">
-                                <div class="product-image-wrapper">
-                                    <span class="badge bg-danger product-badge">-25%</span>
-                                    <button class="btn-wishlist">
-                                        <i class="far fa-heart"></i>
-                                    </button>
-                                    <a asp-controller="Catalogo" asp-action="Detalle" asp-route-id="1">
-                                        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop" alt="Auriculares">
-                                    </a>
-                                    <div class="product-quick-view">
-                                        <button class="btn btn-sm btn-light">Vista Rápida</button>
-                                    </div>
-                                </div>
-                                <div class="product-card-body">
-                                    <div class="product-category">AUDIO</div>
-                                    <h5 class="product-title">
-                                        <a asp-controller="Catalogo" asp-action="Detalle" asp-route-id="1">
-                                            Auriculares Bluetooth Premium
-                                        </a>
-                                    </h5>
-                                    <div class="product-rating">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star-half-alt"></i>
-                                        <span>(4.5)</span>
-                                    </div>
-                                    <div class="product-price-section">
-                                        <div>
-                                            <span class="product-price-old">$120</span>
-                                            <div class="product-price">$89</div>
-                                        </div>
-                                        <button class="btn-add-cart">
-                                            <i class="fas fa-cart-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Product 2 -->
-                        <div class="col">
-                            <div class="product-card">
-                                <div class="product-image-wrapper">
-                                    <span class="badge bg-success product-badge">Nuevo</span>
-                                    <button class="btn-wishlist">
-                                        <i class="far fa-heart"></i>
-                                    </button>
-                                    <a asp-controller="Catalogo" asp-action="Detalle" asp-route-id="2">
-                                        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=300&fit=crop" alt="Smartwatch">
-                                    </a>
-                                    <div class="product-quick-view">
-                                        <button class="btn btn-sm btn-light">Vista Rápida</button>
-                                    </div>
-                                </div>
-                                <div class="product-card-body">
-                                    <div class="product-category">TECNOLOGÍA</div>
-                                    <h5 class="product-title">
-                                        <a asp-controller="Catalogo" asp-action="Detalle" asp-route-id="2">
-                                            Smartwatch Pro Serie 6
-                                        </a>
-                                    </h5>
-                                    <div class="product-rating">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <span>(5.0)</span>
-                                    </div>
-                                    <div class="product-price-section">
-                                        <div>
-                                            <div class="product-price">$299</div>
-                                        </div>
-                                        <button class="btn-add-cart">
-                                            <i class="fas fa-cart-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Product 3 -->
-                        <div class="col">
-                            <div class="product-card">
-                                <div class="product-image-wrapper">
-                                    <span class="badge bg-warning product-badge">Popular</span>
-                                    <button class="btn-wishlist active">
-                                        <i class="fas fa-heart"></i>
-                                    </button>
-                                    <a asp-controller="Catalogo" asp-action="Detalle" asp-route-id="3">
-                                        <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=400&h=300&fit=crop" alt="Laptop">
-                                    </a>
-                                    <div class="product-quick-view">
-                                        <button class="btn btn-sm btn-light">Vista Rápida</button>
-                                    </div>
-                                </div>
-                                <div class="product-card-body">
-                                    <div class="product-category">TECNOLOGÍA</div>
-                                    <h5 class="product-title">
-                                        <a asp-controller="Catalogo" asp-action="Detalle" asp-route-id="3">
-                                            Laptop Gaming Pro 15"
-                                        </a>
-                                    </h5>
-                                    <div class="product-rating">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                        <span>(4.2)</span>
-                                    </div>
-                                    <div class="product-price-section">
-                                        <div>
-                                            <span class="product-price-old">$2,000</span>
-                                            <div class="product-price">$1,600</div>
-                                        </div>
-                                        <button class="btn-add-cart">
-                                            <i class="fas fa-cart-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Product 4 -->
-                        <div class="col">
-                            <div class="product-card">
-                                <div class="product-image-wrapper">
-                                    <button class="btn-wishlist">
-                                        <i class="far fa-heart"></i>
-                                    </button>
-                                    <a asp-controller="Catalogo" asp-action="Detalle" asp-route-id="4">
-                                        <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400&h=300&fit=crop" alt="Camiseta">
-                                    </a>
-                                    <div class="product-quick-view">
-                                        <button class="btn btn-sm btn-light">Vista Rápida</button>
-                                    </div>
-                                </div>
-                                <div class="product-card-body">
-                                    <div class="product-category">MODA</div>
-                                    <h5 class="product-title">
-                                        <a asp-controller="Catalogo" asp-action="Detalle" asp-route-id="4">
-                                            Camiseta Premium Cotton
-                                        </a>
-                                    </h5>
-                                    <div class="product-rating">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <span>(4.8)</span>
-                                    </div>
-                                    <div class="product-price-section">
-                                        <div>
-                                            <div class="product-price">$29</div>
-                                        </div>
-                                        <button class="btn-add-cart">
-                                            <i class="fas fa-cart-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Más productos... (repetir estructura) -->
-                        @for (int i = 5; i <= 12; i++)
+                        @foreach (var producto in Model)
                         {
                             <div class="col">
                                 <div class="product-card">
                                     <div class="product-image-wrapper">
+                                        @if (producto.Stock == 0)
+                                        {
+                                            <span class="badge bg-danger product-badge">Agotado</span>
+                                        }
+                                        else if (producto.Stock < 10)
+                                        {
+                                            <span class="badge bg-warning product-badge">Últimas unidades</span>
+                                        }
                                         <button class="btn-wishlist">
                                             <i class="far fa-heart"></i>
                                         </button>
-                                        <a asp-controller="Catalogo" asp-action="Detalle" asp-route-id="@i">
-                                            <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&h=300&fit=crop" alt="Producto @i">
+                                        <a asp-controller="Catalogo" asp-action="Detalle" asp-route-id="@producto.Id">
+                                            <img src="@(string.IsNullOrEmpty(producto.Imagen) ? "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop" : producto.Imagen)" 
+                                                 alt="@producto.Nombre">
                                         </a>
                                         <div class="product-quick-view">
                                             <button class="btn btn-sm btn-light">Vista Rápida</button>
                                         </div>
                                     </div>
                                     <div class="product-card-body">
-                                        <div class="product-category">CATEGORÍA</div>
+                                        <div class="product-category">@(producto.Categoria?.ToUpper() ?? "GENERAL")</div>
                                         <h5 class="product-title">
-                                            <a asp-controller="Catalogo" asp-action="Detalle" asp-route-id="@i">
-                                                Producto de Ejemplo @i
+                                            <a asp-controller="Catalogo" asp-action="Detalle" asp-route-id="@producto.Id">
+                                                @producto.Nombre
                                             </a>
                                         </h5>
                                         <div class="product-rating">
@@ -401,7 +241,7 @@
                                         </div>
                                         <div class="product-price-section">
                                             <div>
-                                                <div class="product-price">$@((i * 50) + 99)</div>
+                                                <div class="product-price">$@producto.Precio.ToString("N2")</div>
                                             </div>
                                             <button class="btn-add-cart">
                                                 <i class="fas fa-cart-plus"></i>
