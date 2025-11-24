@@ -1169,3 +1169,6 @@ Caused by: java.sql.SQLException: Field 'firebase_uid' doesn't have a default va
 2025-11-24 03:04:22,366 INFO  [org.jboss.as] (Controller Boot Thread) WFLYSRV0060: Http management interface listening on http://127.0.0.1:9990/management
 2025-11-24 03:04:22,367 INFO  [org.jboss.as] (Controller Boot Thread) WFLYSRV0051: Admin console listening on http://127.0.0.1:9990
 2025-11-24 03:04:22,378 INFO  [org.jboss.as] (Controller Boot Thread) WFLYSRV0025: WildFly Full 31.0.0.Final (WildFly Core 23.0.1.Final) started in 32084ms - Started 420 of 621 services (323 services are lazy, passive or on-demand) - Server configuration file in use: standalone.xml
+2025-11-24 03:05:52,920 INFO  [stdout] (default task-1) Hibernate: select u1_0.id,u1_0.direccion,u1_0.email,u1_0.fecha_registro,u1_0.nombre,u1_0.telefono from usuarios u1_0 where u1_0.email=?
+2025-11-24 03:05:53,010 INFO  [stdout] (default task-1) Hibernate: insert into usuarios (direccion,email,fecha_registro,nombre,telefono) values (?,?,?,?,?)
+2025-11-24 03:18:52,004 INFO  [stdout] (default task-1) Hibernate: select u1_0.id,u1_0.direccion,u1_0.email,u1_0.fecha_registro,u1_0.nombre,u1_0.telefono from usuarios u1_0
