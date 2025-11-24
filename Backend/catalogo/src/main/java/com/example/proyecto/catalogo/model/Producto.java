@@ -8,7 +8,7 @@ public class Producto {
 
     @Id
     private String id;
-
+    private String proveedorId;
     private String nombre;
     private double precio;
 
@@ -20,9 +20,10 @@ public class Producto {
 
     public Producto() {}
 
-    public Producto(String id, String nombre, double precio, String imagen, 
+    public Producto(String id, String proveedorId, String nombre, double precio, String imagen, 
                     String descripcion, String categoria, int stock) {
         this.id = id;
+        this.proveedorId = proveedorId;
         this.nombre = nombre;
         this.precio = precio;
         this.imagen = imagen;
@@ -34,6 +35,9 @@ public class Producto {
     // Getters y setters
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
+
+    public String getProveedorId() { return proveedorId; }
+    public void setProveedorId(String proveedorId) { this.proveedorId = proveedorId; }
 
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }

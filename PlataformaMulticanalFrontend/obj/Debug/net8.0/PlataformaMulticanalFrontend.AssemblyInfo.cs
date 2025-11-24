@@ -10,14 +10,12 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("OrderConsumer")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("PlataformaMulticanalFrontend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4d02640fa1142a7a35bbe2fa128f2dd5ddfa1a2e")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+073c8ddeadfa4c3d951be7868aa6f240f6ab0e32")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6538c585d729388d9c1a8dbd1bda98f585913408")]
-[assembly: System.Reflection.AssemblyProductAttribute("OrderConsumer")]
-[assembly: System.Reflection.AssemblyTitleAttribute("OrderConsumer")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7dbeb662bad0e7897222fa2e8e048556034e3b07")]
+[assembly: System.Reflection.AssemblyProductAttribute("PlataformaMulticanalFrontend")]
+[assembly: System.Reflection.AssemblyTitleAttribute("PlataformaMulticanalFrontend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
 
 // Generado por la clase WriteCodeFragment de MSBuild.

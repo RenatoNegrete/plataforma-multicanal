@@ -1,9 +1,6 @@
 version: '3.8'
 
 services:
-  # ============================================
-  # Base de Datos MySQL
-  # ============================================
   usuarios-db:
     image: mysql:8.0
     container_name: usuarios-db
@@ -25,9 +22,6 @@ services:
       retries: 5
       start_period: 30s
 
-  # ============================================
-  # Microservicio de Usuarios (WildFly)
-  # ============================================
   usuarios-service:
     build:
       context: ./Usuarios
@@ -52,6 +46,30 @@ services:
     depends_on:
       usuarios-db:
         condition: service_healthy
+    networks:
+      - microservices-network
+
+  catalogo-service:
+    build:
+      context: ./catalogo
+      dockerfile: Dockerfile
+    container_name: catalogo-service
+    ports:
+      - "8083:8080"
+    depends_on:
+      - usuarios-service
+    networks:
+      - microservices-network
+
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - usuarios-service
     networks:
       - microservices-network
 

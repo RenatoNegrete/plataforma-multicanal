@@ -18,7 +18,7 @@ spring:
           issuer-uri: https://securetoken.google.com/plataforma-multicanal-c9826
 
 services:
-  usuarios: ${USUARIOS_SERVICE_URL:http://localhost:8085}
+  usuarios: ${USUARIOS_SERVICE_URL:http://usuarios-service:8080}
   catalogo: ${CATALOGO_SERVICE_URL:http://localhost:8083}
   ordenes: ${ORDENES_SERVICE_URL:http://localhost:8081}
   pagos: ${PAGOS_SERVICE_URL:http://localhost:8082}
