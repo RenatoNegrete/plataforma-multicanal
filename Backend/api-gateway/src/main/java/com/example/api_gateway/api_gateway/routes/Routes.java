@@ -62,7 +62,7 @@ public class Routes {
                 .build())
                 
             .and(GatewayRouterFunctions.route("logistica-service")
-                .route(RequestPredicates.path("/api/logistica/**"), 
+                .route(RequestPredicates.path("/api/envios/**"), 
                        HandlerFunctions.http(serviceUrls.getLogistica()))
                 .build());
     }

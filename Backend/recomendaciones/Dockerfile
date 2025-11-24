@@ -16,7 +16,7 @@ FROM eclipse-temurin:17-jdk-alpine
 WORKDIR /app
 
 # Copiar el JAR generado en la etapa anterior
-COPY --from=build /app/target/catalogo-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=build /app/target/recomendaciones-0.0.1-SNAPSHOT.jar app.jar
 
 # Expone el puerto (cámbialo si tu microservicio usa otro)
 EXPOSE 8081

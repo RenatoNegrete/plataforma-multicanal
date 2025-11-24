@@ -1,9 +1,9 @@
 server:
-  port: 8083
+  port: 8080
 
 spring:
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: kafka:9092
 
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
