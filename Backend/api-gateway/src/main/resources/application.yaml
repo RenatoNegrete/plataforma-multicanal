@@ -15,7 +15,7 @@ spring:
       resourceserver:
         jwt:
           jwk-set-uri: https://www.googleapis.com/service_accounts/v1/jwk/securetoken%40system.gserviceaccount.com
-          issuer-uri: https://securetoken.google.com/plataforma-multicanal-c9826x
+          issuer-uri: https://securetoken.google.com/plataforma-multicanal-c9826
 
 services:
   usuarios: ${USUARIOS_SERVICE_URL:http://localhost:8085}
@@ -27,3 +27,6 @@ services:
   reportes: ${REPORTES_SERVICE_URL:http://localhost:8088}
   recomendaciones: ${RECOMENDACIONES_SERVICE_URL:http://localhost:8086}
   logistica: ${LOGISTICA_SERVICE_URL:http://localhost:8089}
+
+firebase:
+  apiKey: AIzaSyAyoikLdOvSQyz5K5zPgHfKkLV5mwFm5nI

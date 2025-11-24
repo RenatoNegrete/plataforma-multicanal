@@ -22,7 +22,7 @@ public class Routes {
     @Bean
     public RouterFunction<ServerResponse> allRoutes() {
         return GatewayRouterFunctions.route("usuarios-service")
-                .route(RequestPredicates.path("/api/usuarios/**"), 
+                .route(RequestPredicates.path("/usuarios-service/api/usuarios/**"), 
                        HandlerFunctions.http(serviceUrls.getUsuarios()))
                 .build()
                 

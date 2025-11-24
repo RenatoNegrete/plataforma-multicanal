@@ -19,8 +19,7 @@ public class SecurityConfig {
                 // Rutas públicas
                 .requestMatchers("/health").permitAll()
                 .requestMatchers("/api/catalogo/**").permitAll()
-                .requestMatchers("/api/usuarios/register").permitAll()
-                .requestMatchers("/api/usuarios/login").permitAll()
+                .requestMatchers("/auth/**").permitAll()
                 
                 // Resto requiere autenticación
                 .anyRequest().authenticated()

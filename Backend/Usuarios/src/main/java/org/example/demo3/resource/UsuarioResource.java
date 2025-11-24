@@ -1,5 +1,7 @@
 package org.example.demo3.resource;
 
+import java.util.List;
+
 import org.example.demo3.dto.RegistroRequest;
 import org.example.demo3.entity.Usuario;
 import org.example.demo3.service.UsuarioService;
@@ -24,7 +26,32 @@ public class UsuarioResource {
     @Path("/register")
     public Response registrar(@Valid RegistroRequest request) {
         Usuario usuario = usuarioService.registrarUsuario(request);
-        return Response.status(Response.Status.CREATED).entity(usuario).build();
+        return Response.ok(usuario).build();
+    }
+
+    @GET
+    public List<Usuario> listar() {
+        return usuarioService.listarUsuarios();
+    }
+
+    @GET
+    @Path("/{id}")
+    public Usuario obtener(@PathParam("id") Long id) {
+        return usuarioService.obtenerUsuario(id);
+    }
+
+    @PUT
+    @Path("/{id}")
+    public Response actualizar(@PathParam("id") Long id, Usuario request) {
+        Usuario u = usuarioService.actualizarUsuario(id, request);
+        return Response.ok(u).build();
+    }
+
+    @DELETE
+    @Path("/{id}")
+    public Response eliminar(@PathParam("id") Long id) {
+        usuarioService.eliminarUsuario(id);
+        return Response.noContent().build();
     }
 
     @GET
@@ -33,31 +60,4 @@ public class UsuarioResource {
         return Response.ok("{\"status\":\"UP\"}").build();
     }
 
-    @GET
-    @Path("/me")
-    public Response obtenerPerfil(@Context SecurityContext securityContext) {
-        // El firebaseUid viene del token JWT validado por el API Gateway
-        // El Gateway debe pasar el UID en un header custom
-        
-        // Opción 1: Si el Gateway pasa el UID en header
-        // String firebaseUid = httpHeaders.getHeaderString("X-User-Id");
-        
-        // Opción 2: Si quieres extraerlo del JWT en este microservicio
-        String firebaseUid = securityContext.getUserPrincipal().getName();
-        
-        Usuario usuario = usuarioService.obtenerPorFirebaseUid(firebaseUid);
-        return Response.ok(usuario).build();
-    }
-
-    @PUT
-    @Path("/me")
-    public Response actualizarPerfil(
-            @Context SecurityContext securityContext,
-            Usuario datosActualizados) {
-        
-        String firebaseUid = securityContext.getUserPrincipal().getName();
-        Usuario usuario = usuarioService.actualizarPerfil(firebaseUid, datosActualizados);
-        
-        return Response.ok(usuario).build();
-    }
 }
