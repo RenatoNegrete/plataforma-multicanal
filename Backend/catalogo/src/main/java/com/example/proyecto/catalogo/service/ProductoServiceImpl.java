@@ -34,6 +34,7 @@ public class ProductoServiceImpl implements ProductoService {
         Producto existente = repository.findById(id).orElse(null);
         if (existente == null) return null;
 
+        existente.setProveedorId(producto.getProveedorId());
         existente.setNombre(producto.getNombre());
         existente.setPrecio(producto.getPrecio());
         existente.setImagen(producto.getImagen());
@@ -47,5 +48,15 @@ public class ProductoServiceImpl implements ProductoService {
     @Override
     public void eliminar(String id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    public List<Producto> listarPorProveedor(String proveedorId) {
+        return repository.findByProveedorId(proveedorId);
+    }
+
+    @Override
+    public List<Producto> listarPorCategoria(String categoria) {
+        return repository.findByCategoria(categoria);
     }
 }
