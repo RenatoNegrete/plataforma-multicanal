@@ -46,11 +46,8 @@ services:
       # Ruta donde estará montado el archivo Firebase
       - FIREBASE_CREDENTIALS_PATH=/opt/jboss/wildfly/firebase-credentials.json
     volumes:
-      # ⭐ AQUÍ ESTÁ LA MAGIA: Montar el archivo como volumen
-      - ./firebase-credentials.json:/opt/jboss/wildfly/firebase-credentials.json:ro
-      # ↑ formato: ./archivo-local:ruta-en-contenedor:permisos(ro=read-only)
+      - ./Usuarios/firebase-credentials.json:/opt/jboss/wildfly/firebase-credentials.json:ro
       
-      # Opcional: persistir logs
       - ./logs:/opt/jboss/wildfly/standalone/log
     depends_on:
       usuarios-db:
