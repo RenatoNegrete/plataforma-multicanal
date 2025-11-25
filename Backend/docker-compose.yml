@@ -125,6 +125,18 @@ services:
     networks:
       - microservices-network
 
+  ordenes-service:
+    build:
+      context: ./ordenes
+      dockerfile: Dockerfile
+    container_name: ordenes-service
+    ports:
+      - "8082:8080"
+    depends_on:
+      - catalogo-service
+    networks:
+      - microservices-network
+
   notificaciones-service:
     build:
       context: ./notificaciones
