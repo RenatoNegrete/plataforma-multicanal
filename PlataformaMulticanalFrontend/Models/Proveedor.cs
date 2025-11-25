@@ -5,7 +5,9 @@ namespace PlataformaMulticanalFrontend.Models
 {
     public class Proveedor
     {
+        // CORREGIDO: Ignorar el ID cuando es 0 (nuevo proveedor)
         [JsonPropertyName("id")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public long Id { get; set; }
 
         [Required(ErrorMessage = "El nombre es requerido")]
