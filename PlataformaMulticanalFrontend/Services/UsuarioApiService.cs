@@ -148,11 +148,13 @@ namespace PlataformaMulticanalFrontend.Services
     // DTO para el registro
     public class RegistroDto
     {
+        public string Rol { get; set; } = "usuario";
         public string Email { get; set; }
         public string Password { get; set; }
         public string Nombre { get; set; }
         public string Telefono { get; set; }
         public string Direccion { get; set; }
+        public string? Url { get; set; }
     }
 
     // DTO para login

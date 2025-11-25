@@ -61,16 +61,17 @@ namespace PlataformaMulticanalFrontend.Controllers
                 TempData["Success"] = "¡Bienvenido de nuevo!";
 
                 // Redirigir según el rol seleccionado
-                if (userRole == "admin")
+                switch (userRole)
                 {
-                    return Redirect("/admin/dashboard");
-                }
-                else // userRole == "cliente"
-                {
-                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
-                        return Redirect(returnUrl);
-                    
-                    return RedirectToAction("Index", "Home");
+                    case "admin":
+                        return Redirect("/admin/dashboard");
+                    case "proveedor":
+                        return Redirect("/proveedor/dashboard");
+                    case "cliente":
+                    default:
+                        if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                            return Redirect(returnUrl);
+                        return RedirectToAction("Index", "Home");
                 }
             }
 
@@ -94,7 +95,9 @@ namespace PlataformaMulticanalFrontend.Controllers
             string email, 
             string password,
             string telefono,
-            string direccion)
+            string direccion,
+            string? urlProveedor,
+            string userRole = "usuario")
         {
             // Validaciones básicas
             if (string.IsNullOrWhiteSpace(firstName) || 
@@ -112,13 +115,32 @@ namespace PlataformaMulticanalFrontend.Controllers
                 return View();
             }
 
+            if (userRole == "proveedor")
+            {
+                if (string.IsNullOrWhiteSpace(urlProveedor))
+                {
+                    TempData["Error"] = "La URL del sitio web es obligatoria para proveedores";
+                    return View();
+                }
+
+                // Validar formato de URL
+                if (!Uri.TryCreate(urlProveedor, UriKind.Absolute, out var uriResult) ||
+                    (uriResult.Scheme != Uri.UriSchemeHttp && uriResult.Scheme != Uri.UriSchemeHttps))
+                {
+                    TempData["Error"] = "Por favor ingresa una URL válida (ejemplo: https://tusitio.com)";
+                    return View();
+                }
+            }
+
             var registroDto = new RegistroDto
             {
+                Rol = userRole, 
                 Nombre = $"{firstName} {lastName}",
                 Email = email,
                 Password = password,
                 Telefono = telefono ?? "",
-                Direccion = direccion ?? ""
+                Direccion = direccion ?? "",
+                Url = userRole == "proveedor" ? urlProveedor : null,
             };
 
             var response = await _apiService.RegistrarUsuario(registroDto);

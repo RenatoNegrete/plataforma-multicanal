@@ -16,15 +16,9 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                // Rutas públicas
-                .requestMatchers("/health").permitAll()
-                .requestMatchers("/api/catalogo/**").permitAll()
-                .requestMatchers("/auth/**").permitAll()
-                
-                // Resto requiere autenticación
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
             )
-            .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
+            .oauth2ResourceServer(oauth2 -> oauth2.disable());
 
         return http.build();
     }
