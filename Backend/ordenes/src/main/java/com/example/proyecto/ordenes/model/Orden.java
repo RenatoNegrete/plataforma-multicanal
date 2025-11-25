@@ -2,6 +2,9 @@ package com.example.proyecto.ordenes.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.example.proyecto.ordenes.dto.ItemOrden;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -14,7 +17,7 @@ public class Orden {
     private Long clienteId;
     private LocalDate fecha;
     private Double total;
-    private List<String> productos;
+    private List<ItemOrden> productos;
 
     // Getters y setters
     public String getId() { return id; }
@@ -29,6 +32,6 @@ public class Orden {
     public Double getTotal() { return total; }
     public void setTotal(Double total) { this.total = total; }
 
-    public List<String> getProductos() { return productos; }
-    public void setProductos(List<String> productos) { this.productos = productos; }
+    public List<ItemOrden> getProductos() { return productos; }
+    public void setProductos(List<ItemOrden> productos) { this.productos = productos; }
 }

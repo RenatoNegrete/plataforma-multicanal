@@ -67,7 +67,18 @@ public class AuthController {
                 Void.class
             );
         } else if (rol.equals("proveedor")) {
-            
+            Map<String, Object> extraData = new HashMap<>();
+            extraData.put("nombre", request.get("nombre"));
+            extraData.put("email", request.get("email"));
+            extraData.put("telefono", request.get("telefono"));
+            extraData.put("direccion", request.get("direccion"));
+            extraData.put("url", request.get("url"));
+
+            restTemplate.postForEntity(
+                "http://proveedores-service:8080/api/proveedores",
+                extraData,
+                Void.class
+            );
         }
 
         return ResponseEntity.ok(firebaseData);
