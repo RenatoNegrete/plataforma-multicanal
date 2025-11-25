@@ -1,3 +1,5 @@
+@model List<PlataformaMulticanalFrontend.Models.Proveedor>
+
 @{
     ViewData["Title"] = "Gestión de Proveedores";
 }
@@ -37,10 +39,7 @@
                             <i class="fas fa-tags"></i>
                             <span>Precios</span>
                         </a>
-                        <a asp-controller="Admin" asp-action="Reportes" class="menu-item">
-                            <i class="fas fa-chart-bar"></i>
-                            <span>Reportes</span>
-                        </a>
+                        
                         <hr class="sidebar-divider">
                         <a asp-controller="Home" asp-action="Index" class="menu-item">
                             <i class="fas fa-store"></i>
@@ -57,10 +56,26 @@
                         <h2><i class="fas fa-truck me-3"></i>Gestión de Proveedores</h2>
                         <p>Administra tus proveedores y socios comerciales</p>
                     </div>
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProviderModal">
+                    <button class="btn btn-primary" onclick="abrirModalCrear()">
                         <i class="fas fa-plus me-2"></i>Nuevo Proveedor
                     </button>
                 </div>
+
+                <!-- Alerts -->
+                @if (TempData["Success"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="fas fa-check-circle me-2"></i>@TempData["Success"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                }
+                @if (TempData["Error"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="fas fa-exclamation-circle me-2"></i>@TempData["Error"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                }
 
                 <!-- Stats -->
                 <div class="row g-3 mb-4">
@@ -71,7 +86,7 @@
                             </div>
                             <div class="stat-info">
                                 <span class="stat-label">Total Proveedores</span>
-                                <h3 class="stat-value">124</h3>
+                                <h3 class="stat-value">@ViewBag.TotalProveedores</h3>
                             </div>
                         </div>
                     </div>
@@ -82,7 +97,7 @@
                             </div>
                             <div class="stat-info">
                                 <span class="stat-label">Activos</span>
-                                <h3 class="stat-value">108</h3>
+                                <h3 class="stat-value">@ViewBag.ProveedoresActivos</h3>
                             </div>
                         </div>
                     </div>
@@ -92,19 +107,19 @@
                                 <i class="fas fa-clock"></i>
                             </div>
                             <div class="stat-info">
-                                <span class="stat-label">Pendientes</span>
-                                <h3 class="stat-value">12</h3>
+                                <span class="stat-label">Inactivos</span>
+                                <h3 class="stat-value">@ViewBag.ProveedoresPendientes</h3>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="stat-card">
-                            <div class="stat-icon bg-danger">
-                                <i class="fas fa-star"></i>
+                            <div class="stat-icon bg-info">
+                                <i class="fas fa-globe"></i>
                             </div>
                             <div class="stat-info">
-                                <span class="stat-label">Rating Promedio</span>
-                                <h3 class="stat-value">4.6</h3>
+                                <span class="stat-label">APIs Conectadas</span>
+                                <h3 class="stat-value">@ViewBag.TotalProveedores</h3>
                             </div>
                         </div>
                     </div>
@@ -112,49 +127,74 @@
 
                 <!-- Providers Grid -->
                 <div class="row g-3">
-                    @for (int i = 1; i <= 8; i++)
+                    @if (Model != null && Model.Any())
                     {
-                        <div class="col-md-6 col-lg-3">
-                            <div class="provider-card">
-                                <div class="provider-header">
-                                    <div class="provider-logo">
-                                        <i class="fas fa-building"></i>
-                                    </div>
-                                    <span class="provider-status @(i % 3 == 0 ? "inactive" : "active")">
-                                        @(i % 3 == 0 ? "Inactivo" : "Activo")
-                                    </span>
-                                </div>
-                                <div class="provider-info">
-                                    <h5>Proveedor @i S.A.</h5>
-                                    <p class="provider-category">Tecnología</p>
-                                    <div class="provider-meta">
-                                        <div class="meta-item">
-                                            <i class="fas fa-box"></i>
-                                            <span>@((i * 12)) productos</span>
+                        @foreach (var proveedor in Model)
+                        {
+                            <div class="col-md-6 col-lg-3">
+                                <div class="provider-card">
+                                    <div class="provider-header">
+                                        <div class="provider-logo">
+                                            <i class="fas fa-building"></i>
                                         </div>
-                                        <div class="meta-item">
-                                            <i class="fas fa-star text-warning"></i>
-                                            <span>4.@i</span>
+                                        <span class="provider-status active">
+                                            Activo
+                                        </span>
+                                    </div>
+                                    <div class="provider-info">
+                                        <h5>@proveedor.Nombre</h5>
+                                        <div class="provider-meta">
+                                            <div class="meta-item">
+                                                <i class="fas fa-phone"></i>
+                                                <span>@proveedor.Telefono</span>
+                                            </div>
                                         </div>
+                                        <div class="provider-contact">
+                                            <small>
+                                                <i class="fas fa-envelope me-1"></i>
+                                                @proveedor.Email
+                                            </small>
+                                        </div>
+                                        @if (!string.IsNullOrEmpty(proveedor.Direccion))
+                                        {
+                                            <div class="provider-contact mt-2">
+                                                <small>
+                                                    <i class="fas fa-map-marker-alt me-1"></i>
+                                                    @proveedor.Direccion
+                                                </small>
+                                            </div>
+                                        }
+                                        @if (!string.IsNullOrEmpty(proveedor.Url))
+                                        {
+                                            <div class="provider-url mt-2">
+                                                <small>
+                                                    <i class="fas fa-link me-1"></i>
+                                                    <a href="@proveedor.Url" target="_blank">API Endpoint</a>
+                                                </small>
+                                            </div>
+                                        }
                                     </div>
-                                    <div class="provider-contact">
-                                        <small>
-                                            <i class="fas fa-envelope me-1"></i>
-                                            proveedor@(@i).com
-                                        </small>
+                                    <div class="provider-actions">
+                                        <button class="btn btn-sm btn-outline-primary" onclick="abrirModalEditar(@proveedor.Id)" title="Editar">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-info" onclick="verProductosProveedor(@proveedor.Id)" title="Ver productos">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger" onclick="confirmarEliminar(@proveedor.Id, '@proveedor.Nombre')" title="Eliminar">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
                                     </div>
                                 </div>
-                                <div class="provider-actions">
-                                    <button class="btn btn-sm btn-outline-primary">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-info">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-danger">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="col-12">
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle me-2"></i>
+                                No hay proveedores registrados. ¡Crea el primero!
                             </div>
                         </div>
                     }
@@ -164,41 +204,29 @@
     </div>
 </section>
 
-<!-- Add Provider Modal -->
-<div class="modal fade" id="addProviderModal" tabindex="-1">
+<!-- Modal Container -->
+<div id="modalContainer"></div>
+
+<!-- Confirm Delete Modal -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"><i class="fas fa-plus me-2"></i>Nuevo Proveedor</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title"><i class="fas fa-exclamation-triangle me-2"></i>Confirmar Eliminación</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label class="form-label">Nombre del Proveedor</label>
-                        <input type="text" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Email</label>
-                        <input type="email" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Teléfono</label>
-                        <input type="tel" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Categoría</label>
-                        <select class="form-select">
-                            <option>Tecnología</option>
-                            <option>Moda</option>
-                            <option>Hogar</option>
-                        </select>
-                    </div>
-                </form>
+                <p>¿Estás seguro de que deseas eliminar el proveedor <strong id="proveedorNombreEliminar"></strong>?</p>
+                <p class="text-danger"><small>Esta acción no se puede deshacer.</small></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary">Guardar</button>
+                <form method="post" id="formEliminar" style="display: inline;">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash me-2"></i>Eliminar
+                    </button>
+                </form>
             </div>
         </div>
     </div>
@@ -274,7 +302,7 @@
             font-size: 0.85rem;
             color: #6b7280;
         }
-        .provider-contact {
+        .provider-contact, .provider-url {
             padding-top: 1rem;
             border-top: 1px solid #e5e7eb;
         }
@@ -286,4 +314,52 @@
             justify-content: center;
         }
     </style>
+
+    <script>
+        async function abrirModalCrear() {
+            try {
+                const response = await fetch('@Url.Action("CrearProveedor", "Admin")');
+                const html = await response.text();
+                document.getElementById('modalContainer').innerHTML = html;
+                const modal = new bootstrap.Modal(document.getElementById('crearProveedorModal'));
+                modal.show();
+            } catch (error) {
+                console.error('Error al cargar modal:', error);
+                alert('Error al abrir el formulario');
+            }
+        }
+
+        async function abrirModalEditar(id) {
+            try {
+                const response = await fetch(`@Url.Action("EditarProveedor", "Admin")/${id}`);
+                const html = await response.text();
+                document.getElementById('modalContainer').innerHTML = html;
+                const modal = new bootstrap.Modal(document.getElementById('editarProveedorModal'));
+                modal.show();
+            } catch (error) {
+                console.error('Error al cargar modal:', error);
+                alert('Error al abrir el formulario de edición');
+            }
+        }
+
+        async function verProductosProveedor(id) {
+            try {
+                const response = await fetch(`@Url.Action("VerProductosProveedor", "Admin")/${id}`);
+                const html = await response.text();
+                document.getElementById('modalContainer').innerHTML = html;
+                const modal = new bootstrap.Modal(document.getElementById('productosProveedorModal'));
+                modal.show();
+            } catch (error) {
+                console.error('Error al cargar productos:', error);
+                alert('Error al cargar los productos del proveedor');
+            }
+        }
+
+        function confirmarEliminar(id, nombre) {
+            document.getElementById('proveedorNombreEliminar').textContent = nombre;
+            document.getElementById('formEliminar').action = `@Url.Action("EliminarProveedor", "Admin")/${id}`;
+            const modal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
+            modal.show();
+        }
+    </script>
 }
