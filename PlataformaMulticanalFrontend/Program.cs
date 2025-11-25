@@ -31,6 +31,9 @@ builder.Services.AddScoped<CatalogoService>();
 builder.Services.AddHttpClient<ProveedorService>();
 builder.Services.AddScoped<ProveedorService>();
 
+builder.Services.AddHttpClient<OrdenService>();
+builder.Services.AddScoped<OrdenService>();
+
 // Servicio de usuarios y autenticación
 builder.Services.AddScoped<UsuarioApiService>();
 

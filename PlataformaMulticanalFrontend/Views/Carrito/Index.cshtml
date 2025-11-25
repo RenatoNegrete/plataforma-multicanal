@@ -83,7 +83,7 @@
                         </div>
                     </div>
 
-                    <!-- Cart Item 2 
+                    <!-- Cart Item 2
                     <div class="cart-item">
                         <div class="item-image">
                             <a asp-controller="Catalogo" asp-action="Detalle" asp-route-id="2">
@@ -92,9 +92,7 @@
                         </div>
                         <div class="item-details">
                             <h5 class="item-title">
-                                <a asp-controller="Catalogo" asp-action="Detalle" asp-route-id="2">
                                     Auriculares Bluetooth Premium
-                                </a>
                             </h5>
                             <div class="item-attributes">
                                 <span class="attribute"><i class="fas fa-palette me-1"></i>Color: Negro Mate</span>
@@ -358,7 +356,6 @@
                 return;
             }
 
-            // Simular validación de cupón
             if (code === 'DESCUENTO10') {
                 showCouponMessage('¡Cupón aplicado! Descuento de $200', 'success');
                 document.getElementById('discount').textContent = '-$200';
@@ -371,7 +368,7 @@
         function showCouponMessage(message, type) {
             const messageDiv = document.getElementById('couponMessage');
             messageDiv.textContent = message;
-            messageDiv.className = coupon-message ${type};
+            messageDiv.className = `coupon-message ${type}`;
             messageDiv.style.display = 'block';
             
             setTimeout(() => {
@@ -379,53 +376,51 @@
             }, 3000);
         }
 
-        // Update cart totals
+        // Update totals
         function updateCartTotals() {
             let subtotal = 0;
-            
+
             document.querySelectorAll('.cart-item').forEach(item => {
                 const price = parseFloat(item.querySelector('.price-current').textContent.replace('$', '').replace(',', ''));
                 const quantity = parseInt(item.querySelector('.quantity-input').value);
                 const itemTotal = price * quantity;
-                
-                item.querySelector('.price-total').textContent = Total: $${itemTotal.toLocaleString()};
+
+                item.querySelector('.price-total').textContent = `Total: $${itemTotal.toLocaleString()}`;
                 subtotal += itemTotal;
             });
 
             const discountText = document.getElementById('discount').textContent;
             const discount = parseFloat(discountText.replace('-$', '').replace(',', '')) || 0;
+            
             const tax = Math.round(subtotal * 0.19);
             const total = subtotal - discount + tax;
 
-            document.getElementById('subtotal').textContent = $${subtotal.toLocaleString()};
-            document.getElementById('tax').textContent = $${tax.toLocaleString()};
-            document.getElementById('total').textContent = $${total.toLocaleString()};
+            document.getElementById('subtotal').textContent = `$${subtotal.toLocaleString()}`;
+            document.getElementById('tax').textContent = `$${tax.toLocaleString()}`;
+            document.getElementById('total').textContent = `$${total.toLocaleString()}`;
         }
 
-        // Update items count
         function updateItemsCount() {
             const count = document.querySelectorAll('.cart-item').length;
-            document.querySelector('.items-count').textContent = ${count} producto${count !== 1 ? 's' : ''};
+            document.querySelector('.items-count').textContent =
+                `${count} producto${count !== 1 ? 's' : ''}`;
         }
 
-        // Go to checkout
         function goToCheckout() {
-            window.location.href = '/Checkout';
+            fetch('/Carrito/ProcederAlPago', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Orden creada con éxito");
+                    } else {
+                        alert("Error al procesar la orden");
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("Error inesperado");
+                });
         }
-
-        // Favorite toggle
-        document.querySelectorAll('.btn-favorite').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const icon = this.querySelector('i');
-                icon.classList.toggle('far');
-                icon.classList.toggle('fas');
-                
-                if (icon.classList.contains('fas')) {
-                    this.classList.add('active');
-                } else {
-                    this.classList.remove('active');
-                }
-            });
-        });
     </script>
+
 }

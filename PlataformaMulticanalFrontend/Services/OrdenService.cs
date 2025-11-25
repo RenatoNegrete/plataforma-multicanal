@@ -1,6 +1,7 @@
 using PlataformaMulticanalFrontend.Models;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace PlataformaMulticanalFrontend.Services
 {
@@ -115,5 +116,81 @@ namespace PlataformaMulticanalFrontend.Services
                 throw new Exception($"Error al listar órdenes del cliente: {ex.Message}", ex);
             }
         }
+
+        public async Task<OrdenResponse> CrearOrdenTestAsync(CrearOrdenDto ordenDto)
+        {
+            try
+            {
+                var json = JsonSerializer.Serialize(ordenDto, _jsonOptions);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                Console.WriteLine($"[DEBUG] Creando orden: {json}");
+                
+                var response = await _httpClient.PostAsync(_ordenesApiUrl, content);
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+                Console.WriteLine($"[DEBUG] Response Status: {response.StatusCode}");
+                Console.WriteLine($"[DEBUG] Response Content: {responseContent}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return new OrdenResponse
+                    {
+                        Success = true,
+                        Message = "Orden creada exitosamente",
+                        Data = responseContent
+                    };
+                }
+                else
+                {
+                    return new OrdenResponse
+                    {
+                        Success = false,
+                        Message = $"Error al crear la orden: {response.StatusCode}",
+                        ErrorMessage = responseContent
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[ERROR] Exception al crear orden: {ex.Message}");
+                return new OrdenResponse
+                {
+                    Success = false,
+                    Message = "Error al conectar con el servidor",
+                    ErrorMessage = ex.Message
+                };
+            }
+        }
+    }
+
+    // DTOs
+    public class CrearOrdenDto
+    {
+        [JsonPropertyName("clienteId")]
+        public int ClienteId { get; set; }
+
+        [JsonPropertyName("productos")]
+        public List<ProductoOrdenDto> Productos { get; set; } = new List<ProductoOrdenDto>();
+
+        [JsonPropertyName("clienteMail")]
+        public string ClienteMail { get; set; } = string.Empty;
+    }
+
+    public class ProductoOrdenDto
+    {
+        [JsonPropertyName("productoId")]
+        public string ProductoId { get; set; } = string.Empty;
+
+        [JsonPropertyName("cantidad")]
+        public int Cantidad { get; set; }
+    }
+
+    public class OrdenResponse
+    {
+        public bool Success { get; set; }
+        public string Message { get; set; } = string.Empty;
+        public string? Data { get; set; }
+        public string? ErrorMessage { get; set; }
     }
 }
