@@ -710,5 +710,48 @@ canvas {
         width: 100%;
         justify-content: center;
     }
+    /* Inventory Stats Styles */
+.inventory-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.stat-item {
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border-left: 4px solid #2563eb;
+}
+
+.stat-item-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.stat-item-header i {
+    font-size: 20px;
+}
+
+.stat-item-header span {
+    font-size: 14px;
+    font-weight: 600;
+    color: #6c757d;
+}
+
+.stat-item-value {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1;
+}
+
+.stat-item small {
+    display: block;
+    margin-top: 5px;
+    font-size: 12px;
+}
 }
 }

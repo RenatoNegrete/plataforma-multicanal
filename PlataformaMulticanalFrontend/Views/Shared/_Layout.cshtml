@@ -155,52 +155,41 @@
 
     <!-- Categories Menu -->
     <div class="categories-menu">
-        <div class="container-fluid px-4">
-            <ul class="categories-list">
-                <li class="category-item dropdown">
-                    <a href="#" class="dropdown-toggle">
-                        <i class="fas fa-bars me-2"></i>Todas las Categorías
-                    </a>
-                </li>
-                <li class="category-item">
-                    <a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="ropa">
-                        <i class="fas fa-tshirt me-2"></i>Ropa
-                    </a>
-                </li>
-                <li class="category-item">
-                    <a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="electronica">
-                        <i class="fas fa-laptop me-2"></i>Electrónica
-                    </a>
-                </li>
-                <li class="category-item">
-                    <a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="hogar">
-                        <i class="fas fa-home me-2"></i>Hogar
-                    </a>
-                </li>
-                <li class="category-item">
-                    <a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="tecnologia">
-                        <i class="fas fa-microchip me-2"></i>Tecnología
-                    </a>
-                </li>
-                <li class="category-item">
-                    <a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="deportes">
-                        <i class="fas fa-futbol me-2"></i>Deportes
-                    </a>
-                </li>
-                <li class="category-item">
-                    <a asp-controller="Catalogo" asp-action="Index">
-                        <i class="fas fa-box me-2"></i>Todos los Productos
-                    </a>
-                </li>
-                <li class="category-item ms-auto">
-                    <a asp-controller="Catalogo" asp-action="Ofertas" class="text-danger">
-                        <i class="fas fa-tags me-2"></i>Ofertas del Día
-                    </a>
-                </li>
-            </ul>
-        </div>
+    <div class="container-fluid px-4">
+        <ul class="categories-list">
+            <li class="category-item dropdown">
+                <a href="#" class="dropdown-toggle">
+                    <i class="fas fa-bars me-2"></i>Todas las Categorías
+                </a>
+            </li>
+            <li class="category-item">
+                <a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="fisico">
+                    <i class="fas fa-box me-2"></i>Físico
+                </a>
+            </li>
+            <li class="category-item">
+                <a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="servicio">
+                    <i class="fas fa-concierge-bell me-2"></i>Servicio
+                </a>
+            </li>
+            <li class="category-item">
+                <a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="suscripcion">
+                    <i class="fas fa-calendar-check me-2"></i>Suscripción
+                </a>
+            </li>
+            <li class="category-item">
+                <a asp-controller="Catalogo" asp-action="Index">
+                    <i class="fas fa-th-large me-2"></i>Todos los Productos
+                </a>
+            </li>
+            <li class="category-item ms-auto">
+                <a asp-controller="Catalogo" asp-action="Ofertas" class="text-danger">
+                    <i class="fas fa-tags me-2"></i>Ofertas del Día
+                </a>
+            </li>
+        </ul>
     </div>
-
+</div>
     <!-- Main Content -->
     <main>
         @RenderBody()

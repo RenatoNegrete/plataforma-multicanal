@@ -82,9 +82,7 @@
                         <p>Administra productos, servicios y contenido digital</p>
                     </div>
                     <div class="header-actions">
-                        <button class="btn btn-outline-primary">
-                            <i class="fas fa-download me-2"></i>Exportar
-                        </button>
+                       
                         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">
                             <i class="fas fa-plus me-2"></i>Nuevo Producto
                         </button>
@@ -101,18 +99,7 @@
                                            placeholder="Buscar productos..." 
                                            value="@ViewBag.BuscarTexto">
                                 </div>
-                                <div class="col-md-4">
-                                    <select name="categoria" class="form-select">
-                                        <option value="">Todas las categorías</option>
-                                        @if (ViewBag.Categorias != null)
-                                        {
-                                            @foreach (var cat in ViewBag.Categorias)
-                                            {
-                                                <option value="@cat" selected="@(cat == ViewBag.CategoriaSeleccionada)">@cat</option>
-                                            }
-                                        }
-                                    </select>
-                                </div>
+                               
                                 <div class="col-md-2">
                                     <button type="submit" class="btn btn-outline-secondary w-100">
                                         <i class="fas fa-filter me-2"></i>Filtrar
