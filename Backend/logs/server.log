@@ -1248,3 +1248,188 @@
 2025-11-25 05:49:10,517 INFO  [org.jboss.as] (Controller Boot Thread) WFLYSRV0060: Http management interface listening on http://127.0.0.1:9990/management
 2025-11-25 05:49:10,522 INFO  [org.jboss.as] (Controller Boot Thread) WFLYSRV0051: Admin console listening on http://127.0.0.1:9990
 2025-11-25 05:49:10,527 INFO  [org.jboss.as] (Controller Boot Thread) WFLYSRV0025: WildFly Full 31.0.0.Final (WildFly Core 23.0.1.Final) started in 329374ms - Started 420 of 621 services (323 services are lazy, passive or on-demand) - Server configuration file in use: standalone.xml
+2025-11-25 06:12:02,814 INFO  [org.jboss.as.server] (Thread-1) WFLYSRV0272: Suspending server
+2025-11-25 06:12:02,817 INFO  [org.jboss.as.ejb3] (Thread-1) WFLYEJB0493: Jakarta Enterprise Beans subsystem suspension complete
+2025-11-25 06:12:02,821 INFO  [org.jboss.as.server] (Thread-1) WFLYSRV0220: Server shutdown has been requested via an OS signal
+2025-11-25 06:12:02,842 INFO  [org.jboss.as.connector.deployers.jdbc] (MSC service thread 1-7) WFLYJCA0019: Stopped Driver service with driver-name = usuarios-service.war_com.mysql.cj.jdbc.Driver_8_2
+2025-11-25 06:12:02,851 INFO  [org.jboss.as.mail.extension] (MSC service thread 1-5) WFLYMAIL0002: Unbound mail session [java:jboss/mail/Default]
+2025-11-25 06:12:02,859 INFO  [org.wildfly.extension.undertow] (ServerService Thread Pool -- 112) WFLYUT0022: Unregistered web context: '/usuarios-service' from server 'default-server'
+2025-11-25 06:12:02,877 INFO  [org.wildfly.extension.undertow] (MSC service thread 1-1) WFLYUT0019: Host default-host stopping
+2025-11-25 06:12:02,903 INFO  [org.jboss.as.connector.subsystems.datasources] (MSC service thread 1-2) WFLYJCA0010: Unbound data source [java:jboss/datasources/ExampleDS]
+2025-11-25 06:12:02,904 INFO  [org.jboss.as.jpa] (ServerService Thread Pool -- 112) WFLYJPA0011: Stopping Persistence Unit (phase 2 of 2) Service 'usuarios-service.war#usuariosPU'
+2025-11-25 06:12:02,904 INFO  [org.jboss.as.connector.deployers.jdbc] (MSC service thread 1-8) WFLYJCA0019: Stopped Driver service with driver-name = h2
+2025-11-25 06:12:02,911 INFO  [org.hibernate.orm.beans] (ServerService Thread Pool -- 112) HHH10005004: Stopping BeanContainer : org.hibernate.resource.beans.container.internal.CdiBeanContainerExtendedAccessImpl@1c04bf
+2025-11-25 06:12:02,919 INFO  [org.jboss.as.jpa] (ServerService Thread Pool -- 112) WFLYJPA0011: Stopping Persistence Unit (phase 1 of 2) Service 'usuarios-service.war#usuariosPU'
+2025-11-25 06:12:02,929 INFO  [org.jboss.as.connector.subsystems.datasources] (MSC service thread 1-3) WFLYJCA0010: Unbound data source [java:jboss/datasources/UsuariosDS]
+2025-11-25 06:12:02,941 INFO  [org.jboss.as.connector.deployers.jdbc] (MSC service thread 1-1) WFLYJCA0019: Stopped Driver service with driver-name = mysql
+2025-11-25 06:12:02,966 INFO  [org.wildfly.extension.undertow] (MSC service thread 1-3) WFLYUT0008: Undertow HTTP listener default suspending
+2025-11-25 06:12:02,966 INFO  [org.wildfly.extension.undertow] (MSC service thread 1-4) WFLYUT0008: Undertow HTTPS listener https suspending
+2025-11-25 06:12:02,968 INFO  [org.wildfly.extension.undertow] (MSC service thread 1-4) WFLYUT0007: Undertow HTTPS listener https stopped, was bound to 0.0.0.0:8443
+2025-11-25 06:12:02,971 INFO  [org.wildfly.extension.undertow] (MSC service thread 1-3) WFLYUT0007: Undertow HTTP listener default stopped, was bound to 0.0.0.0:8080
+2025-11-25 06:12:02,976 INFO  [org.wildfly.extension.undertow] (MSC service thread 1-5) WFLYUT0004: Undertow 2.3.10.Final stopping
+2025-11-25 06:12:03,164 INFO  [org.jboss.as.server.deployment] (MSC service thread 1-7) WFLYSRV0028: Stopped deployment usuarios-service.war (runtime-name: usuarios-service.war) in 333ms
+2025-11-25 06:12:03,175 INFO  [org.jboss.as] (MSC service thread 1-2) WFLYSRV0050: WildFly Full 31.0.0.Final (WildFly Core 23.0.1.Final) stopped in 344ms
+2025-11-25 06:53:41,914 INFO  [org.jboss.modules] (main) JBoss Modules version 2.1.2.Final
+2025-11-25 06:54:15,700 INFO  [org.jboss.msc] (main) JBoss MSC version 1.5.2.Final
+2025-11-25 06:54:15,771 INFO  [org.jboss.threads] (main) JBoss Threads version 2.4.0.Final
+2025-11-25 06:54:18,151 INFO  [org.jboss.as] (MSC service thread 1-3) WFLYSRV0049: WildFly Full 31.0.0.Final (WildFly Core 23.0.1.Final) starting
+2025-11-25 06:54:18,160 DEBUG [org.jboss.as.config] (MSC service thread 1-3) Configured system properties:
+	[Standalone] = 
+	file.encoding = UTF-8
+	file.separator = /
+	java.awt.headless = true
+	java.class.path = /opt/jboss/wildfly/jboss-modules.jar
+	java.class.version = 61.0
+	java.home = /opt/java/openjdk
+	java.io.tmpdir = /tmp
+	java.library.path = /usr/java/packages/lib:/usr/lib64:/lib64:/lib:/usr/lib
+	java.net.preferIPv4Stack = true
+	java.runtime.name = OpenJDK Runtime Environment
+	java.runtime.version = 17.0.10+7
+	java.security.manager = allow
+	java.specification.name = Java Platform API Specification
+	java.specification.vendor = Oracle Corporation
+	java.specification.version = 17
+	java.util.logging.manager = org.jboss.logmanager.LogManager
+	java.vendor = Eclipse Adoptium
+	java.vendor.url = https://adoptium.net/
+	java.vendor.url.bug = https://github.com/adoptium/adoptium-support/issues
+	java.vendor.version = Temurin-17.0.10+7
+	java.version = 17.0.10
+	java.version.date = 2024-01-16
+	java.vm.compressedOopsMode = 32-bit
+	java.vm.info = mixed mode, sharing
+	java.vm.name = OpenJDK 64-Bit Server VM
+	java.vm.specification.name = Java Virtual Machine Specification
+	java.vm.specification.vendor = Oracle Corporation
+	java.vm.specification.version = 17
+	java.vm.vendor = Eclipse Adoptium
+	java.vm.version = 17.0.10+7
+	javax.management.builder.initial = org.jboss.as.jmx.PluggableMBeanServerBuilder
+	jboss.bind.address = 0.0.0.0
+	jboss.home.dir = /opt/jboss/wildfly
+	jboss.host.name = afcc40a934a7
+	jboss.modules.system.pkgs = org.jboss.byteman
+	jboss.node.name = afcc40a934a7
+	jboss.qualified.host.name = afcc40a934a7
+	jboss.server.base.dir = /opt/jboss/wildfly/standalone
+	jboss.server.config.dir = /opt/jboss/wildfly/standalone/configuration
+	jboss.server.data.dir = /opt/jboss/wildfly/standalone/data
+	jboss.server.log.dir = /opt/jboss/wildfly/standalone/log
+	jboss.server.name = afcc40a934a7
+	jboss.server.persist.config = true
+	jboss.server.temp.dir = /opt/jboss/wildfly/standalone/tmp
+	jdk.debug = release
+	jdk.serialFilter = maxbytes=10485760;maxdepth=128;maxarray=100000;maxrefs=300000
+	line.separator = 
+
+	logging.configuration = file:/opt/jboss/wildfly/standalone/configuration/logging.properties
+	module.path = /opt/jboss/wildfly/modules
+	native.encoding = UTF-8
+	org.jboss.boot.log.file = /opt/jboss/wildfly/standalone/log/server.log
+	org.jboss.resolver.warning = true
+	os.arch = amd64
+	os.name = Linux
+	os.version = 6.6.87.2-microsoft-standard-WSL2
+	path.separator = :
+	sun.arch.data.model = 64
+	sun.boot.library.path = /opt/java/openjdk/lib
+	sun.cpu.endian = little
+	sun.io.unicode.encoding = UnicodeLittle
+	sun.java.command = /opt/jboss/wildfly/jboss-modules.jar -mp /opt/jboss/wildfly/modules org.jboss.as.standalone -Djboss.home.dir=/opt/jboss/wildfly -Djboss.server.base.dir=/opt/jboss/wildfly/standalone -b 0.0.0.0
+	sun.java.launcher = SUN_STANDARD
+	sun.jnu.encoding = UTF-8
+	sun.management.compiler = HotSpot 64-Bit Tiered Compilers
+	user.country = US
+	user.dir = /opt/jboss
+	user.home = /opt/jboss
+	user.language = en
+	user.name = jboss
+	user.timezone = UTC
+2025-11-25 06:54:18,161 DEBUG [org.jboss.as.config] (MSC service thread 1-3) VM Arguments: -D[Standalone] -Djdk.serialFilter=maxbytes=10485760;maxdepth=128;maxarray=100000;maxrefs=300000 -Xms64m -Xmx512m -XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=256m -Djava.net.preferIPv4Stack=true -Djboss.modules.system.pkgs=org.jboss.byteman -Djava.awt.headless=true --add-exports=java.desktop/sun.awt=ALL-UNNAMED --add-exports=java.naming/com.sun.jndi.ldap=ALL-UNNAMED --add-exports=java.naming/com.sun.jndi.url.ldap=ALL-UNNAMED --add-exports=java.naming/com.sun.jndi.url.ldaps=ALL-UNNAMED --add-exports=jdk.naming.dns/com.sun.jndi.dns=ALL-UNNAMED --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=java.base/java.security=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.management/javax.management=ALL-UNNAMED --add-opens=java.naming/javax.naming=ALL-UNNAMED -Djava.security.manager=allow -Dorg.jboss.boot.log.file=/opt/jboss/wildfly/standalone/log/server.log -Dlogging.configuration=file:/opt/jboss/wildfly/standalone/configuration/logging.properties 
+2025-11-25 06:54:19,797 INFO  [org.jboss.vfs] (MSC service thread 1-2) VFS000002: Failed to clean existing content for temp file provider of type temp. Enable DEBUG level log to find what caused this
+2025-11-25 06:54:37,192 INFO  [org.wildfly.security] (ServerService Thread Pool -- 28) ELY00001: WildFly Elytron version 2.2.3.Final
+2025-11-25 06:54:42,833 INFO  [org.jboss.as.controller.management-deprecated] (ServerService Thread Pool -- 14) WFLYCTL0028: Attribute 'cluster' in the resource at address '/subsystem=ejb3/service=remote' is deprecated, and may be removed in a future version. See the attribute description in the output of the read-resource-description operation to learn more about the deprecation.
+2025-11-25 06:54:48,388 INFO  [org.jboss.as.repository] (ServerService Thread Pool -- 31) WFLYDR0001: Content added at location /opt/jboss/wildfly/standalone/data/content/d2/9e6bebfe70418a5fb5c225ac4676aa65a56212/content
+2025-11-25 06:54:51,227 INFO  [org.jboss.as.server] (Controller Boot Thread) WFLYSRV0039: Creating http management service using socket-binding (management-http)
+2025-11-25 06:54:53,868 INFO  [org.xnio] (MSC service thread 1-8) XNIO version 3.8.12.Final
+2025-11-25 06:54:55,219 INFO  [org.wildfly.extension.elytron.oidc._private] (ServerService Thread Pool -- 53) WFLYOIDC0001: Activating WildFly Elytron OIDC Subsystem
+2025-11-25 06:54:55,224 INFO  [org.wildfly.extension.health] (ServerService Thread Pool -- 54) WFLYHEALTH0001: Activating Base Health Subsystem
+2025-11-25 06:54:55,245 INFO  [org.jboss.as.clustering.infinispan] (ServerService Thread Pool -- 55) WFLYCLINF0001: Activating Infinispan subsystem.
+2025-11-25 06:54:55,740 INFO  [org.wildfly.extension.microprofile.config.smallrye] (ServerService Thread Pool -- 65) WFLYCONF0001: Activating MicroProfile Config Subsystem
+2025-11-25 06:54:55,751 INFO  [org.wildfly.extension.microprofile.jwt.smallrye] (ServerService Thread Pool -- 66) WFLYJWT0001: Activating MicroProfile JWT Subsystem
+2025-11-25 06:54:55,766 WARN  [org.jboss.as.txn] (ServerService Thread Pool -- 74) WFLYTX0013: The node-identifier attribute on the /subsystem=transactions is set to the default value. This is a danger for environments running multiple servers. Please make sure the attribute value is unique.
+2025-11-25 06:54:55,793 INFO  [org.wildfly.extension.metrics] (ServerService Thread Pool -- 64) WFLYMETRICS0001: Activating Base Metrics Subsystem
+2025-11-25 06:54:56,157 INFO  [org.xnio.nio] (MSC service thread 1-8) XNIO NIO Implementation Version 3.8.12.Final
+2025-11-25 06:54:56,157 INFO  [org.jboss.as.naming] (ServerService Thread Pool -- 67) WFLYNAM0001: Activating Naming Subsystem
+2025-11-25 06:54:57,164 INFO  [org.jboss.as.webservices] (ServerService Thread Pool -- 76) WFLYWS0002: Activating WebServices Extension
+2025-11-25 06:54:57,518 INFO  [org.jboss.as.server.deployment] (MSC service thread 1-7) WFLYSRV0027: Starting deployment of "usuarios-service.war" (runtime-name: "usuarios-service.war")
+2025-11-25 06:54:57,802 INFO  [org.jboss.as.jsf] (ServerService Thread Pool -- 62) WFLYJSF0007: Activated the following Jakarta Server Faces Implementations: [main]
+2025-11-25 06:54:59,543 INFO  [org.jboss.as.connector] (MSC service thread 1-3) WFLYJCA0009: Starting Jakarta Connectors Subsystem (WildFly/IronJacamar 3.0.8.Final)
+2025-11-25 06:55:00,029 INFO  [org.jboss.as.connector.subsystems.datasources] (ServerService Thread Pool -- 44) WFLYJCA0004: Deploying JDBC-compliant driver class org.h2.Driver (version 2.2)
+2025-11-25 06:55:00,862 INFO  [org.jboss.as.naming] (MSC service thread 1-1) WFLYNAM0003: Starting Naming Service
+2025-11-25 06:55:00,865 INFO  [org.jboss.as.mail.extension] (MSC service thread 1-2) WFLYMAIL0001: Bound mail session [java:jboss/mail/Default]
+2025-11-25 06:55:00,872 INFO  [org.jboss.as.connector.deployers.jdbc] (MSC service thread 1-2) WFLYJCA0018: Started Driver service with driver-name = h2
+2025-11-25 06:55:00,879 WARN  [org.wildfly.extension.elytron] (MSC service thread 1-4) WFLYELY00023: KeyStore file '/opt/jboss/wildfly/standalone/configuration/application.keystore' does not exist. Used blank.
+2025-11-25 06:55:00,866 INFO  [org.wildfly.extension.io] (ServerService Thread Pool -- 56) WFLYIO001: Worker 'default' has auto-configured to 8 IO threads with 64 max task threads based on your 4 available processors
+2025-11-25 06:55:02,906 WARN  [org.wildfly.extension.elytron] (MSC service thread 1-1) WFLYELY01084: KeyStore /opt/jboss/wildfly/standalone/configuration/application.keystore not found, it will be auto-generated on first use with a self-signed certificate for host localhost
+2025-11-25 06:55:03,729 INFO  [org.wildfly.extension.undertow] (MSC service thread 1-1) WFLYUT0003: Undertow 2.3.10.Final starting
+2025-11-25 06:55:04,257 INFO  [org.jboss.remoting] (MSC service thread 1-8) JBoss Remoting version 5.0.27.Final
+2025-11-25 06:55:06,049 INFO  [org.jboss.as.connector.subsystems.datasources] (ServerService Thread Pool -- 44) WFLYJCA0005: Deploying non-JDBC-compliant driver class com.mysql.cj.jdbc.Driver (version 8.2)
+2025-11-25 06:55:06,053 INFO  [org.jboss.as.connector.deployers.jdbc] (MSC service thread 1-3) WFLYJCA0018: Started Driver service with driver-name = mysql
+2025-11-25 06:55:07,814 INFO  [org.jboss.as.jaxrs] (ServerService Thread Pool -- 57) WFLYRS0016: RESTEasy version 6.2.7.Final
+2025-11-25 06:55:09,839 INFO  [org.jboss.as.ejb3] (MSC service thread 1-1) WFLYEJB0482: Strict pool mdb-strict-max-pool is using a max instance size of 16 (per class), which is derived from the number of CPUs on this host.
+2025-11-25 06:55:09,841 INFO  [org.jboss.as.ejb3] (MSC service thread 1-3) WFLYEJB0493: Jakarta Enterprise Beans subsystem suspension complete
+2025-11-25 06:55:09,840 INFO  [org.jboss.as.ejb3] (MSC service thread 1-5) WFLYEJB0481: Strict pool slsb-strict-max-pool is using a max instance size of 64 (per class), which is derived from thread worker pool sizing.
+2025-11-25 06:55:11,336 INFO  [org.wildfly.extension.undertow] (ServerService Thread Pool -- 75) WFLYUT0014: Creating file handler for path '/opt/jboss/wildfly/welcome-content' with options [directory-listing: 'false', follow-symlink: 'false', case-sensitive: 'true', safe-symlink-paths: '[]']
+2025-11-25 06:55:12,617 INFO  [org.wildfly.extension.undertow] (MSC service thread 1-6) WFLYUT0012: Started server default-server.
+2025-11-25 06:55:12,681 INFO  [org.wildfly.extension.undertow] (MSC service thread 1-8) Queuing requests.
+2025-11-25 06:55:12,688 INFO  [org.wildfly.extension.undertow] (MSC service thread 1-8) WFLYUT0018: Host default-host starting
+2025-11-25 06:55:13,813 INFO  [org.jboss.as.connector.subsystems.datasources] (MSC service thread 1-1) WFLYJCA0001: Bound data source [java:jboss/datasources/UsuariosDS]
+2025-11-25 06:55:13,812 INFO  [org.jboss.as.connector.subsystems.datasources] (MSC service thread 1-5) WFLYJCA0001: Bound data source [java:jboss/datasources/ExampleDS]
+2025-11-25 06:55:15,491 INFO  [org.wildfly.extension.undertow] (MSC service thread 1-6) WFLYUT0006: Undertow HTTP listener default listening on 0.0.0.0:8080
+2025-11-25 06:55:15,493 INFO  [org.wildfly.extension.undertow] (MSC service thread 1-4) WFLYUT0006: Undertow HTTPS listener https listening on 0.0.0.0:8443
+2025-11-25 06:55:29,316 INFO  [org.jboss.as.server.deployment.scanner] (MSC service thread 1-5) WFLYDS0013: Started FileSystemDeploymentService for directory /opt/jboss/wildfly/standalone/deployments
+2025-11-25 06:55:41,408 INFO  [org.jboss.ws.common.management] (MSC service thread 1-7) JBWS022052: Starting JBossWS 7.0.0.Final (Apache CXF 4.0.0) 
+2025-11-25 06:56:17,843 INFO  [org.jboss.as.jpa] (MSC service thread 1-1) WFLYJPA0002: Read persistence.xml for usuariosPU
+2025-11-25 06:56:25,800 INFO  [org.jipijapa] (MSC service thread 1-6) JIPIORMV6020260: Second level cache enabled for usuarios-service.war#usuariosPU
+2025-11-25 06:56:30,092 INFO  [org.jboss.weld.deployer] (MSC service thread 1-2) WFLYWELD0003: Processing weld deployment usuarios-service.war
+2025-11-25 06:56:35,965 INFO  [org.hibernate.validator.internal.util.Version] (MSC service thread 1-2) HV000001: Hibernate Validator 8.0.1.Final
+2025-11-25 06:56:50,199 INFO  [org.jipijapa] (MSC service thread 1-1) JIPIORMV6020260: Second level cache enabled for usuarios-service.war#usuariosPU
+2025-11-25 06:56:50,439 INFO  [org.jboss.as.connector.deployers.jdbc] (MSC service thread 1-1) WFLYJCA0005: Deploying non-JDBC-compliant driver class com.mysql.cj.jdbc.Driver (version 8.2)
+2025-11-25 06:56:50,504 INFO  [org.jboss.weld.Version] (MSC service thread 1-1) WELD-000900: 5.1.2 (Final)
+2025-11-25 06:56:50,890 INFO  [org.jboss.as.connector.deployers.jdbc] (MSC service thread 1-4) WFLYJCA0018: Started Driver service with driver-name = usuarios-service.war_com.mysql.cj.jdbc.Driver_8_2
+2025-11-25 06:56:51,007 INFO  [org.infinispan.CONTAINER] (ServerService Thread Pool -- 80) ISPN000556: Starting user marshaller 'org.wildfly.clustering.infinispan.marshalling.jboss.JBossMarshaller'
+2025-11-25 06:56:54,737 INFO  [org.jboss.as.jpa] (ServerService Thread Pool -- 80) WFLYJPA0010: Starting Persistence Unit (phase 1 of 2) Service 'usuarios-service.war#usuariosPU'
+2025-11-25 06:56:54,763 INFO  [org.hibernate.jpa.internal.util.LogHelper] (ServerService Thread Pool -- 80) HHH000204: Processing PersistenceUnitInfo [name: usuariosPU]
+2025-11-25 06:56:56,259 INFO  [org.hibernate.Version] (ServerService Thread Pool -- 80) HHH000412: Hibernate ORM core version 6.4.2.Final
+2025-11-25 06:56:59,444 WARN  [org.hibernate.orm.deprecation] (ServerService Thread Pool -- 80) HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-11-25 06:56:59,473 INFO  [org.hibernate.cache.internal.RegionFactoryInitiator] (ServerService Thread Pool -- 80) HHH000025: Second-level cache region factory [org.infinispan.hibernate.cache.v62.InfinispanRegionFactory]
+2025-11-25 06:56:59,881 INFO  [org.hibernate.envers.boot.internal.EnversServiceImpl] (ServerService Thread Pool -- 80) Envers integration enabled? : true
+2025-11-25 06:57:01,330 INFO  [org.jboss.as.jpa] (ServerService Thread Pool -- 80) WFLYJPA0010: Starting Persistence Unit (phase 2 of 2) Service 'usuarios-service.war#usuariosPU'
+2025-11-25 06:57:15,290 INFO  [org.jboss.resteasy.resteasy_jaxrs.i18n] (ServerService Thread Pool -- 84) RESTEASY002225: Deploying jakarta.ws.rs.core.Application: class org.example.demo3.HelloApplication$Proxy$_$$_WeldClientProxy
+2025-11-25 06:57:15,492 INFO  [org.wildfly.extension.undertow] (ServerService Thread Pool -- 84) WFLYUT0021: Registered web context: '/usuarios-service' for server 'default-server'
+2025-11-25 06:57:15,796 INFO  [org.jboss.as.server] (ServerService Thread Pool -- 45) WFLYSRV0010: Deployed "usuarios-service.war" (runtime-name : "usuarios-service.war")
+2025-11-25 06:57:15,901 ERROR [org.jboss.as.controller] (Controller Boot Thread) WFLYCTL0056: Could not rename /opt/jboss/wildfly/standalone/configuration/standalone_xml_history/current to /opt/jboss/wildfly/standalone/configuration/standalone_xml_history/20251125-065715898: java.nio.file.DirectoryNotEmptyException: /opt/jboss/wildfly/standalone/configuration/standalone_xml_history/current
+	at java.base/sun.nio.fs.UnixCopyFile.ensureEmptyDir(UnixCopyFile.java:382)
+	at java.base/sun.nio.fs.UnixCopyFile.move(UnixCopyFile.java:483)
+	at java.base/sun.nio.fs.UnixFileSystemProvider.move(UnixFileSystemProvider.java:266)
+	at java.base/java.nio.file.Files.move(Files.java:1432)
+	at org.jboss.as.controller@23.0.1.Final//org.jboss.as.controller.persistence.ConfigurationFile.forcedMove(ConfigurationFile.java:817)
+	at org.jboss.as.controller@23.0.1.Final//org.jboss.as.controller.persistence.ConfigurationFile.createHistoryDirectory(ConfigurationFile.java:699)
+	at org.jboss.as.controller@23.0.1.Final//org.jboss.as.controller.persistence.ConfigurationFile.successfulBoot(ConfigurationFile.java:542)
+	at org.jboss.as.controller@23.0.1.Final//org.jboss.as.controller.persistence.BackupXmlConfigurationPersister.successfulBoot(BackupXmlConfigurationPersister.java:78)
+	at org.jboss.as.controller@23.0.1.Final//org.jboss.as.controller.AbstractControllerService.finishBoot(AbstractControllerService.java:487)
+	at org.jboss.as.server@23.0.1.Final//org.jboss.as.server.ServerService.finishBoot(ServerService.java:438)
+	at org.jboss.as.server@23.0.1.Final//org.jboss.as.server.ServerService.boot(ServerService.java:398)
+	at org.jboss.as.controller@23.0.1.Final//org.jboss.as.controller.AbstractControllerService$1.run(AbstractControllerService.java:362)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+
+2025-11-25 06:57:15,903 WARN  [org.jboss.as.controller] (Controller Boot Thread) WFLYCTL0414: Could not create a timestamped backup of current history dir /opt/jboss/wildfly/standalone/configuration/standalone_xml_history/current, so it may still include versions from the previous boot.
+2025-11-25 06:57:15,912 INFO  [org.jboss.as.server] (Controller Boot Thread) WFLYSRV0212: Resuming server
+2025-11-25 06:57:15,917 INFO  [org.jboss.as] (Controller Boot Thread) WFLYSRV0060: Http management interface listening on http://127.0.0.1:9990/management
+2025-11-25 06:57:15,918 INFO  [org.jboss.as] (Controller Boot Thread) WFLYSRV0051: Admin console listening on http://127.0.0.1:9990
+2025-11-25 06:57:15,922 INFO  [org.jboss.as] (Controller Boot Thread) WFLYSRV0025: WildFly Full 31.0.0.Final (WildFly Core 23.0.1.Final) started in 225378ms - Started 420 of 621 services (323 services are lazy, passive or on-demand) - Server configuration file in use: standalone.xml
+2025-11-25 07:05:03,017 INFO  [stdout] (default task-1) Hibernate: select u1_0.id,u1_0.direccion,u1_0.email,u1_0.fecha_registro,u1_0.nombre,u1_0.telefono from usuarios u1_0 where u1_0.email=?
+2025-11-25 07:05:03,895 INFO  [stdout] (default task-1) Hibernate: insert into usuarios (direccion,email,fecha_registro,nombre,telefono) values (?,?,?,?,?)
+2025-11-25 07:06:36,696 INFO  [stdout] (default task-1) Hibernate: select u1_0.id,u1_0.direccion,u1_0.email,u1_0.fecha_registro,u1_0.nombre,u1_0.telefono from usuarios u1_0

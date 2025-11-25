@@ -22,6 +22,7 @@ namespace PlataformaMulticanalFrontend.Services
             {
                 var requestData = new
                 {
+                    rol = request.Rol,
                     email = request.Email,
                     password = request.Password,
                     nombre = request.Nombre,
