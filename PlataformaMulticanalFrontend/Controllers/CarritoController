@@ -1,0 +1,287 @@
+using Microsoft.AspNetCore.Mvc;
+using PlataformaMulticanalFrontend.Services;
+using PlataformaMulticanalFrontend.Models;
+using System.Text.Json;
+
+namespace PlataformaMulticanalFrontend.Controllers
+{
+    public class CarritoController : Controller
+    {
+        private readonly CatalogoService _catalogoService;
+        private readonly ILogger<CarritoController> _logger;
+        private const string COOKIE_CARRITO = "carrito_productos";
+
+        public CarritoController(CatalogoService catalogoService, ILogger<CarritoController> logger)
+        {
+            _catalogoService = catalogoService;
+            _logger = logger;
+        }
+
+        // GET: Carrito/Index
+        public async Task<IActionResult> Index()
+        {
+            ViewData["Title"] = "Mi Carrito de Compras";
+            
+            try
+            {
+                // Obtener IDs del carrito desde la cookie
+                var carritoIds = ObtenerCarritoIds();
+                
+                _logger.LogInformation("Carrito tiene {Count} items", carritoIds.Count);
+                
+                if (carritoIds.Count == 0)
+                {
+                    return View(new List<ItemCarrito>());
+                }
+
+                // Obtener productos del carrito
+                var itemsCarrito = new List<ItemCarrito>();
+                
+                foreach (var item in carritoIds)
+                {
+                    try
+                    {
+                        _logger.LogInformation("Obteniendo producto {ProductoId}", item.ProductoId);
+                        var producto = await _catalogoService.ObtenerPorIdAsync(item.ProductoId);
+                        
+                        if (producto != null)
+                        {
+                            itemsCarrito.Add(new ItemCarrito
+                            {
+                                Producto = producto,
+                                Cantidad = item.Cantidad
+                            });
+                            _logger.LogInformation("Producto {Nombre} agregado al carrito", producto.Nombre);
+                        }
+                        else
+                        {
+                            _logger.LogWarning("Producto {ProductoId} no encontrado", item.ProductoId);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "Error al obtener producto {ProductoId}", item.ProductoId);
+                    }
+                }
+
+                _logger.LogInformation("Se cargaron {Count} productos en el carrito", itemsCarrito.Count);
+                return View(itemsCarrito);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al cargar el carrito");
+                TempData["Error"] = "Error al cargar el carrito";
+                return View(new List<ItemCarrito>());
+            }
+        }
+
+        // POST: Carrito/Agregar
+        [HttpPost]
+        public IActionResult Agregar(string id, int cantidad = 1)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                return Json(new { success = false, message = "ID de producto inválido" });
+            }
+
+            try
+            {
+                var carritoIds = ObtenerCarritoIds();
+                
+                // Verificar si el producto ya está en el carrito
+                var itemExistente = carritoIds.FirstOrDefault(x => x.ProductoId == id);
+                
+                if (itemExistente != null)
+                {
+                    // Actualizar cantidad
+                    itemExistente.Cantidad += cantidad;
+                }
+                else
+                {
+                    // Agregar nuevo item
+                    carritoIds.Add(new CarritoItem { ProductoId = id, Cantidad = cantidad });
+                }
+
+                GuardarCarritoIds(carritoIds);
+
+                return Json(new { 
+                    success = true, 
+                    message = "Producto agregado al carrito",
+                    cantidadItems = carritoIds.Count
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al agregar producto al carrito");
+                return Json(new { success = false, message = "Error al agregar el producto" });
+            }
+        }
+
+        // POST: Carrito/ActualizarCantidad
+        [HttpPost]
+        public IActionResult ActualizarCantidad(string id, int cantidad)
+        {
+            if (string.IsNullOrWhiteSpace(id) || cantidad < 0)
+            {
+                return Json(new { success = false, message = "Datos inválidos" });
+            }
+
+            try
+            {
+                var carritoIds = ObtenerCarritoIds();
+                var item = carritoIds.FirstOrDefault(x => x.ProductoId == id);
+
+                if (item != null)
+                {
+                    if (cantidad == 0)
+                    {
+                        // Eliminar del carrito
+                        carritoIds.Remove(item);
+                    }
+                    else
+                    {
+                        item.Cantidad = cantidad;
+                    }
+
+                    GuardarCarritoIds(carritoIds);
+
+                    return Json(new { success = true, cantidadItems = carritoIds.Count });
+                }
+
+                return Json(new { success = false, message = "Producto no encontrado en el carrito" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al actualizar cantidad");
+                return Json(new { success = false, message = "Error al actualizar la cantidad" });
+            }
+        }
+
+        // POST: Carrito/Eliminar
+        [HttpPost]
+        public IActionResult Eliminar(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                return Json(new { success = false, message = "ID de producto inválido" });
+            }
+
+            try
+            {
+                var carritoIds = ObtenerCarritoIds();
+                var item = carritoIds.FirstOrDefault(x => x.ProductoId == id);
+
+                if (item != null)
+                {
+                    carritoIds.Remove(item);
+                    GuardarCarritoIds(carritoIds);
+
+                    return Json(new { 
+                        success = true, 
+                        message = "Producto eliminado del carrito",
+                        cantidadItems = carritoIds.Count
+                    });
+                }
+
+                return Json(new { success = false, message = "Producto no encontrado en el carrito" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al eliminar producto");
+                return Json(new { success = false, message = "Error al eliminar el producto" });
+            }
+        }
+
+        // GET: Carrito/ObtenerCantidad
+        [HttpGet]
+        public IActionResult ObtenerCantidad()
+        {
+            try
+            {
+                var carritoIds = ObtenerCarritoIds();
+                return Json(new { cantidad = carritoIds.Count });
+            }
+            catch
+            {
+                return Json(new { cantidad = 0 });
+            }
+        }
+
+        // POST: Carrito/Limpiar
+        [HttpPost]
+        public IActionResult Limpiar()
+        {
+            try
+            {
+                Response.Cookies.Delete(COOKIE_CARRITO);
+                return Json(new { success = true, message = "Carrito vaciado" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al limpiar el carrito");
+                return Json(new { success = false, message = "Error al limpiar el carrito" });
+            }
+        }
+
+        #region Métodos Privados
+
+        private List<CarritoItem> ObtenerCarritoIds()
+        {
+            try
+            {
+                var cookieValue = Request.Cookies[COOKIE_CARRITO];
+                
+                if (string.IsNullOrWhiteSpace(cookieValue))
+                {
+                    return new List<CarritoItem>();
+                }
+
+                return JsonSerializer.Deserialize<List<CarritoItem>>(cookieValue) ?? new List<CarritoItem>();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al leer el carrito de las cookies");
+                return new List<CarritoItem>();
+            }
+        }
+
+        private void GuardarCarritoIds(List<CarritoItem> items)
+        {
+            try
+            {
+                var json = JsonSerializer.Serialize(items);
+                
+                var cookieOptions = new CookieOptions
+                {
+                    Expires = DateTimeOffset.Now.AddDays(7),
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.Strict
+                };
+
+                Response.Cookies.Append(COOKIE_CARRITO, json, cookieOptions);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al guardar el carrito en las cookies");
+                throw;
+            }
+        }
+
+        #endregion
+    }
+
+    // Clase auxiliar para el item del carrito en la cookie
+    public class CarritoItem
+    {
+        public string ProductoId { get; set; } = string.Empty;
+        public int Cantidad { get; set; }
+    }
+
+    // Clase para mostrar en la vista
+    public class ItemCarrito
+    {
+        public Producto Producto { get; set; } = null!;
+        public int Cantidad { get; set; }
+    }
+}
