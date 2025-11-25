@@ -1,5 +1,4 @@
 @model List<PlataformaMulticanalFrontend.Models.Producto>
-
 @{
     ViewData["Title"] = "Gestión de Precios";
     
@@ -22,11 +21,9 @@
     var rango500_1000 = Model.Count(p => p.Precio > 500 && p.Precio <= 1000);
     var rango1000Plus = Model.Count(p => p.Precio > 1000);
 }
-
 @section Styles {
     <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
 }
-
 <!-- Admin Section -->
 <section class="admin-section">
     <div class="container-fluid px-4">
@@ -59,10 +56,7 @@
                             <i class="fas fa-tags"></i>
                             <span>Precios</span>
                         </a>
-                        <a asp-controller="Admin" asp-action="Reportes" class="menu-item">
-                            <i class="fas fa-chart-bar"></i>
-                            <span>Reportes</span>
-                        </a>
+                        
                         <hr class="sidebar-divider">
                         <a asp-controller="Home" asp-action="Index" class="menu-item">
                             <i class="fas fa-store"></i>
@@ -71,7 +65,6 @@
                     </nav>
                 </div>
             </div>
-
             <!-- Main Content -->
             <div class="col-lg-10">
                 <!-- Page Header -->
@@ -86,7 +79,6 @@
                         </a>
                     </div>
                 </div>
-
                 <!-- Quick Stats -->
                 <div class="row g-3 mb-4">
                     <div class="col-lg-3 col-md-6">
@@ -146,7 +138,6 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- Filters and Search -->
                 <div class="admin-card mb-4">
                     <div class="card-body">
@@ -190,7 +181,6 @@
                         </form>
                     </div>
                 </div>
-
                 <!-- Products Table -->
                 <div class="admin-card mb-4">
                     <div class="card-header">
@@ -270,13 +260,11 @@
                                                 </td>
                                                 <td>
                                                     <div class="btn-group btn-group-sm">
-                                                        <a asp-controller="Admin" 
-                                                           asp-action="EditarProducto" 
-                                                           asp-route-id="@producto.Id" 
-                                                           class="btn btn-outline-primary"
-                                                           title="Editar precio">
+                                                        <button class="btn btn-outline-primary" 
+                                                                onclick="abrirModalEditar('@producto.Id', '@producto.Nombre', @producto.Precio, @producto.Stock, '@producto.Categoria', '@(string.IsNullOrEmpty(producto.Imagen) ? "" : producto.Imagen)')"
+                                                                title="Editar precio">
                                                             <i class="fas fa-edit"></i>
-                                                        </a>
+                                                        </button>
                                                         <button class="btn btn-outline-info" 
                                                                 onclick="verDetalles('@producto.Id')"
                                                                 title="Ver detalles">
@@ -310,7 +298,6 @@
                         }
                     </div>
                 </div>
-
                 <!-- Price Distribution -->
                 <div class="row g-3">
                     <div class="col-lg-6">
@@ -370,7 +357,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-lg-6">
                         <div class="admin-card">
                             <div class="card-header">
@@ -410,14 +396,98 @@
     </div>
 </section>
 
+<!-- Modal de Edición -->
+<div class="modal fade" id="modalEditarProducto" tabindex="-1" aria-labelledby="modalEditarProductoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditarProductoLabel">
+                    <i class="fas fa-edit me-2"></i>Editar Producto
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="formEditarProducto" method="post" asp-controller="Admin" asp-action="EditarProducto">
+                <div class="modal-body">
+                    <input type="hidden" id="editId" name="id" />
+                    <input type="hidden" id="editIdProducto" name="producto.Id" />
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <img id="editImagen" src="" alt="Producto" class="img-fluid rounded mb-3" style="max-height: 200px; object-fit: cover;">
+                        </div>
+                        <div class="col-md-6">
+                            <h5 id="editNombreDisplay" class="mb-3"></h5>
+                            <p class="text-muted">ID: <span id="editIdDisplay"></span></p>
+                        </div>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="editNombre" class="form-label fw-bold">Nombre del Producto</label>
+                            <input type="text" class="form-control" id="editNombre" name="producto.Nombre" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="editCategoria" class="form-label fw-bold">Categoría</label>
+                            <input type="text" class="form-control" id="editCategoria" name="producto.Categoria">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="editPrecio" class="form-label fw-bold">Precio</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="editPrecio" name="producto.Precio" min="0" step="0.01" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="editStock" class="form-label fw-bold">Stock</label>
+                            <input type="number" class="form-control" id="editStock" name="producto.Stock" min="0" required>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="editImagenUrl" class="form-label fw-bold">URL de Imagen</label>
+                            <input type="url" class="form-control" id="editImagenUrl" name="producto.Imagen">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-2"></i>Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-2"></i>Guardar Cambios
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <script>
+        function abrirModalEditar(id, nombre, precio, stock, categoria, imagen) {
+            document.getElementById('editId').value = id;
+            document.getElementById('editIdProducto').value = id;
+            document.getElementById('editIdDisplay').textContent = id;
+            document.getElementById('editNombre').value = nombre;
+            document.getElementById('editNombreDisplay').textContent = nombre;
+            document.getElementById('editPrecio').value = precio;
+            document.getElementById('editStock').value = stock;
+            document.getElementById('editCategoria').value = categoria || '';
+            document.getElementById('editImagenUrl').value = imagen || '';
+            
+            const imgElement = document.getElementById('editImagen');
+            imgElement.src = imagen || 'https://via.placeholder.com/200';
+            
+            const modal = new bootstrap.Modal(document.getElementById('modalEditarProducto'));
+            modal.show();
+        }
+
         function verDetalles(id) {
             alert('Ver detalles del producto ID: ' + id);
-            // Aquí puedes implementar un modal con más detalles
         }
         
-        // Actualizar select con valor guardado
         document.addEventListener('DOMContentLoaded', function() {
             const rangoSelect = document.querySelector('select[name="rango"]');
             const urlParams = new URLSearchParams(window.location.search);
@@ -429,7 +499,6 @@
         });
     </script>
     
-
     <style>
         .product-thumb {
             border: 1px solid #dee2e6;
@@ -439,15 +508,6 @@
             padding: 10px;
             background: #f8f9fa;
             border-radius: 8px;
-        }
-        
-        @@media print {
-            .admin-sidebar,
-            .admin-header .header-actions,
-            .btn,
-            .admin-card:last-child {
-                display: none !important;
-            }
         }
     </style>
 }

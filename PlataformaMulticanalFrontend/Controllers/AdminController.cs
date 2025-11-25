@@ -7,10 +7,12 @@ namespace PlataformaMulticanalFrontend.Controllers
     public class AdminController : Controller
     {
         private readonly CatalogoService _catalogoService;
+        private readonly ProveedorService _proveedorService;
 
-        public AdminController(CatalogoService catalogoService)
+       public AdminController(CatalogoService catalogoService, ProveedorService proveedorService)
         {
             _catalogoService = catalogoService;
+            _proveedorService = proveedorService;
         }
 
         // Middleware para verificar sesión de admin
@@ -339,35 +341,235 @@ namespace PlataformaMulticanalFrontend.Controllers
             return RedirectToAction(nameof(Catalogo));
         }
 
-        // GET: Admin/Proveedores
-        public async Task<IActionResult> Proveedores(string? proveedorId)
-        {
-            if (!VerificarSesionAdmin())
-            {
-                TempData["Error"] = "Debes iniciar sesión como administrador";
-                return RedirectToAction("Login", "Account");
-            }
+     // GET: Admin/Proveedores
+public async Task<IActionResult> Proveedores(long? proveedorId)
+{
+    if (!VerificarSesionAdmin())
+    {
+        TempData["Error"] = "Debes iniciar sesión como administrador";
+        return RedirectToAction("Login", "Account");
+    }
 
-            ViewData["Title"] = "Gestión de Proveedores";
+    ViewData["Title"] = "Gestión de Proveedores";
+    
+    try
+    {
+        // Obtener todos los proveedores
+        var proveedores = await _proveedorService.ObtenerTodosAsync();
+        
+        // Obtener estadísticas
+        var stats = await _proveedorService.ObtenerEstadisticasAsync();
+        ViewBag.TotalProveedores = stats.TotalProveedores;
+        ViewBag.ProveedoresActivos = stats.ProveedoresActivos;
+        ViewBag.ProveedoresPendientes = stats.ProveedoresPendientes;
+        ViewBag.RatingPromedio = Math.Round(stats.RatingPromedio, 1);
+        
+        // Si se solicita ver productos de un proveedor específico
+        if (proveedorId.HasValue)
+        {
+            var productos = await _proveedorService.ObtenerProductosProveedorAsync(proveedorId.Value);
+            ViewBag.ProductosProveedor = productos;
+            ViewBag.ProveedorId = proveedorId;
             
-            try
-            {
-                if (!string.IsNullOrEmpty(proveedorId))
-                {
-                    var productos = await _catalogoService.ObtenerPorProveedorAsync(proveedorId);
-                    ViewBag.ProductosProveedor = productos;
-                    ViewBag.ProveedorId = proveedorId;
-                }
-                
-                return View();
-            }
-            catch (Exception ex)
-            {
-                TempData["Error"] = $"Error al cargar proveedores: {ex.Message}";
-                return View();
-            }
+            var proveedor = proveedores.FirstOrDefault(p => p.Id == proveedorId.Value);
+            ViewBag.ProveedorNombre = proveedor?.Nombre;
+        }
+        
+        return View(proveedores);
+    }
+    catch (Exception ex)
+    {
+        TempData["Error"] = $"Error al cargar proveedores: {ex.Message}";
+        return View(new List<Proveedor>());
+    }
+}
+
+// GET: Admin/CrearProveedor
+[HttpGet]
+public IActionResult CrearProveedor()
+{
+    if (!VerificarSesionAdmin())
+    {
+        return Unauthorized();
+    }
+
+    return PartialView("_CrearProveedorModal", new Proveedor());
+}
+
+// POST: Admin/CrearProveedor
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> CrearProveedor(Proveedor proveedor)
+{
+    if (!VerificarSesionAdmin())
+    {
+        TempData["Error"] = "No tienes permisos para realizar esta acción";
+        return RedirectToAction("Login", "Account");
+    }
+
+    try
+    {
+        // Validar campos requeridos manualmente
+        if (string.IsNullOrWhiteSpace(proveedor.Nombre) || 
+            string.IsNullOrWhiteSpace(proveedor.Email) || 
+            string.IsNullOrWhiteSpace(proveedor.Telefono) || 
+            string.IsNullOrWhiteSpace(proveedor.Url))
+        {
+            TempData["Error"] = "Por favor completa todos los campos requeridos (Nombre, Email, Teléfono, URL)";
+            return RedirectToAction(nameof(Proveedores));
         }
 
+        var resultado = await _proveedorService.CrearAsync(proveedor);
+        
+        if (resultado != null)
+        {
+            TempData["Success"] = $"Proveedor '{proveedor.Nombre}' creado exitosamente";
+            return RedirectToAction(nameof(Proveedores));
+        }
+        
+        TempData["Error"] = "Error al crear el proveedor. Verifica los datos e intenta nuevamente.";
+    }
+    catch (Exception ex)
+    {
+        TempData["Error"] = $"Error al crear el proveedor: {ex.Message}";
+    }
+    
+    return RedirectToAction(nameof(Proveedores));
+}
+
+// GET: Admin/EditarProveedor/id
+[HttpGet]
+public async Task<IActionResult> EditarProveedor(long id)
+{
+    if (!VerificarSesionAdmin())
+    {
+        return Unauthorized();
+    }
+
+    try
+    {
+        var proveedor = await _proveedorService.ObtenerPorIdAsync(id);
+        
+        if (proveedor == null)
+        {
+            return NotFound();
+        }
+        
+        return PartialView("_EditarProveedorModal", proveedor);
+    }
+    catch (Exception ex)
+    {
+        TempData["Error"] = $"Error al cargar el proveedor: {ex.Message}";
+        return RedirectToAction(nameof(Proveedores));
+    }
+}
+
+// POST: Admin/EditarProveedor/id
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> EditarProveedor(long id, Proveedor proveedor)
+{
+    if (!VerificarSesionAdmin())
+    {
+        TempData["Error"] = "No tienes permisos para realizar esta acción";
+        return RedirectToAction("Login", "Account");
+    }
+
+    try
+    {
+        // Validar campos requeridos manualmente
+        if (string.IsNullOrWhiteSpace(proveedor.Nombre) || 
+            string.IsNullOrWhiteSpace(proveedor.Email) || 
+            string.IsNullOrWhiteSpace(proveedor.Telefono) || 
+            string.IsNullOrWhiteSpace(proveedor.Url))
+        {
+            TempData["Error"] = "Por favor completa todos los campos requeridos (Nombre, Email, Teléfono, URL)";
+            return RedirectToAction(nameof(Proveedores));
+        }
+
+        var resultado = await _proveedorService.ActualizarAsync(id, proveedor);
+        
+        if (resultado != null)
+        {
+            TempData["Success"] = $"Proveedor '{proveedor.Nombre}' actualizado exitosamente";
+            return RedirectToAction(nameof(Proveedores));
+        }
+        
+        TempData["Error"] = "No se pudo actualizar el proveedor. Verifica que exista.";
+    }
+    catch (Exception ex)
+    {
+        TempData["Error"] = $"Error al actualizar el proveedor: {ex.Message}";
+    }
+    
+    return RedirectToAction(nameof(Proveedores));
+}
+
+// POST: Admin/EliminarProveedor/id
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> EliminarProveedor(long id)
+{
+    if (!VerificarSesionAdmin())
+    {
+        TempData["Error"] = "No tienes permisos para realizar esta acción";
+        return RedirectToAction("Login", "Account");
+    }
+
+    try
+    {
+        var proveedor = await _proveedorService.ObtenerPorIdAsync(id);
+        
+        if (proveedor == null)
+        {
+            TempData["Error"] = "El proveedor no existe";
+            return RedirectToAction(nameof(Proveedores));
+        }
+
+        var resultado = await _proveedorService.EliminarAsync(id);
+        
+        if (resultado)
+        {
+            TempData["Success"] = $"Proveedor '{proveedor.Nombre}' eliminado exitosamente";
+        }
+        else
+        {
+            TempData["Error"] = "Error al eliminar el proveedor";
+        }
+    }
+    catch (Exception ex)
+    {
+        TempData["Error"] = $"Error al eliminar el proveedor: {ex.Message}";
+    }
+    
+    return RedirectToAction(nameof(Proveedores));
+}
+
+// GET: Admin/VerProductosProveedor/id
+[HttpGet]
+public async Task<IActionResult> VerProductosProveedor(long id)
+{
+    if (!VerificarSesionAdmin())
+    {
+        return Unauthorized();
+    }
+
+    try
+    {
+        var productos = await _proveedorService.ObtenerProductosProveedorAsync(id);
+        var proveedor = await _proveedorService.ObtenerPorIdAsync(id);
+        
+        ViewBag.ProveedorNombre = proveedor?.Nombre;
+        ViewBag.ProveedorId = id;
+        
+        return PartialView("_ProductosProveedorModal", productos);
+    }
+    catch (Exception ex)
+    {
+        TempData["Error"] = $"Error al cargar productos del proveedor: {ex.Message}";
+        return RedirectToAction(nameof(Proveedores));
+    }
+}
         // GET: Admin/Inventarios
         public async Task<IActionResult> Inventarios()
         {
