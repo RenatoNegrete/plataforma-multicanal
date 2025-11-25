@@ -1,5 +1,6 @@
 package com.example.proyecto.ordenes.controller;
 
+import com.example.proyecto.ordenes.dto.OrdenRequest;
 import com.example.proyecto.ordenes.model.Orden;
 import com.example.proyecto.ordenes.service.OrdenService;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +23,7 @@ public class OrdenController {
     }
 
     @PostMapping
-    public Orden crear(@RequestBody Orden orden) {
+    public Orden crear(@RequestBody OrdenRequest orden) {
         return service.crearOrden(orden);
     }
 

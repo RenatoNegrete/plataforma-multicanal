@@ -20,7 +20,7 @@ spring:
 services:
   usuarios: ${USUARIOS_SERVICE_URL:http://usuarios-service:8080}
   catalogo: ${CATALOGO_SERVICE_URL:http://catalogo-service:8080}
-  ordenes: ${ORDENES_SERVICE_URL:http://localhost:8081}
+  ordenes: ${ORDENES_SERVICE_URL:http://ordenes-service:8080}
   pagos: ${PAGOS_SERVICE_URL:http://pagos-service:8080}
   proveedores: ${PROVEEDORES_SERVICE_URL:http://proveedores-service:8080}
   notificaciones: ${NOTIFICACIONES_SERVICE_URL:http://notificaciones-service:8080}
