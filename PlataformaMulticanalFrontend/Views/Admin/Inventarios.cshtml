@@ -1,5 +1,10 @@
+@model List<PlataformaMulticanalFrontend.Models.Producto>
+
 @{
     ViewData["Title"] = "Gestión de Inventarios";
+    var productosSinStock = ViewBag.ProductosSinStock as List<PlataformaMulticanalFrontend.Models.Producto> ?? new List<PlataformaMulticanalFrontend.Models.Producto>();
+    var productosStockBajo = ViewBag.ProductosStockBajo as List<PlataformaMulticanalFrontend.Models.Producto> ?? new List<PlataformaMulticanalFrontend.Models.Producto>();
+    var productosStockNormal = ViewBag.ProductosStockNormal as List<PlataformaMulticanalFrontend.Models.Producto> ?? new List<PlataformaMulticanalFrontend.Models.Producto>();
 }
 
 @section Styles {
@@ -58,22 +63,19 @@
                         <p>Control de stock y movimientos de inventario</p>
                     </div>
                     <div class="header-actions">
-                        <button class="btn btn-outline-primary">
-                            <i class="fas fa-download me-2"></i>Exportar
-                        </button>
-                        <button class="btn btn-primary">
-                            <i class="fas fa-plus me-2"></i>Ajustar Stock
-                        </button>
+                        <a asp-controller="Admin" asp-action="Catalogo" class="btn btn-primary">
+                            <i class="fas fa-plus me-2"></i>Agregar Producto
+                        </a>
                     </div>
                 </div>
 
-                <!-- Alerts -->
+                <!-- Alerts con datos reales -->
                 <div class="row g-3 mb-4">
                     <div class="col-md-4">
                         <div class="alert alert-danger d-flex align-items-center">
                             <i class="fas fa-exclamation-triangle fa-2x me-3"></i>
                             <div>
-                                <strong>12 productos</strong> con stock crítico
+                                <strong>@productosSinStock.Count productos</strong> sin stock
                             </div>
                         </div>
                     </div>
@@ -81,16 +83,39 @@
                         <div class="alert alert-warning d-flex align-items-center">
                             <i class="fas fa-box fa-2x me-3"></i>
                             <div>
-                                <strong>28 productos</strong> con stock bajo
+                                <strong>@productosStockBajo.Count productos</strong> con stock bajo
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="alert alert-info d-flex align-items-center">
-                            <i class="fas fa-truck fa-2x me-3"></i>
+                        <div class="alert alert-success d-flex align-items-center">
+                            <i class="fas fa-check-circle fa-2x me-3"></i>
                             <div>
-                                <strong>5 reposiciones</strong> en camino
+                                <strong>@productosStockNormal.Count productos</strong> con stock normal
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filtro de vista -->
+                <div class="admin-card mb-4">
+                    <div class="card-header">
+                        <h5><i class="fas fa-filter me-2"></i>Filtrar Inventario</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-outline-primary active" onclick="filtrarInventario('todos')">
+                                Todos (@Model.Count)
+                            </button>
+                            <button type="button" class="btn btn-outline-danger" onclick="filtrarInventario('critico')">
+                                Sin Stock (@productosSinStock.Count)
+                            </button>
+                            <button type="button" class="btn btn-outline-warning" onclick="filtrarInventario('bajo')">
+                                Stock Bajo (@productosStockBajo.Count)
+                            </button>
+                            <button type="button" class="btn btn-outline-success" onclick="filtrarInventario('normal')">
+                                Stock Normal (@productosStockNormal.Count)
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -99,134 +124,182 @@
                 <div class="admin-card mb-4">
                     <div class="card-header">
                         <h5><i class="fas fa-list me-2"></i>Control de Inventario</h5>
-                        <div class="d-flex gap-2">
-                            <select class="form-select form-select-sm" style="width: auto;">
-                                <option>Todos</option>
-                                <option>Stock Crítico</option>
-                                <option>Stock Bajo</option>
-                                <option>Stock Normal</option>
-                            </select>
-                        </div>
                     </div>
                     <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table table-hover mb-0">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th>Producto</th>
-                                        <th>SKU</th>
-                                        <th>Stock Actual</th>
-                                        <th>Stock Mínimo</th>
-                                        <th>Ubicación</th>
-                                        <th>Estado</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=50&h=50&fit=crop" 
-                                                     class="product-thumb me-2" alt="Producto">
-                                                <strong>Laptop Gaming Pro</strong>
-                                            </div>
-                                        </td>
-                                        <td><code>LAP-001</code></td>
-                                        <td>
-                                            <span class="badge bg-success fs-6">45</span>
-                                        </td>
-                                        <td>10</td>
-                                        <td>Almacén A - Pasillo 3</td>
-                                        <td><span class="badge bg-success">Normal</span></td>
-                                        <td>
-                                            <button class="btn btn-sm btn-outline-primary">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=50&h=50&fit=crop" 
-                                                     class="product-thumb me-2" alt="Producto">
-                                                <strong>Auriculares Bluetooth</strong>
-                                            </div>
-                                        </td>
-                                        <td><code>AUD-002</code></td>
-                                        <td>
-                                            <span class="badge bg-warning fs-6">8</span>
-                                        </td>
-                                        <td>15</td>
-                                        <td>Almacén A - Pasillo 1</td>
-                                        <td><span class="badge bg-warning">Bajo</span></td>
-                                        <td>
-                                            <button class="btn btn-sm btn-outline-primary">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr class="table-danger">
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=50&h=50&fit=crop" 
-                                                     class="product-thumb me-2" alt="Producto">
-                                                <strong>Smartwatch Pro</strong>
-                                            </div>
-                                        </td>
-                                        <td><code>WAT-003</code></td>
-                                        <td>
-                                            <span class="badge bg-danger fs-6">2</span>
-                                        </td>
-                                        <td>10</td>
-                                        <td>Almacén B - Pasillo 2</td>
-                                        <td><span class="badge bg-danger">Crítico</span></td>
-                                        <td>
-                                            <button class="btn btn-sm btn-danger">
-                                                <i class="fas fa-exclamation-triangle"></i> Reponer
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                        @if (Model.Any())
+                        {
+                            <div class="table-responsive">
+                                <table class="table table-hover mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Producto</th>
+                                            <th>Categoría</th>
+                                            <th>Stock Actual</th>
+                                            <th>Precio</th>
+                                            <th>Valor Stock</th>
+                                            <th>Estado</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="inventarioTableBody">
+                                        @foreach (var producto in Model.OrderBy(p => p.Stock))
+                                        {
+                                            var estadoClass = producto.Stock == 0 ? "table-danger" : 
+                                                             producto.Stock < 10 ? "table-warning" : "";
+                                            var badgeClass = producto.Stock == 0 ? "bg-danger" : 
+                                                            producto.Stock < 10 ? "bg-warning" : "bg-success";
+                                            var estadoTexto = producto.Stock == 0 ? "Sin Stock" : 
+                                                             producto.Stock < 10 ? "Stock Bajo" : "Normal";
+                                            var categoriaStock = producto.Stock == 0 ? "critico" : 
+                                                                producto.Stock < 10 ? "bajo" : "normal";
+                                            
+                                            <tr class="@estadoClass" data-categoria="@categoriaStock">
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <img src="@(string.IsNullOrEmpty(producto.Imagen) ? "https://via.placeholder.com/50" : producto.Imagen)" 
+                                                             class="product-thumb me-2" 
+                                                             alt="@producto.Nombre"
+                                                             style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                                                        <div>
+                                                            <strong>@producto.Nombre</strong>
+                                                            @if (!string.IsNullOrEmpty(producto.Id))
+                                                            {
+                                                                <br><small class="text-muted">ID: @producto.Id</small>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span class="badge bg-secondary">
+                                                        @(string.IsNullOrEmpty(producto.Categoria) ? "Sin categoría" : producto.Categoria)
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span class="badge @badgeClass fs-6">@producto.Stock</span>
+                                                </td>
+                                                <td>
+                                                    <strong>$@producto.Precio.ToString("N0")</strong>
+                                                </td>
+                                                <td>
+                                                    $@((producto.Precio * producto.Stock).ToString("N0"))
+                                                </td>
+                                                <td>
+                                                    <span class="badge @badgeClass">@estadoTexto</span>
+                                                </td>
+                                                <td>
+                                                    <div class="btn-group btn-group-sm">
+                                                        <a asp-controller="Admin" 
+                                                           asp-action="EditarProducto" 
+                                                           asp-route-id="@producto.Id" 
+                                                           class="btn btn-outline-primary"
+                                                           title="Editar">
+                                                            <i class="fas fa-edit"></i>
+                                                        </a>
+                                                        @if (producto.Stock == 0 || producto.Stock < 10)
+                                                        {
+                                                            <button class="btn btn-outline-warning" 
+                                                                    title="Requiere reposición">
+                                                                <i class="fas fa-exclamation-triangle"></i>
+                                                            </button>
+                                                        }
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="text-center py-5">
+                                <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
+                                <p class="text-muted">No hay productos en el inventario</p>
+                                <a asp-controller="Admin" asp-action="Catalogo" class="btn btn-primary">
+                                    <i class="fas fa-plus me-2"></i>Agregar primer producto
+                                </a>
+                            </div>
+                        }
                     </div>
                 </div>
 
-                <!-- Recent Movements -->
-                <div class="admin-card">
-                    <div class="card-header">
-                        <h5><i class="fas fa-exchange-alt me-2"></i>Movimientos Recientes</h5>
+                <!-- Resumen de Inventario -->
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="admin-card">
+                            <div class="card-body">
+                                <h6 class="text-muted mb-3">Productos Sin Stock</h6>
+                                @if (productosSinStock.Any())
+                                {
+                                    <div class="list-group list-group-flush">
+                                        @foreach (var producto in productosSinStock.Take(5))
+                                        {
+                                            <div class="list-group-item px-0">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <span class="text-truncate">@producto.Nombre</span>
+                                                    <span class="badge bg-danger">0</span>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                    @if (productosSinStock.Count > 5)
+                                    {
+                                        <small class="text-muted">Y @(productosSinStock.Count - 5) más...</small>
+                                    }
+                                }
+                                else
+                                {
+                                    <p class="text-muted mb-0">No hay productos sin stock</p>
+                                }
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <div class="timeline">
-                            <div class="timeline-item">
-                                <div class="timeline-badge bg-success">
-                                    <i class="fas fa-plus"></i>
-                                </div>
-                                <div class="timeline-content">
-                                    <h6>Entrada de Stock</h6>
-                                    <p>50 unidades de Laptop Gaming Pro agregadas</p>
-                                    <small class="text-muted">Hace 2 horas</small>
-                                </div>
+
+                    <div class="col-md-4">
+                        <div class="admin-card">
+                            <div class="card-body">
+                                <h6 class="text-muted mb-3">Stock Bajo (menos de 10)</h6>
+                                @if (productosStockBajo.Any())
+                                {
+                                    <div class="list-group list-group-flush">
+                                        @foreach (var producto in productosStockBajo.Take(5))
+                                        {
+                                            <div class="list-group-item px-0">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <span class="text-truncate">@producto.Nombre</span>
+                                                    <span class="badge bg-warning">@producto.Stock</span>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                    @if (productosStockBajo.Count > 5)
+                                    {
+                                        <small class="text-muted">Y @(productosStockBajo.Count - 5) más...</small>
+                                    }
+                                }
+                                else
+                                {
+                                    <p class="text-muted mb-0">No hay productos con stock bajo</p>
+                                }
                             </div>
-                            <div class="timeline-item">
-                                <div class="timeline-badge bg-danger">
-                                    <i class="fas fa-minus"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="admin-card">
+                            <div class="card-body">
+                                <h6 class="text-muted mb-3">Estadísticas Generales</h6>
+                                <div class="mb-3">
+                                    <small class="text-muted">Total Productos</small>
+                                    <h4 class="mb-0">@Model.Count</h4>
                                 </div>
-                                <div class="timeline-content">
-                                    <h6>Venta</h6>
-                                    <p>5 unidades de Auriculares vendidas</p>
-                                    <small class="text-muted">Hace 4 horas</small>
+                                <div class="mb-3">
+                                    <small class="text-muted">Valor Total Inventario</small>
+                                    <h4 class="mb-0 text-success">$@Model.Sum(p => p.Precio * p.Stock).ToString("N0")</h4>
                                 </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-badge bg-warning">
-                                    <i class="fas fa-sync"></i>
-                                </div>
-                                <div class="timeline-content">
-                                    <h6>Ajuste de Inventario</h6>
-                                    <p>Stock corregido para Smartwatch Pro</p>
-                                    <small class="text-muted">Hace 6 horas</small>
+                                <div>
+                                    <small class="text-muted">Unidades Totales</small>
+                                    <h4 class="mb-0">@Model.Sum(p => p.Stock)</h4>
                                 </div>
                             </div>
                         </div>
@@ -238,48 +311,51 @@
 </section>
 
 @section Scripts {
+    <script>
+        function filtrarInventario(categoria) {
+            // Actualizar botones activos
+            document.querySelectorAll('.btn-group .btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Filtrar filas
+            const filas = document.querySelectorAll('#inventarioTableBody tr');
+            filas.forEach(fila => {
+                if (categoria === 'todos') {
+                    fila.style.display = '';
+                } else {
+                    const filaCategoria = fila.getAttribute('data-categoria');
+                    fila.style.display = filaCategoria === categoria ? '' : 'none';
+                }
+            });
+        }
+    </script>
+
     <style>
-        .timeline {
-            position: relative;
-            padding-left: 3rem;
+        .product-thumb {
+            border: 1px solid #dee2e6;
         }
-        .timeline-item {
-            position: relative;
-            padding-bottom: 2rem;
+        
+        .list-group-item {
+            border-left: 0;
+            border-right: 0;
         }
-        .timeline-item:last-child {
-            padding-bottom: 0;
+        
+        .list-group-item:first-child {
+            border-top: 0;
         }
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -2.4rem;
-            top: 2rem;
-            width: 2px;
-            height: 100%;
-            background: #e5e7eb;
+        
+        .list-group-item:last-child {
+            border-bottom: 0;
         }
-        .timeline-item:last-child::before {
-            display: none;
+
+        .btn-group .btn {
+            transition: all 0.2s;
         }
-        .timeline-badge {
-            position: absolute;
-            left: -3rem;
-            top: 0;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-        }
-        .timeline-content h6 {
-            font-weight: 700;
-            margin-bottom: 0.3rem;
-        }
-        .timeline-content p {
-            margin-bottom: 0.3rem;
+
+        .table tbody tr {
+            transition: opacity 0.3s;
         }
     </style>
 }
