@@ -26,7 +26,7 @@
             <div class="col-lg-8 mb-4">
                 <div class="cart-header">
                     <h2><i class="fas fa-shopping-cart me-3"></i>Mi Carrito de Compras</h2>
-                    <span class="items-count">3 productos</span>
+                    <span class="items-count">1 producto</span>
                 </div>
 
                 <!-- Cart Items List -->
@@ -35,20 +35,22 @@
                     <div class="cart-item">
                         <div class="item-image">
                             <a asp-controller="Catalogo" asp-action="Detalle" asp-route-id="1">
-                                <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=200&h=200&fit=crop" alt="Laptop Gaming Pro">
+                                <img src="https://nattia.com/wp-content/uploads/2022/01/configuracion-software.png" alt="Laptop Gaming Pro">
                             </a>
                         </div>
+                        
                         <div class="item-details">
                             <h5 class="item-title">
                                 <a asp-controller="Catalogo" asp-action="Detalle" asp-route-id="1">
-                                    Laptop Gaming Pro 15" Intel Core i7
+                                    Instalación de Software
                                 </a>
                             </h5>
+                            <!-- Cart Items List 
                             <div class="item-attributes">
                                 <span class="attribute"><i class="fas fa-palette me-1"></i>Color: Negro</span>
                                 <span class="attribute"><i class="fas fa-memory me-1"></i>RAM: 16GB</span>
                                 <span class="attribute"><i class="fas fa-hdd me-1"></i>Almacenamiento: 512GB SSD</span>
-                            </div>
+                            </div>-->
                             <div class="item-stock">
                                 <i class="fas fa-check-circle text-success me-1"></i>
                                 <span>En stock</span>
@@ -67,9 +69,9 @@
                             </div>
                         </div>
                         <div class="item-price">
-                            <div class="price-old">$2,000</div>
-                            <div class="price-current">$1,600</div>
-                            <div class="price-total">Total: $1,600</div>
+                            <div class="price-old">$75</div>
+                            <div class="price-current">$75</div>
+                            <div class="price-total">Total: $75</div>
                         </div>
                         <div class="item-actions">
                             <button class="btn-action btn-favorite" title="Agregar a favoritos">
@@ -81,7 +83,7 @@
                         </div>
                     </div>
 
-                    <!-- Cart Item 2 -->
+                    <!-- Cart Item 2 
                     <div class="cart-item">
                         <div class="item-image">
                             <a asp-controller="Catalogo" asp-action="Detalle" asp-route-id="2">
@@ -129,8 +131,9 @@
                             </button>
                         </div>
                     </div>
+                    -->
 
-                    <!-- Cart Item 3 -->
+                    <!-- Cart Item 3 
                     <div class="cart-item">
                         <div class="item-image">
                             <a asp-controller="Catalogo" asp-action="Detalle" asp-route-id="3">
@@ -177,6 +180,7 @@
                             </button>
                         </div>
                     </div>
+                    -->
                 </div>
 
                 <!-- Continue Shopping -->
@@ -205,13 +209,13 @@
                         <h5><i class="fas fa-receipt me-2"></i>Resumen de Compra</h5>
                         
                         <div class="summary-row">
-                            <span>Subtotal (3 productos)</span>
-                            <span class="amount" id="subtotal">$2,077</span>
+                            <span>Subtotal (1 producto)</span>
+                            <span class="amount" id="subtotal">$75</span>
                         </div>
 
                         <div class="summary-row">
                             <span>Envío</span>
-                            <span class="amount text-success" id="shipping">GRATIS</span>
+                            <span class="amount text-success" id="shipping">$3</span>
                         </div>
 
                         <div class="summary-row">
@@ -221,19 +225,19 @@
 
                         <div class="summary-row">
                             <span>IVA (19%)</span>
-                            <span class="amount" id="tax">$395</span>
+                            <span class="amount" id="tax">$14.25</span>
                         </div>
 
                         <div class="summary-divider"></div>
 
                         <div class="summary-row summary-total">
                             <span>Total a Pagar</span>
-                            <span class="amount-total" id="total">$2,472</span>
+                            <span class="amount-total" id="total">$92.25</span>
                         </div>
 
                         <div class="summary-savings">
                             <i class="fas fa-piggy-bank me-2"></i>
-                            Ahorras $243 en esta compra
+                            Ahorras $10 en esta compra
                         </div>
 
                         <button class="btn btn-success btn-checkout" onclick="goToCheckout()">
@@ -367,7 +371,7 @@
         function showCouponMessage(message, type) {
             const messageDiv = document.getElementById('couponMessage');
             messageDiv.textContent = message;
-            messageDiv.className = `coupon-message ${type}`;
+            messageDiv.className = coupon-message ${type};
             messageDiv.style.display = 'block';
             
             setTimeout(() => {
@@ -384,7 +388,7 @@
                 const quantity = parseInt(item.querySelector('.quantity-input').value);
                 const itemTotal = price * quantity;
                 
-                item.querySelector('.price-total').textContent = `Total: $${itemTotal.toLocaleString()}`;
+                item.querySelector('.price-total').textContent = Total: $${itemTotal.toLocaleString()};
                 subtotal += itemTotal;
             });
 
@@ -393,15 +397,15 @@
             const tax = Math.round(subtotal * 0.19);
             const total = subtotal - discount + tax;
 
-            document.getElementById('subtotal').textContent = `$${subtotal.toLocaleString()}`;
-            document.getElementById('tax').textContent = `$${tax.toLocaleString()}`;
-            document.getElementById('total').textContent = `$${total.toLocaleString()}`;
+            document.getElementById('subtotal').textContent = $${subtotal.toLocaleString()};
+            document.getElementById('tax').textContent = $${tax.toLocaleString()};
+            document.getElementById('total').textContent = $${total.toLocaleString()};
         }
 
         // Update items count
         function updateItemsCount() {
             const count = document.querySelectorAll('.cart-item').length;
-            document.querySelector('.items-count').textContent = `${count} producto${count !== 1 ? 's' : ''}`;
+            document.querySelector('.items-count').textContent = ${count} producto${count !== 1 ? 's' : ''};
         }
 
         // Go to checkout

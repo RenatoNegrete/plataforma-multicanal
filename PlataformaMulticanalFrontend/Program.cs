@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// ⭐ NUEVO: Registrar IHttpContextAccessor para acceder a la sesión
+// ⭐ Registrar IHttpContextAccessor para acceder a la sesión
 builder.Services.AddHttpContextAccessor();
 
 // Configurar sesiones para almacenar datos del usuario
@@ -21,13 +21,21 @@ builder.Services.AddSession(options =>
 // Configurar HttpClient para servicios API
 builder.Services.AddHttpClient();
 
-// Registrar el servicio de catálogo
+// ⭐ Registrar servicios de la aplicación
+
+// Servicio de catálogo
 builder.Services.AddHttpClient<CatalogoService>();
 builder.Services.AddScoped<CatalogoService>();
 
-// Registrar el servicio de proveedores
+// Servicio de proveedores
 builder.Services.AddHttpClient<ProveedorService>();
 builder.Services.AddScoped<ProveedorService>();
+
+// Servicio de usuarios y autenticación
+builder.Services.AddScoped<UsuarioApiService>();
+
+// Servicio de perfil de usuario
+builder.Services.AddScoped<PerfilApiService>();
 
 var app = builder.Build();
 
