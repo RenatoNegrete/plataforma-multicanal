@@ -2,9 +2,10 @@
 
 @{
     ViewData["Title"] = Model?.Nombre ?? "Detalle del Producto";
-    var precioOriginal = Model?.Precio * 1.25; // Simulando un descuento del 20%
+    var precioOriginal = Model?.Precio * 1.25;
     var descuento = 20;
     var precioConDescuento = Model?.Precio ?? 0;
+    var productosRelacionados = ViewBag.ProductosRelacionados as List<PlataformaMulticanalFrontend.Models.Producto> ?? new List<PlataformaMulticanalFrontend.Models.Producto>();
 }
 
 @section Styles {
@@ -99,14 +100,14 @@
                         @if (descuento > 0)
                         {
                             <div class="price-row">
-                                <span class="price-old">$@precioOriginal?.ToString("F0")</span>
+                                <span class="price-old">$@precioOriginal?.ToString("N0")</span>
                                 <span class="discount-percentage">@descuento% OFF</span>
                             </div>
                         }
-                        <div class="price-current">$@precioConDescuento.ToString("F0")</div>
+                        <div class="price-current">$@precioConDescuento.ToString("N0")</div>
                         <div class="price-info">
                             <i class="fas fa-credit-card me-2"></i>
-                            12 cuotas de $@((precioConDescuento / 12).ToString("F2")) sin interés
+                            12 cuotas de $@((precioConDescuento / 12).ToString("N2")) sin interés
                         </div>
                     </div>
 
@@ -298,7 +299,7 @@
                                     </div>
                                     <div class="spec-row">
                                         <div class="spec-label">Precio</div>
-                                        <div class="spec-value">$@Model?.Precio.ToString("F0")</div>
+                                        <div class="spec-value">$@Model?.Precio.ToString("N0")</div>
                                     </div>
                                     <div class="spec-row">
                                         <div class="spec-label">Disponibilidad</div>
@@ -494,51 +495,57 @@
         </div>
 
         <!-- Related Products -->
-        <div class="row mt-5">
-            <div class="col-12">
-                <div class="section-header mb-4">
-                    <h3 class="section-title">Productos Relacionados</h3>
-                    <p class="section-subtitle">También te puede interesar</p>
-                </div>
+        @if (productosRelacionados.Any())
+        {
+            <div class="row mt-5">
+                <div class="col-12">
+                    <div class="section-header mb-4">
+                        <h3 class="section-title">Productos Relacionados</h3>
+                        <p class="section-subtitle">También te puede interesar</p>
+                    </div>
 
-                <div class="row row-cols-2 row-cols-md-4 row-cols-lg-6 g-3">
-                    @for (int i = 1; i <= 6; i++)
-                    {
-                        <div class="col">
-                            <div class="product-card">
-                                <div class="product-image-wrapper">
-                                    <a href="#">
-                                        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop" alt="Producto relacionado">
-                                    </a>
-                                </div>
-                                <div class="product-card-body">
-                                    <div class="product-category">@(Model?.Categoria ?? "PRODUCTOS")</div>
-                                    <h5 class="product-title">
-                                        <a href="#">Producto Relacionado @i</a>
-                                    </h5>
-                                    <div class="product-rating">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                        <span>(4.0)</span>
+                    <div class="row row-cols-2 row-cols-md-4 row-cols-lg-6 g-3">
+                        @foreach (var productoRelacionado in productosRelacionados)
+                        {
+                            <div class="col">
+                                <div class="product-card">
+                                    <div class="product-image-wrapper">
+                                        <a asp-controller="Catalogo" asp-action="Detalle" asp-route-id="@productoRelacionado.Id">
+                                            <img src="@(productoRelacionado.Imagen ?? "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop")" 
+                                                 alt="@productoRelacionado.Nombre">
+                                        </a>
                                     </div>
-                                    <div class="product-price-section">
-                                        <div>
-                                            <div class="product-price">$@((i * 50) + 99)</div>
+                                    <div class="product-card-body">
+                                        <div class="product-category">@(productoRelacionado.Categoria?.ToUpper() ?? "PRODUCTOS")</div>
+                                        <h5 class="product-title">
+                                            <a asp-controller="Catalogo" asp-action="Detalle" asp-route-id="@productoRelacionado.Id">
+                                                @productoRelacionado.Nombre
+                                            </a>
+                                        </h5>
+                                        <div class="product-rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                            <span>(4.0)</span>
                                         </div>
-                                        <button class="btn-add-cart">
-                                            <i class="fas fa-cart-plus"></i>
-                                        </button>
+                                        <div class="product-price-section">
+                                            <div>
+                                                <div class="product-price">$@productoRelacionado.Precio.ToString("N0")</div>
+                                            </div>
+                                            <button class="btn-add-cart">
+                                                <i class="fas fa-cart-plus"></i>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    }
+                        }
+                    </div>
                 </div>
             </div>
-        </div>
+        }
     </div>
 </section>
 

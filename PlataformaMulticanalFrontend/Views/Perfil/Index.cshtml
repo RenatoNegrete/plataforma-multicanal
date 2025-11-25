@@ -1,3 +1,5 @@
+@model PlataformaMulticanalFrontend.Services.UsuarioDto
+
 @{
     ViewData["Title"] = "Mi Perfil";
 }
@@ -21,307 +23,283 @@
 <!-- Profile Section -->
 <section class="profile-section">
     <div class="container-fluid px-4">
-        <div class="row">
-            <!-- Sidebar Menu -->
-            <div class="col-lg-3 mb-4">
-                <div class="profile-sidebar">
-                    <div class="profile-avatar-section">
-                        <div class="profile-avatar">
-                            <img src="https://ui-avatars.com/api/?name=Juan+Perez&size=120&background=2563eb&color=fff" alt="Avatar">
-                            <button class="btn-edit-avatar">
-                                <i class="fas fa-camera"></i>
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                @TempData["ErrorMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        }
+        
+        @if (Model == null)
+        {
+            <div class="alert alert-warning">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                No se pudo cargar la información del perfil. Por favor, inténtalo de nuevo.
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                <!-- Sidebar Menu -->
+                <div class="col-lg-3 mb-4">
+                    <div class="profile-sidebar">
+                        <div class="profile-avatar-section">
+                            <div class="profile-avatar">
+                                <img src="https://ui-avatars.com/api/?name=@Uri.EscapeDataString(Model.Nombre ?? "Usuario")&size=120&background=2563eb&color=fff" alt="Avatar">
+                                <button class="btn-edit-avatar">
+                                    <i class="fas fa-camera"></i>
+                                </button>
+                            </div>
+                            <h4>@Model.Nombre</h4>
+                            <p>@Model.Email</p>
+                            <span class="member-badge">
+                                <i class="fas fa-user me-1"></i>Miembro
+                            </span>
+                            @if (Model.FechaRegistro != null)
+                            {
+                                <small class="text-muted d-block mt-2">
+                                    Miembro desde: @Model.FechaRegistro.Value.ToString("MMMM yyyy")
+                                </small>
+                            }
+                        </div>
+
+                        <nav class="profile-menu">
+                            <a href="#" class="menu-item active">
+                                <i class="fas fa-user"></i>
+                                <span>Información Personal</span>
+                            </a>
+                            <a asp-controller="Perfil" asp-action="Historial" class="menu-item">
+                                <i class="fas fa-box"></i>
+                                <span>Mis Pedidos</span>
+                            </a>
+                            <a href="#" class="menu-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Direcciones</span>
+                            </a>
+                            <a href="#" class="menu-item">
+                                <i class="fas fa-heart"></i>
+                                <span>Lista de Deseos</span>
+                            </a>
+                            <a href="#" class="menu-item">
+                                <i class="fas fa-bell"></i>
+                                <span>Notificaciones</span>
+                            </a>
+                            <a href="#" class="menu-item">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>Seguridad</span>
+                            </a>
+                            <a asp-controller="Cuenta" asp-action="Logout" class="menu-item text-danger">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Cerrar Sesión</span>
+                            </a>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- Main Content -->
+                <div class="col-lg-9">
+                    <!-- Personal Information -->
+                    <div class="profile-card">
+                        <div class="card-header">
+                            <h4><i class="fas fa-user me-2"></i>Información Personal</h4>
+                            <button class="btn btn-outline-primary btn-sm" onclick="toggleEdit()">
+                                <i class="fas fa-edit me-2"></i>Editar
                             </button>
                         </div>
-                        <h4>Juan Pérez</h4>
-                        <p>juan.perez@email.com</p>
-                        <span class="member-badge">
-                            <i class="fas fa-star me-1"></i>Miembro Premium
-                        </span>
-                    </div>
-
-                    <nav class="profile-menu">
-                        <a href="#" class="menu-item active">
-                            <i class="fas fa-user"></i>
-                            <span>Información Personal</span>
-                        </a>
-                        <a asp-controller="Perfil" asp-action="Historial" class="menu-item">
-                            <i class="fas fa-box"></i>
-                            <span>Mis Pedidos</span>
-                            <span class="badge bg-primary">3</span>
-                        </a>
-                        <a href="#" class="menu-item">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Direcciones</span>
-                        </a>
-                        <a href="#" class="menu-item">
-                            <i class="fas fa-credit-card"></i>
-                            <span>Métodos de Pago</span>
-                        </a>
-                        <a href="#" class="menu-item">
-                            <i class="fas fa-heart"></i>
-                            <span>Lista de Deseos</span>
-                        </a>
-                        <a href="#" class="menu-item">
-                            <i class="fas fa-bell"></i>
-                            <span>Notificaciones</span>
-                        </a>
-                        <a href="#" class="menu-item">
-                            <i class="fas fa-shield-alt"></i>
-                            <span>Seguridad</span>
-                        </a>
-                        <a href="#" class="menu-item text-danger">
-                            <i class="fas fa-sign-out-alt"></i>
-                            <span>Cerrar Sesión</span>
-                        </a>
-                    </nav>
-                </div>
-            </div>
-
-            <!-- Main Content -->
-            <div class="col-lg-9">
-                <!-- Profile Stats -->
-                <div class="profile-stats">
-                    <div class="stat-card">
-                        <div class="stat-icon bg-primary">
-                            <i class="fas fa-shopping-bag"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3>24</h3>
-                            <p>Compras Totales</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon bg-success">
-                            <i class="fas fa-wallet"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3>$8,450</h3>
-                            <p>Total Gastado</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon bg-warning">
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3>250</h3>
-                            <p>Puntos de Recompensa</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon bg-danger">
-                            <i class="fas fa-heart"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3>12</h3>
-                            <p>Favoritos</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Personal Information -->
-                <div class="profile-card">
-                    <div class="card-header">
-                        <h4><i class="fas fa-user me-2"></i>Información Personal</h4>
-                        <button class="btn btn-outline-primary btn-sm" onclick="toggleEdit()">
-                            <i class="fas fa-edit me-2"></i>Editar
-                        </button>
-                    </div>
-                    <div class="card-body">
-                        <form id="profileForm">
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label class="form-label">Nombre *</label>
-                                    <input type="text" class="form-control" value="Juan" disabled id="firstName">
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Apellido *</label>
-                                    <input type="text" class="form-control" value="Pérez" disabled id="lastName">
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Correo Electrónico *</label>
-                                    <input type="email" class="form-control" value="juan.perez@email.com" disabled>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Teléfono *</label>
-                                    <input type="tel" class="form-control" value="+57 300 123 4567" disabled id="phone">
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Documento de Identidad</label>
-                                    <input type="text" class="form-control" value="1234567890" disabled id="document">
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Fecha de Nacimiento</label>
-                                    <input type="date" class="form-control" value="1990-05-15" disabled id="birthdate">
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Género</label>
-                                    <select class="form-select" disabled id="gender">
-                                        <option value="M" selected>Masculino</option>
-                                        <option value="F">Femenino</option>
-                                        <option value="O">Otro</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">País</label>
-                                    <select class="form-select" disabled id="country">
-                                        <option value="CO" selected>Colombia</option>
-                                        <option value="MX">México</option>
-                                        <option value="AR">Argentina</option>
-                                    </select>
-                                </div>
+                        <div class="card-body">
+                            <div id="successMessage" class="alert alert-success" style="display: none;">
+                                <i class="fas fa-check-circle me-2"></i>
+                                <span id="successText"></span>
+                            </div>
+                            <div id="errorMessage" class="alert alert-danger" style="display: none;">
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                                <span id="errorText"></span>
                             </div>
 
-                            <div class="form-actions" id="formActions" style="display: none;">
-                                <button type="button" class="btn btn-success" onclick="saveProfile()">
-                                    <i class="fas fa-save me-2"></i>Guardar Cambios
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary" onclick="cancelEdit()">
-                                    Cancelar
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-                <!-- Addresses -->
-                <div class="profile-card">
-                    <div class="card-header">
-                        <h4><i class="fas fa-map-marker-alt me-2"></i>Direcciones Guardadas</h4>
-                        <button class="btn btn-outline-primary btn-sm">
-                            <i class="fas fa-plus me-2"></i>Agregar Nueva
-                        </button>
-                    </div>
-                    <div class="card-body">
-                        <div class="address-list">
-                            <div class="address-item">
-                                <div class="address-badge">
-                                    <i class="fas fa-home"></i>
-                                </div>
-                                <div class="address-info">
-                                    <div class="address-header">
-                                        <h5>Casa</h5>
-                                        <span class="badge bg-primary">Principal</span>
+                            <form id="profileForm">
+                                <input type="hidden" id="userId" value="@Model.Id" />
+                                
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Nombre Completo *</label>
+                                        <input type="text" class="form-control" id="nombre" value="@Model.Nombre" disabled>
                                     </div>
-                                    <p>Calle 123 #45-67, Apt 101</p>
-                                    <p>Bogotá, Bogotá D.C., 110111</p>
-                                    <p>+57 300 123 4567</p>
-                                </div>
-                                <div class="address-actions">
-                                    <button class="btn btn-sm btn-outline-primary">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-danger">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="address-item">
-                                <div class="address-badge">
-                                    <i class="fas fa-briefcase"></i>
-                                </div>
-                                <div class="address-info">
-                                    <div class="address-header">
-                                        <h5>Oficina</h5>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Correo Electrónico *</label>
+                                        <input type="email" class="form-control" value="@Model.Email" disabled>
+                                        <small class="text-muted">El correo no puede modificarse</small>
                                     </div>
-                                    <p>Carrera 7 #71-21, Torre B, Piso 5</p>
-                                    <p>Bogotá, Bogotá D.C., 110231</p>
-                                    <p>+57 300 123 4567</p>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Teléfono</label>
+                                        <input type="tel" class="form-control" id="telefono" value="@Model.Telefono" disabled>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="form-label">Dirección</label>
+                                        <textarea class="form-control" id="direccion" rows="2" disabled>@Model.Direccion</textarea>
+                                    </div>
                                 </div>
-                                <div class="address-actions">
-                                    <button class="btn btn-sm btn-outline-primary">
-                                        <i class="fas fa-edit"></i>
+
+                                <div class="form-actions" id="formActions" style="display: none;">
+                                    <button type="button" class="btn btn-success" onclick="saveProfile()">
+                                        <i class="fas fa-save me-2"></i>Guardar Cambios
                                     </button>
-                                    <button class="btn btn-sm btn-outline-danger">
-                                        <i class="fas fa-trash"></i>
+                                    <button type="button" class="btn btn-outline-secondary" onclick="cancelEdit()">
+                                        Cancelar
                                     </button>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
-                </div>
 
-                <!-- Payment Methods -->
-                <div class="profile-card">
-                    <div class="card-header">
-                        <h4><i class="fas fa-credit-card me-2"></i>Métodos de Pago</h4>
-                        <button class="btn btn-outline-primary btn-sm">
-                            <i class="fas fa-plus me-2"></i>Agregar Nuevo
-                        </button>
-                    </div>
-                    <div class="card-body">
-                        <div class="payment-methods-list">
-                            <div class="payment-method-item">
-                                <div class="payment-icon">
-                                    <i class="fab fa-cc-visa"></i>
+                    <!-- Account Information -->
+                    <div class="profile-card">
+                        <div class="card-header">
+                            <h4><i class="fas fa-info-circle me-2"></i>Información de la Cuenta</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="text-muted">ID de Usuario</label>
+                                    <p class="fw-bold">#@Model.Id</p>
                                 </div>
-                                <div class="payment-info">
-                                    <h5>Visa terminada en 4242</h5>
-                                    <p>Vence 12/25</p>
-                                    <span class="badge bg-primary">Predeterminada</span>
-                                </div>
-                                <div class="payment-actions">
-                                    <button class="btn btn-sm btn-outline-primary">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-danger">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="payment-method-item">
-                                <div class="payment-icon">
-                                    <i class="fab fa-cc-mastercard"></i>
-                                </div>
-                                <div class="payment-info">
-                                    <h5>Mastercard terminada en 8888</h5>
-                                    <p>Vence 06/26</p>
-                                </div>
-                                <div class="payment-actions">
-                                    <button class="btn btn-sm btn-outline-primary">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-danger">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
+                                <div class="col-md-6 mb-3">
+                                    <label class="text-muted">Fecha de Registro</label>
+                                    <p class="fw-bold">
+                                        @if (Model.FechaRegistro != null)
+                                        {
+                                            @Model.FechaRegistro.Value.ToString("dd/MM/yyyy HH:mm")
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">No disponible</span>
+                                        }
+                                    </p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        }
     </div>
 </section>
 
 @section Scripts {
     <script>
+        // Valores originales para restaurar al cancelar
+        let originalValues = {
+            nombre: '@Model?.Nombre',
+            telefono: '@Model?.Telefono',
+            direccion: '@Model?.Direccion'
+        };
+
         function toggleEdit() {
-            const inputs = document.querySelectorAll('#profileForm input, #profileForm select');
+            const inputs = document.querySelectorAll('#profileForm input:not([type="email"]):not([type="hidden"]), #profileForm textarea');
             const actions = document.getElementById('formActions');
             
             inputs.forEach(input => {
-                if (input.type !== 'email') {
-                    input.disabled = false;
-                }
+                input.disabled = false;
             });
             
             actions.style.display = 'flex';
         }
 
         function cancelEdit() {
-            const inputs = document.querySelectorAll('#profileForm input, #profileForm select');
+            // Restaurar valores originales
+            document.getElementById('nombre').value = originalValues.nombre;
+            document.getElementById('telefono').value = originalValues.telefono;
+            document.getElementById('direccion').value = originalValues.direccion;
+            
+            const inputs = document.querySelectorAll('#profileForm input:not([type="hidden"]), #profileForm textarea');
             const actions = document.getElementById('formActions');
             
             inputs.forEach(input => input.disabled = true);
             actions.style.display = 'none';
+            
+            // Ocultar mensajes
+            document.getElementById('successMessage').style.display = 'none';
+            document.getElementById('errorMessage').style.display = 'none';
         }
 
-        function saveProfile() {
-            alert('Perfil actualizado exitosamente');
-            cancelEdit();
+        async function saveProfile() {
+            const nombre = document.getElementById('nombre').value.trim();
+            const telefono = document.getElementById('telefono').value.trim();
+            const direccion = document.getElementById('direccion').value.trim();
+
+            // Validación básica
+            if (!nombre) {
+                showError('El nombre es obligatorio');
+                return;
+            }
+
+            // Preparar datos para enviar
+            const data = {
+                nombre: nombre,
+                telefono: telefono,
+                direccion: direccion
+            };
+
+            try {
+                const response = await fetch('@Url.Action("ActualizarPerfil", "Perfil")', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // Actualizar valores originales
+                    originalValues = {
+                        nombre: nombre,
+                        telefono: telefono,
+                        direccion: direccion
+                    };
+
+                    showSuccess(result.message);
+                    
+                    // Deshabilitar campos después de 1.5 segundos
+                    setTimeout(() => {
+                        cancelEdit();
+                        // Recargar la página para actualizar el nombre en el sidebar
+                        location.reload();
+                    }, 1500);
+                } else {
+                    showError(result.message);
+                }
+            } catch (error) {
+                showError('Error al actualizar el perfil. Por favor, inténtalo de nuevo.');
+                console.error('Error:', error);
+            }
+        }
+
+        function showSuccess(message) {
+            const successDiv = document.getElementById('successMessage');
+            const successText = document.getElementById('successText');
+            const errorDiv = document.getElementById('errorMessage');
+            
+            errorDiv.style.display = 'none';
+            successText.textContent = message;
+            successDiv.style.display = 'block';
+            
+            // Scroll to top
+            successDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            const errorText = document.getElementById('errorText');
+            const successDiv = document.getElementById('successMessage');
+            
+            successDiv.style.display = 'none';
+            errorText.textContent = message;
+            errorDiv.style.display = 'block';
+            
+            // Scroll to top
+            errorDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
     </script>
 }
