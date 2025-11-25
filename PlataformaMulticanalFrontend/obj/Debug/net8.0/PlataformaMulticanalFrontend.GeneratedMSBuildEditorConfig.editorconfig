@@ -9,44 +9,44 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = PlataformaMulticanalFrontend
 build_property.RootNamespace = PlataformaMulticanalFrontend
-build_property.ProjectDir = C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\
+build_property.ProjectDir = C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend
+build_property.MSBuildProjectDirectory = C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/JUAN JOSE BERMUDEZ/OneDrive - Pontificia Universidad Javeriana/Documentos/Adapterparcial1/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Account/Login.cshtml]
+[C:/Users/Usuario/Desktop/Universidad/Semestre_7/Arquitectura SW/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/JUAN JOSE BERMUDEZ/OneDrive - Pontificia Universidad Javeriana/Documentos/Adapterparcial1/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Account/Registro.cshtml]
+[C:/Users/Usuario/Desktop/Universidad/Semestre_7/Arquitectura SW/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Account/Registro.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3Ryby5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/JUAN JOSE BERMUDEZ/OneDrive - Pontificia Universidad Javeriana/Documentos/Adapterparcial1/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Admin/Catalogo.cshtml]
+[C:/Users/Usuario/Desktop/Universidad/Semestre_7/Arquitectura SW/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Admin/Catalogo.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ2F0YWxvZ28uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/JUAN JOSE BERMUDEZ/OneDrive - Pontificia Universidad Javeriana/Documentos/Adapterparcial1/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Admin/Dashboard.cshtml]
+[C:/Users/Usuario/Desktop/Universidad/Semestre_7/Arquitectura SW/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Admin/Dashboard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGFzaGJvYXJkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/JUAN JOSE BERMUDEZ/OneDrive - Pontificia Universidad Javeriana/Documentos/Adapterparcial1/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Admin/Inventarios.cshtml]
+[C:/Users/Usuario/Desktop/Universidad/Semestre_7/Arquitectura SW/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Admin/Inventarios.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSW52ZW50YXJpb3MuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/JUAN JOSE BERMUDEZ/OneDrive - Pontificia Universidad Javeriana/Documentos/Adapterparcial1/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Admin/Precios.cshtml]
+[C:/Users/Usuario/Desktop/Universidad/Semestre_7/Arquitectura SW/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Admin/Precios.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUHJlY2lvcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/JUAN JOSE BERMUDEZ/OneDrive - Pontificia Universidad Javeriana/Documentos/Adapterparcial1/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Admin/Proveedores.cshtml]
+[C:/Users/Usuario/Desktop/Universidad/Semestre_7/Arquitectura SW/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Admin/Proveedores.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUHJvdmVlZG9yZXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/JUAN JOSE BERMUDEZ/OneDrive - Pontificia Universidad Javeriana/Documentos/Adapterparcial1/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Admin/Reportes.cshtml]
+[C:/Users/Usuario/Desktop/Universidad/Semestre_7/Arquitectura SW/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Admin/Reportes.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUmVwb3J0ZXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
@@ -66,58 +66,78 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQnVzcXVlZGFcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/JUAN JOSE BERMUDEZ/OneDrive - Pontificia Universidad Javeriana/Documentos/Adapterparcial1/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Carrito/Index.cshtml]
+[C:/Users/Usuario/Desktop/Universidad/Semestre_7/Arquitectura SW/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Carrito/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2Fycml0b1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/JUAN JOSE BERMUDEZ/OneDrive - Pontificia Universidad Javeriana/Documentos/Adapterparcial1/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Catalogo/Detalle.cshtml]
+[C:/Users/Usuario/Desktop/Universidad/Semestre_7/Arquitectura SW/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Catalogo/Detalle.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0YWxvZ29cRGV0YWxsZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/JUAN JOSE BERMUDEZ/OneDrive - Pontificia Universidad Javeriana/Documentos/Adapterparcial1/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Catalogo/Index.cshtml]
+[C:/Users/Usuario/Desktop/Universidad/Semestre_7/Arquitectura SW/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Catalogo/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0YWxvZ29cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/JUAN JOSE BERMUDEZ/OneDrive - Pontificia Universidad Javeriana/Documentos/Adapterparcial1/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Checkout/Confirmacion.cshtml]
+[C:/Users/Usuario/Desktop/Universidad/Semestre_7/Arquitectura SW/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Checkout/Confirmacion.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2hlY2tvdXRcQ29uZmlybWFjaW9uLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/JUAN JOSE BERMUDEZ/OneDrive - Pontificia Universidad Javeriana/Documentos/Adapterparcial1/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Checkout/Index.cshtml]
+[C:/Users/Usuario/Desktop/Universidad/Semestre_7/Arquitectura SW/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Checkout/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2hlY2tvdXRcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/JUAN JOSE BERMUDEZ/OneDrive - Pontificia Universidad Javeriana/Documentos/Adapterparcial1/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Home/Index.cshtml]
+[C:/Users/Usuario/Desktop/Universidad/Semestre_7/Arquitectura SW/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/JUAN JOSE BERMUDEZ/OneDrive - Pontificia Universidad Javeriana/Documentos/Adapterparcial1/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Home/Privacy.cshtml]
+[C:/Users/Usuario/Desktop/Universidad/Semestre_7/Arquitectura SW/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/JUAN JOSE BERMUDEZ/OneDrive - Pontificia Universidad Javeriana/Documentos/Adapterparcial1/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Perfil/Historial.cshtml]
+[C:/Users/Usuario/Desktop/Universidad/Semestre_7/Arquitectura SW/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Perfil/Historial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGVyZmlsXEhpc3RvcmlhbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/JUAN JOSE BERMUDEZ/OneDrive - Pontificia Universidad Javeriana/Documentos/Adapterparcial1/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Perfil/Index.cshtml]
+[C:/Users/Usuario/Desktop/Universidad/Semestre_7/Arquitectura SW/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Perfil/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGVyZmlsXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/JUAN JOSE BERMUDEZ/OneDrive - Pontificia Universidad Javeriana/Documentos/Adapterparcial1/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Shared/Error.cshtml]
+[C:/Users/Usuario/Desktop/Universidad/Semestre_7/Arquitectura SW/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Proveedor/Catalogo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvdmVlZG9yXENhdGFsb2dvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Usuario/Desktop/Universidad/Semestre_7/Arquitectura SW/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Proveedor/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvdmVlZG9yXERhc2hib2FyZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Usuario/Desktop/Universidad/Semestre_7/Arquitectura SW/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Proveedor/Inventarios.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvdmVlZG9yXEludmVudGFyaW9zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Usuario/Desktop/Universidad/Semestre_7/Arquitectura SW/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Proveedor/Precios.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvdmVlZG9yXFByZWNpb3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Usuario/Desktop/Universidad/Semestre_7/Arquitectura SW/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Proveedor/_EditarProductoModal.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvdmVlZG9yXF9FZGl0YXJQcm9kdWN0b01vZGFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Usuario/Desktop/Universidad/Semestre_7/Arquitectura SW/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/JUAN JOSE BERMUDEZ/OneDrive - Pontificia Universidad Javeriana/Documentos/Adapterparcial1/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/Usuario/Desktop/Universidad/Semestre_7/Arquitectura SW/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/JUAN JOSE BERMUDEZ/OneDrive - Pontificia Universidad Javeriana/Documentos/Adapterparcial1/plataforma-multicanal/PlataformaMulticanalFrontend/Views/_ViewImports.cshtml]
+[C:/Users/Usuario/Desktop/Universidad/Semestre_7/Arquitectura SW/plataforma-multicanal/PlataformaMulticanalFrontend/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/JUAN JOSE BERMUDEZ/OneDrive - Pontificia Universidad Javeriana/Documentos/Adapterparcial1/plataforma-multicanal/PlataformaMulticanalFrontend/Views/_ViewStart.cshtml]
+[C:/Users/Usuario/Desktop/Universidad/Semestre_7/Arquitectura SW/plataforma-multicanal/PlataformaMulticanalFrontend/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/JUAN JOSE BERMUDEZ/OneDrive - Pontificia Universidad Javeriana/Documentos/Adapterparcial1/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Shared/_Layout.cshtml]
+[C:/Users/Usuario/Desktop/Universidad/Semestre_7/Arquitectura SW/plataforma-multicanal/PlataformaMulticanalFrontend/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-23uniy4w4l
