@@ -25,11 +25,19 @@ namespace PlataformaMulticanalFrontend.Controllers
 
         // POST: Account/Login
         [HttpPost]
-        public async Task<IActionResult> Login(string email, string password, string? returnUrl)
+        public async Task<IActionResult> Login(string email, string password, string userRole, string? returnUrl)
         {
+            // Validar campos requeridos
             if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
             {
                 TempData["Error"] = "Por favor completa todos los campos";
+                return View();
+            }
+
+            // Validar que se haya seleccionado un rol
+            if (string.IsNullOrWhiteSpace(userRole))
+            {
+                TempData["Error"] = "Por favor selecciona un tipo de cuenta";
                 return View();
             }
 
@@ -48,13 +56,22 @@ namespace PlataformaMulticanalFrontend.Controllers
                 HttpContext.Session.SetString("UserId", response.Data.LocalId);
                 HttpContext.Session.SetString("UserEmail", response.Data.Email);
                 HttpContext.Session.SetString("RefreshToken", response.Data.RefreshToken);
+                HttpContext.Session.SetString("UserRole", userRole); // Guardar el rol seleccionado
 
                 TempData["Success"] = "¡Bienvenido de nuevo!";
 
-                if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
-                    return Redirect(returnUrl);
-                
-                return RedirectToAction("Index", "Home");
+                // Redirigir según el rol seleccionado
+                if (userRole == "admin")
+                {
+                    return Redirect("/admin/dashboard");
+                }
+                else // userRole == "cliente"
+                {
+                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                        return Redirect(returnUrl);
+                    
+                    return RedirectToAction("Index", "Home");
+                }
             }
 
             TempData["Error"] = response.ErrorMessage ?? "Error al iniciar sesión";
