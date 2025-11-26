@@ -1,0 +1,5 @@
+fastapi
+uvicorn[standard]
+aiokafka
+sib_api_v3_sdk
+prometheus_fastapi_instrumentator

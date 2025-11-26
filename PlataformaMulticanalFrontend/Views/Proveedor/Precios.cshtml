@@ -1,0 +1,509 @@
+﻿@model List<PlataformaMulticanalFrontend.Models.Producto>
+@{
+    ViewData["Title"] = "Gestión de Precios";
+    
+    // Calcular estadísticas
+    var precioPromedio = Model.Any() ? Model.Average(p => p.Precio) : 0;
+    var productoMasCaro = Model.OrderByDescending(p => p.Precio).FirstOrDefault();
+    var productoMasBarato = Model.OrderBy(p => p.Precio).FirstOrDefault();
+    
+    // Obtener categorías únicas
+    var categorias = Model
+        .Where(p => !string.IsNullOrEmpty(p.Categoria))
+        .Select(p => p.Categoria)
+        .Distinct()
+        .OrderBy(c => c)
+        .ToList();
+    
+    // Rangos de precio
+    var rango0_100 = Model.Count(p => p.Precio <= 100);
+    var rango100_500 = Model.Count(p => p.Precio > 100 && p.Precio <= 500);
+    var rango500_1000 = Model.Count(p => p.Precio > 500 && p.Precio <= 1000);
+    var rango1000Plus = Model.Count(p => p.Precio > 1000);
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+}
+<!-- Admin Section -->
+<section class="admin-section">
+    <div class="container-fluid px-4">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-2 mb-4">
+                <div class="admin-sidebar">
+                    <div class="sidebar-brand">
+                        <i class="fas fa-user-shield"></i>
+                        <span>Admin Panel</span>
+                    </div>
+                    <nav class="admin-menu">
+                        <a asp-controller="Proveedor" asp-action="Dashboard" class="menu-item">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Dashboard</span>
+                        </a>
+                        <a asp-controller="Proveedor" asp-action="Catalogo" class="menu-item">
+                            <i class="fas fa-box"></i>
+                            <span>Catálogo</span>
+                        </a>
+                        <a asp-controller="Proveedor" asp-action="Inventarios" class="menu-item">
+                            <i class="fas fa-warehouse"></i>
+                            <span>Inventarios</span>
+                        </a>
+                        <a href="#" class="menu-item active">
+                            <i class="fas fa-tags"></i>
+                            <span>Precios</span>
+                        </a>
+                        
+                        <hr class="sidebar-divider">
+                        <a asp-controller="Home" asp-action="Index" class="menu-item">
+                            <i class="fas fa-store"></i>
+                            <span>Ver Tienda</span>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+            <!-- Main Content -->
+            <div class="col-lg-10">
+                <!-- Page Header -->
+                <div class="admin-header">
+                    <div>
+                        <h2><i class="fas fa-tags me-3"></i>Gestión de Precios</h2>
+                        <p>Actualización de precios y análisis de productos</p>
+                    </div>
+                    <div class="header-actions">
+                        <a asp-controller="Proveedor" asp-action="Catalogo" class="btn btn-primary">
+                            <i class="fas fa-edit me-2"></i>Editar Productos
+                        </a>
+                    </div>
+                </div>
+                <!-- Quick Stats -->
+                <div class="row g-3 mb-4">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-primary">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Precio Promedio</span>
+                                <h3 class="stat-value">$@precioPromedio.ToString("N0")</h3>
+                                <span class="stat-change text-muted">
+                                    <i class="fas fa-chart-line"></i> @Model.Count productos
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-success">
+                                <i class="fas fa-arrow-up"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Precio Más Alto</span>
+                                <h3 class="stat-value">$@(productoMasCaro?.Precio.ToString("N0") ?? "0")</h3>
+                                <span class="stat-change text-muted">
+                                    <i class="fas fa-box"></i> @(productoMasCaro?.Nombre ?? "N/A")
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-info">
+                                <i class="fas fa-arrow-down"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Precio Más Bajo</span>
+                                <h3 class="stat-value">$@(productoMasBarato?.Precio.ToString("N0") ?? "0")</h3>
+                                <span class="stat-change text-muted">
+                                    <i class="fas fa-box"></i> @(productoMasBarato?.Nombre ?? "N/A")
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-warning">
+                                <i class="fas fa-list"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Total Productos</span>
+                                <h3 class="stat-value">@Model.Count</h3>
+                                <span class="stat-change text-muted">
+                                    <i class="fas fa-layer-group"></i> @categorias.Count categorías
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Filters and Search -->
+                <div class="admin-card mb-4">
+                    <div class="card-body">
+                        <form method="get" asp-action="Precios">
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold">Buscar Producto</label>
+                                    <input type="text" name="buscar" class="form-control" 
+                                           placeholder="Nombre del producto..." 
+                                           value="@ViewBag.BuscarTexto">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label fw-bold">Categoría</label>
+                                    <select name="categoria" class="form-select">
+                                        <option value="">Todas las categorías</option>
+                                        @foreach (var cat in categorias)
+                                        {
+                                            <option value="@cat" selected="@(ViewBag.CategoriaSeleccionada == cat)">
+                                                @cat
+                                            </option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label fw-bold">Rango de Precio</label>
+                                    <select name="rango" class="form-select">
+                                        <option value="">Todos (@Model.Count)</option>
+                                        <option value="0-100">$0 - $100 (@rango0_100)</option>
+                                        <option value="100-500">$100 - $500 (@rango100_500)</option>
+                                        <option value="500-1000">$500 - $1,000 (@rango500_1000)</option>
+                                        <option value="1000+">$1,000+ (@rango1000Plus)</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label fw-bold">&nbsp;</label>
+                                    <button type="submit" class="btn btn-primary w-100">
+                                        <i class="fas fa-search me-2"></i>Filtrar
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- Products Table -->
+                <div class="admin-card mb-4">
+                    <div class="card-header">
+                        <h5><i class="fas fa-list me-2"></i>Lista de Precios (@Model.Count productos)</h5>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-sm btn-outline-secondary" onclick="window.print()">
+                                <i class="fas fa-print me-2"></i>Imprimir
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        @if (Model.Any())
+                        {
+                            <div class="table-responsive">
+                                <table class="table table-hover mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Producto</th>
+                                            <th>Categoría</th>
+                                            <th>Precio</th>
+                                            <th>Stock</th>
+                                            <th>Valor Inventario</th>
+                                            <th>Estado</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var producto in Model.OrderByDescending(p => p.Precio))
+                                        {
+                                            var valorInventario = producto.Precio * producto.Stock;
+                                            var estadoPrecio = producto.Precio > precioPromedio ? "Alto" : 
+                                                              producto.Precio < (precioPromedio * 0.5) ? "Bajo" : "Normal";
+                                            var badgePrecio = producto.Precio > precioPromedio ? "bg-success" : 
+                                                             producto.Precio < (precioPromedio * 0.5) ? "bg-info" : "bg-secondary";
+                                            
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <img src="@(string.IsNullOrEmpty(producto.Imagen) ? "https://via.placeholder.com/50" : producto.Imagen)" 
+                                                             alt="@producto.Nombre" 
+                                                             class="product-thumb"
+                                                             style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                                                        <div>
+                                                            <h6 class="mb-0">@producto.Nombre</h6>
+                                                            @if (!string.IsNullOrEmpty(producto.Id))
+                                                            {
+                                                                <small class="text-muted">ID: @producto.Id</small>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span class="badge bg-primary">
+                                                        @(string.IsNullOrEmpty(producto.Categoria) ? "Sin categoría" : producto.Categoria)
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <strong class="text-success" style="font-size: 1.1rem;">
+                                                        $@producto.Precio.ToString("N0")
+                                                    </strong>
+                                                </td>
+                                                <td>
+                                                    @if (producto.Stock > 0)
+                                                    {
+                                                        <span class="badge bg-success">@producto.Stock unidades</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="badge bg-danger">Agotado</span>
+                                                    }
+                                                </td>
+                                                <td>
+                                                    <strong>$@valorInventario.ToString("N0")</strong>
+                                                </td>
+                                                <td>
+                                                    <span class="badge @badgePrecio">@estadoPrecio</span>
+                                                </td>
+                                                <td>
+                                                    <div class="btn-group btn-group-sm">
+                                                        <button class="btn btn-outline-primary" 
+                                                                onclick="abrirModalEditar('@producto.Id', '@producto.Nombre', @producto.Precio, @producto.Stock, '@producto.Categoria', '@(string.IsNullOrEmpty(producto.Imagen) ? "" : producto.Imagen)')"
+                                                                title="Editar precio">
+                                                            <i class="fas fa-edit"></i>
+                                                        </button>
+                                                        <button class="btn btn-outline-info" 
+                                                                onclick="verDetalles('@producto.Id')"
+                                                                title="Ver detalles">
+                                                            <i class="fas fa-info-circle"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                    <tfoot class="table-light">
+                                        <tr>
+                                            <td colspan="2"><strong>TOTALES</strong></td>
+                                            <td><strong>$@precioPromedio.ToString("N0")</strong><br><small class="text-muted">Promedio</small></td>
+                                            <td><strong>@Model.Sum(p => p.Stock)</strong><br><small class="text-muted">Total Stock</small></td>
+                                            <td colspan="3"><strong>$@Model.Sum(p => p.Precio * p.Stock).ToString("N0")</strong><br><small class="text-muted">Valor Total</small></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="text-center py-5">
+                                <i class="fas fa-tags fa-3x text-muted mb-3"></i>
+                                <p class="text-muted">No hay productos para mostrar</p>
+                                <a asp-controller="Proveedor" asp-action="Catalogo" class="btn btn-primary">
+                                    <i class="fas fa-plus me-2"></i>Agregar productos
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <!-- Price Distribution -->
+                <div class="row g-3">
+                    <div class="col-lg-6">
+                        <div class="admin-card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-chart-pie me-2"></i>Distribución por Rango de Precio</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="price-range-item">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>$0 - $100</span>
+                                        <strong>@rango0_100 productos</strong>
+                                    </div>
+                                    <div class="progress" style="height: 25px;">
+                                        <div class="progress-bar bg-info" 
+                                             style="width: @(Model.Any() ? (rango0_100 * 100.0 / Model.Count) : 0)%">
+                                            @(Model.Any() ? Math.Round(rango0_100 * 100.0 / Model.Count, 1) : 0)%
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="price-range-item mt-3">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>$100 - $500</span>
+                                        <strong>@rango100_500 productos</strong>
+                                    </div>
+                                    <div class="progress" style="height: 25px;">
+                                        <div class="progress-bar bg-primary" 
+                                             style="width: @(Model.Any() ? (rango100_500 * 100.0 / Model.Count) : 0)%">
+                                            @(Model.Any() ? Math.Round(rango100_500 * 100.0 / Model.Count, 1) : 0)%
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="price-range-item mt-3">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>$500 - $1,000</span>
+                                        <strong>@rango500_1000 productos</strong>
+                                    </div>
+                                    <div class="progress" style="height: 25px;">
+                                        <div class="progress-bar bg-warning" 
+                                             style="width: @(Model.Any() ? (rango500_1000 * 100.0 / Model.Count) : 0)%">
+                                            @(Model.Any() ? Math.Round(rango500_1000 * 100.0 / Model.Count, 1) : 0)%
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="price-range-item mt-3">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>$1,000+</span>
+                                        <strong>@rango1000Plus productos</strong>
+                                    </div>
+                                    <div class="progress" style="height: 25px;">
+                                        <div class="progress-bar bg-success" 
+                                             style="width: @(Model.Any() ? (rango1000Plus * 100.0 / Model.Count) : 0)%">
+                                            @(Model.Any() ? Math.Round(rango1000Plus * 100.0 / Model.Count, 1) : 0)%
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="admin-card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-chart-bar me-2"></i>Precios por Categoría</h5>
+                            </div>
+                            <div class="card-body">
+                                @if (categorias.Any())
+                                {
+                                    @foreach (var categoria in categorias)
+                                    {
+                                        var productosCategoria = Model.Where(p => p.Categoria == categoria).ToList();
+                                        var promedioCat = productosCategoria.Any() ? productosCategoria.Average(p => p.Precio) : 0;
+                                        
+                                        <div class="mb-3">
+                                            <div class="d-flex justify-content-between mb-2">
+                                                <span><strong>@categoria</strong> (@productosCategoria.Count)</span>
+                                                <span class="text-success">$@promedioCat.ToString("N0")</span>
+                                            </div>
+                                            <div class="progress" style="height: 20px;">
+                                                <div class="progress-bar" 
+                                                     style="width: @(precioPromedio > 0 ? (promedioCat / precioPromedio * 100) : 0)%">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <p class="text-muted text-center">No hay categorías definidas</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modal de Edición -->
+<div class="modal fade" id="modalEditarProducto" tabindex="-1" aria-labelledby="modalEditarProductoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditarProductoLabel">
+                    <i class="fas fa-edit me-2"></i>Editar Producto
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="formEditarProducto" method="post" asp-controller="Proveedor" asp-action="EditarProducto">
+                <div class="modal-body">
+                    <input type="hidden" id="editId" name="id" />
+                    <input type="hidden" id="editIdProducto" name="producto.Id" />
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <img id="editImagen" src="" alt="Producto" class="img-fluid rounded mb-3" style="max-height: 200px; object-fit: cover;">
+                        </div>
+                        <div class="col-md-6">
+                            <h5 id="editNombreDisplay" class="mb-3"></h5>
+                            <p class="text-muted">ID: <span id="editIdDisplay"></span></p>
+                        </div>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="editNombre" class="form-label fw-bold">Nombre del Producto</label>
+                            <input type="text" class="form-control" id="editNombre" name="producto.Nombre" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="editCategoria" class="form-label fw-bold">Categoría</label>
+                            <input type="text" class="form-control" id="editCategoria" name="producto.Categoria">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="editPrecio" class="form-label fw-bold">Precio</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="editPrecio" name="producto.Precio" min="0" step="0.01" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="editStock" class="form-label fw-bold">Stock</label>
+                            <input type="number" class="form-control" id="editStock" name="producto.Stock" min="0" required>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="editImagenUrl" class="form-label fw-bold">URL de Imagen</label>
+                            <input type="url" class="form-control" id="editImagenUrl" name="producto.Imagen">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-2"></i>Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-2"></i>Guardar Cambios
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function abrirModalEditar(id, nombre, precio, stock, categoria, imagen) {
+            document.getElementById('editId').value = id;
+            document.getElementById('editIdProducto').value = id;
+            document.getElementById('editIdDisplay').textContent = id;
+            document.getElementById('editNombre').value = nombre;
+            document.getElementById('editNombreDisplay').textContent = nombre;
+            document.getElementById('editPrecio').value = precio;
+            document.getElementById('editStock').value = stock;
+            document.getElementById('editCategoria').value = categoria || '';
+            document.getElementById('editImagenUrl').value = imagen || '';
+            
+            const imgElement = document.getElementById('editImagen');
+            imgElement.src = imagen || 'https://via.placeholder.com/200';
+            
+            const modal = new bootstrap.Modal(document.getElementById('modalEditarProducto'));
+            modal.show();
+        }
+
+        function verDetalles(id) {
+            alert('Ver detalles del producto ID: ' + id);
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const rangoSelect = document.querySelector('select[name="rango"]');
+            const urlParams = new URLSearchParams(window.location.search);
+            const rangoParam = urlParams.get('rango');
+            
+            if (rangoParam && rangoSelect) {
+                rangoSelect.value = rangoParam;
+            }
+        });
+    </script>
+    
+    <style>
+        .product-thumb {
+            border: 1px solid #dee2e6;
+        }
+        
+        .price-range-item {
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+    </style>
+}

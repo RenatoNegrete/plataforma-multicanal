@@ -1,31 +1,44 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using PlataformaMulticanalFrontend.Services;
 using PlataformaMulticanalFrontend.Models;
 
-namespace PlataformaMulticanalFrontend.Controllers;
-
-public class HomeController : Controller
+namespace PlataformaMulticanalFrontend.Controllers
 {
-    private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
+    public class HomeController : Controller
     {
-        _logger = logger;
-    }
+        private readonly CatalogoService _catalogoService;
+        private readonly ILogger<HomeController> _logger;
 
-    public IActionResult Index()
-    {
-        return View();
-    }
+        public HomeController(CatalogoService catalogoService, ILogger<HomeController> logger)
+        {
+            _catalogoService = catalogoService;
+            _logger = logger;
+        }
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
+        public async Task<IActionResult> Index()
+        {
+            try
+            {
+                // Obtener productos del backend
+                var productos = await _catalogoService.ObtenerTodosAsync();
+                
+                // Tomar solo los primeros 12 productos para la página principal
+                var productosDestacados = productos.Take(12).ToList();
+                
+                return View(productosDestacados);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error al cargar productos: {ex.Message}");
+                
+                // Si hay error, devolver lista vacía
+                return View(new List<Producto>());
+            }
+        }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        public IActionResult Privacy()
+        {
+            return View();
+        }
     }
 }

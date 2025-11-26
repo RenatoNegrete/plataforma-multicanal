@@ -1,0 +1,387 @@
+﻿@model List<PlataformaMulticanalFrontend.Models.Producto>
+
+@{
+    ViewData["Title"] = "Gestión de Catálogo";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+}
+
+<!-- Admin Section -->
+<section class="admin-section">
+    <div class="container-fluid px-4">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-2 mb-4">
+                <div class="admin-sidebar">
+                    <div class="sidebar-brand">
+                        <i class="fas fa-user-shield"></i>
+                        <span>Proveedor Panel</span>
+                    </div>
+                    <nav class="admin-menu">
+                        <a asp-controller="Proveedor" asp-action="Dashboard" class="menu-item">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Dashboard</span>
+                        </a>
+                        <a asp-controller="Proveedor" asp-action="Catalogo" class="menu-item active">
+                            <i class="fas fa-box"></i>
+                            <span>Catálogo</span>
+                        </a>
+                        <a asp-controller="Proveedor" asp-action="Inventarios" class="menu-item">
+                            <i class="fas fa-warehouse"></i>
+                            <span>Inventarios</span>
+                        </a>
+                        <a asp-controller="Proveedor" asp-action="Precios" class="menu-item">
+                            <i class="fas fa-tags"></i>
+                            <span>Precios</span>
+                        </a>
+                       
+                        <hr class="sidebar-divider">
+                        <a asp-controller="Home" asp-action="Index" class="menu-item">
+                            <i class="fas fa-store"></i>
+                            <span>Ver Tienda</span>
+                        </a>
+                        <a href="#" class="menu-item text-danger">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Cerrar Sesión</span>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-10">
+                <!-- Mensajes de alerta -->
+                @if (TempData["Success"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="fas fa-check-circle me-2"></i>@TempData["Success"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                }
+                @if (TempData["Error"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="fas fa-exclamation-circle me-2"></i>@TempData["Error"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                }
+
+                <!-- Page Header -->
+                <div class="admin-header">
+                    <div>
+                        <h2><i class="fas fa-box me-3"></i>Gestión de Catálogo</h2>
+                        <p>Administra productos, servicios y contenido digital</p>
+                    </div>
+                    <div class="header-actions">
+                       
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">
+                            <i class="fas fa-plus me-2"></i>Nuevo Producto
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="admin-card mb-3">
+                    <div class="card-body">
+                        <form asp-controller="Proveedor" asp-action="Catalogo" method="get">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <input type="text" name="buscar" class="form-control" 
+                                           placeholder="Buscar productos..." 
+                                           value="@ViewBag.BuscarTexto">
+                                </div>
+                               
+                                <div class="col-md-2">
+                                    <button type="submit" class="btn btn-outline-secondary w-100">
+                                        <i class="fas fa-filter me-2"></i>Filtrar
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Products Table -->
+                <div class="admin-card">
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th width="50">
+                                            <input type="checkbox" class="form-check-input">
+                                        </th>
+                                        <th>Producto</th>
+                                        <th>ID</th>
+                                        <th>Categoría</th>
+                                        <th>Precio</th>
+                                        <th>Stock</th>
+                                        <th>Estado</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model != null && Model.Any())
+                                    {
+                                        @foreach (var producto in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <input type="checkbox" class="form-check-input">
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <img src="@(string.IsNullOrEmpty(producto.Imagen) ? "https://via.placeholder.com/60" : producto.Imagen)" 
+                                                             class="product-thumb me-3" 
+                                                             alt="@producto.Nombre"
+                                                             style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
+                                                        <div>
+                                                            <h6 class="mb-0">@producto.Nombre</h6>
+                                                            <small class="text-muted">
+    @(string.IsNullOrEmpty(producto.Descripcion)
+        ? ""
+        : producto.Descripcion.Substring(0, Math.Min(30, producto.Descripcion.Length)))
+</small>
+
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><code>@producto.Id</code></td>
+                                                <td>@(producto.Categoria ?? "Sin categoría")</td>
+                                                <td><strong>$@producto.Precio.ToString("N0")</strong></td>
+                                                <td>
+                                                    @if (producto.Stock == 0)
+                                                    {
+                                                        <span class="badge bg-danger">@producto.Stock unidades</span>
+                                                    }
+                                                    else if (producto.Stock < 10)
+                                                    {
+                                                        <span class="badge bg-warning">@producto.Stock unidades</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="badge bg-success">@producto.Stock unidades</span>
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @if (producto.Stock == 0)
+                                                    {
+                                                        <span class="badge bg-danger">Agotado</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="badge bg-success">Activo</span>
+                                                    }
+                                                </td>
+                                                <td>
+                                                    <div class="btn-group btn-group-sm">
+                                                        <button class="btn btn-outline-primary" 
+                                                                title="Editar"
+                                                                onclick="editarProducto('@producto.Id')">
+                                                            <i class="fas fa-edit"></i>
+                                                        </button>
+                                                        <a asp-controller="Catalogo" 
+                                                           asp-action="Detalle" 
+                                                           asp-route-id="@producto.Id" 
+                                                           class="btn btn-outline-info" 
+                                                           title="Ver"
+                                                           target="_blank">
+                                                            <i class="fas fa-eye"></i>
+                                                        </a>
+                                                        <button class="btn btn-outline-danger" 
+                                                                title="Eliminar"
+                                                                onclick="confirmarEliminar('@producto.Id', '@producto.Nombre')">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="8" class="text-center py-4">
+                                                <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
+                                                <p class="text-muted">No hay productos disponibles</p>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    @if (ViewBag.TotalProductos > 0)
+                    {
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted">
+                                    Mostrando @Model.Count de @ViewBag.TotalProductos productos
+                                </span>
+                                <nav>
+                                    <ul class="pagination pagination-sm mb-0">
+                                        <li class="page-item @(ViewBag.PaginaActual == 1 ? "disabled" : "")">
+                                            <a class="page-link" 
+                                               asp-controller="Proveedor" 
+                                               asp-action="Catalogo" 
+                                               asp-route-pagina="@(ViewBag.PaginaActual - 1)"
+                                               asp-route-buscar="@ViewBag.BuscarTexto"
+                                               asp-route-categoria="@ViewBag.CategoriaSeleccionada">
+                                                Anterior
+                                            </a>
+                                        </li>
+                                        
+                                        @for (int i = 1; i <= ViewBag.TotalPaginas; i++)
+                                        {
+                                            <li class="page-item @(ViewBag.PaginaActual == i ? "active" : "")">
+                                                <a class="page-link" 
+                                                   asp-controller="Proveedor" 
+                                                   asp-action="Catalogo" 
+                                                   asp-route-pagina="@i"
+                                                   asp-route-buscar="@ViewBag.BuscarTexto"
+                                                   asp-route-categoria="@ViewBag.CategoriaSeleccionada">
+                                                    @i
+                                                </a>
+                                            </li>
+                                        }
+                                        
+                                        <li class="page-item @(ViewBag.PaginaActual == ViewBag.TotalPaginas ? "disabled" : "")">
+                                            <a class="page-link" 
+                                               asp-controller="Proveedor" 
+                                               asp-action="Catalogo" 
+                                               asp-route-pagina="@(ViewBag.PaginaActual + 1)"
+                                               asp-route-buscar="@ViewBag.BuscarTexto"
+                                               asp-route-categoria="@ViewBag.CategoriaSeleccionada">
+                                                Siguiente
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Add Product Modal -->
+<div class="modal fade" id="addProductModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form asp-controller="Proveedor" asp-action="CrearProducto" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-plus me-2"></i>Nuevo Producto
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label">Nombre del Producto *</label>
+                            <input type="text" class="form-control" name="Nombre" 
+                                   placeholder="Ej: Laptop Gaming Pro" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Categoría</label>
+                            <input type="text" class="form-control" name="Categoria" 
+                                   placeholder="Ej: Tecnología">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Proveedor ID</label>
+                            <input type="text" class="form-control" name="ProveedorId" 
+                                   placeholder="Opcional">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Precio *</label>
+                            <input type="number" step="0.01" class="form-control" name="Precio" 
+                                   placeholder="0.00" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Stock *</label>
+                            <input type="number" class="form-control" name="Stock" 
+                                   placeholder="0" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">URL de Imagen</label>
+                            <input type="url" class="form-control" name="Imagen" 
+                                   placeholder="https://ejemplo.com/imagen.jpg">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Descripción</label>
+                            <textarea class="form-control" name="Descripcion" rows="3" 
+                                      placeholder="Describe el producto..."></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-2"></i>Guardar Producto
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Editar Producto -->
+<div class="modal fade" id="editarProductoModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="editarProductoContent">
+            <!-- El contenido se cargará dinámicamente -->
+        </div>
+    </div>
+</div>
+
+<!-- Modal Confirmar Eliminar -->
+<div class="modal fade" id="eliminarProductoModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title"><i class="fas fa-exclamation-triangle me-2"></i>Confirmar Eliminación</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>¿Estás seguro de que deseas eliminar el producto <strong id="productoNombre"></strong>?</p>
+                <p class="text-muted">Esta acción no se puede deshacer.</p>
+            </div>
+            <div class="modal-footer">
+                <form asp-controller="Proveedor" asp-action="EliminarProducto" method="post" id="formEliminar">
+                    <input type="hidden" name="id" id="productoIdEliminar">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash me-2"></i>Eliminar
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Función para editar producto
+        function editarProducto(id) {
+            fetch(`/Proveedor/EditarProducto/${id}`)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('editarProductoContent').innerHTML = html;
+                    new bootstrap.Modal(document.getElementById('editarProductoModal')).show();
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Función para confirmar eliminación
+        function confirmarEliminar(id, nombre) {
+            document.getElementById('productoIdEliminar').value = id;
+            document.getElementById('productoNombre').textContent = nombre;
+            new bootstrap.Modal(document.getElementById('eliminarProductoModal')).show();
+        }
+    </script>
+}

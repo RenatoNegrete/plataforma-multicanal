@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+pydantic
+kafka-python
+requests
+prometheus_fastapi_instrumentator

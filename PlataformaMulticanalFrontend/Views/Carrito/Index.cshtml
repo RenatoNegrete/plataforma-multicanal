@@ -1,0 +1,353 @@
+@model PlataformaMulticanalFrontend.Models.CarritoDto
+@{
+    ViewData["Title"] = "Mi Carrito de Compras";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/carrito.css" asp-append-version="true" />
+}
+
+<!-- Breadcrumb -->
+<div class="breadcrumb-section">
+    <div class="container-fluid px-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Inicio</a></li>
+                <li class="breadcrumb-item active">Mi Carrito</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<!-- Cart Section -->
+<section class="cart-section">
+    <div class="container-fluid px-4">
+        @if (Model.Items.Count == 0)
+        {
+            <!-- Empty Cart -->
+            <div class="empty-cart">
+                <i class="fas fa-shopping-cart fa-4x text-muted mb-3"></i>
+                <h3>Tu carrito está vacío</h3>
+                <p class="text-muted mb-4">Agrega productos para comenzar tu compra</p>
+                <a asp-controller="Catalogo" asp-action="Index" class="btn btn-primary btn-lg">
+                    <i class="fas fa-shopping-bag me-2"></i>Ir al Catálogo
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                <!-- Cart Items -->
+                <div class="col-lg-8 mb-4">
+                    <div class="cart-header">
+                        <h2><i class="fas fa-shopping-cart me-3"></i>Mi Carrito de Compras</h2>
+                        <span class="items-count">@Model.Items.Sum(i => i.Cantidad) producto@(Model.Items.Sum(i => i.Cantidad) != 1 ? "s" : "")</span>
+                    </div>
+
+                    <!-- Cart Items List -->
+                    <div class="cart-items-wrapper">
+                        @foreach (var item in Model.Items)
+                        {
+                            <div class="cart-item" data-producto-id="@item.ProductoId">
+                                <div class="item-image">
+                                    <a asp-controller="Catalogo" asp-action="Detalle" asp-route-id="@item.ProductoId">
+                                        <img src="@item.ImagenUrl" alt="@item.Nombre">
+                                    </a>
+                                </div>
+                                
+                                <div class="item-details">
+                                    <h5 class="item-title">
+                                        <a asp-controller="Catalogo" asp-action="Detalle" asp-route-id="@item.ProductoId">
+                                            @item.Nombre
+                                        </a>
+                                    </h5>
+                                    <div class="item-stock">
+                                        <i class="fas fa-check-circle text-success me-1"></i>
+                                        <span>En stock</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="item-quantity">
+                                    <label>Cantidad:</label>
+                                    <div class="quantity-controls">
+                                        <button class="btn-quantity" onclick="updateQuantity('@item.ProductoId', -1)">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <input type="number" class="quantity-input" value="@item.Cantidad" min="1" max="10" readonly>
+                                        <button class="btn-quantity" onclick="updateQuantity('@item.ProductoId', 1)">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="item-price">
+                                    <div class="price-current">$@item.Precio.ToString("N2")</div>
+                                    <div class="price-total">Total: $@((item.Precio * item.Cantidad).ToString("N2"))</div>
+                                </div>
+                                
+                                <div class="item-actions">
+                                    <button class="btn-action btn-favorite" title="Agregar a favoritos">
+                                        <i class="far fa-heart"></i>
+                                    </button>
+                                    <button class="btn-action btn-remove" title="Eliminar" onclick="removeItem('@item.ProductoId')">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    <!-- Continue Shopping -->
+                    <div class="continue-shopping">
+                        <a asp-controller="Catalogo" asp-action="Index" class="btn btn-outline-primary">
+                            <i class="fas fa-arrow-left me-2"></i>Continuar Comprando
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="col-lg-4">
+                    <div class="order-summary-sticky">
+                        <!-- Discount Coupon -->
+                        <div class="coupon-section">
+                            <h5><i class="fas fa-ticket-alt me-2"></i>¿Tienes un cupón?</h5>
+                            <div class="coupon-input-group">
+                                <input type="text" class="form-control" placeholder="Ingresa tu código" id="couponCode">
+                                <button class="btn btn-primary" onclick="applyCoupon()">Aplicar</button>
+                            </div>
+                            <div class="coupon-message" id="couponMessage" style="display: none;"></div>
+                        </div>
+
+                        <!-- Order Summary -->
+                        <div class="order-summary">
+                            <h5><i class="fas fa-receipt me-2"></i>Resumen de Compra</h5>
+                            
+                            <div class="summary-row">
+                                <span>Subtotal (@Model.Items.Sum(i => i.Cantidad) producto@(Model.Items.Sum(i => i.Cantidad) != 1 ? "s" : ""))</span>
+                                <span class="amount" id="subtotal">$@Model.CalcularSubtotal().ToString("N2")</span>
+                            </div>
+
+                            <div class="summary-row">
+                                <span>Envío</span>
+                                <span class="amount text-success" id="shipping">$3.00</span>
+                            </div>
+
+                            <div class="summary-row">
+                                <span>Descuento</span>
+                                <span class="amount text-danger" id="discount">-$0.00</span>
+                            </div>
+
+                            <div class="summary-row">
+                                <span>IVA (19%)</span>
+                                <span class="amount" id="tax">$@((Model.CalcularSubtotal() * 0.19m).ToString("N2"))</span>
+                            </div>
+
+                            <div class="summary-divider"></div>
+
+                            <div class="summary-row summary-total">
+                                <span>Total a Pagar</span>
+                                <span class="amount-total" id="total">$@((Model.CalcularSubtotal() * 1.19m + 3).ToString("N2"))</span>
+                            </div>
+
+                            <button class="btn btn-success btn-checkout" onclick="goToCheckout()">
+                                <i class="fas fa-lock me-2"></i>Proceder al Pago
+                            </button>
+
+                            <div class="payment-methods">
+                                <small>Aceptamos:</small>
+                                <div class="payment-icons">
+                                    <img src="https://img.shields.io/badge/Visa-1A1F71?style=flat&logo=visa&logoColor=white" alt="Visa">
+                                    <img src="https://img.shields.io/badge/Mastercard-EB001B?style=flat&logo=mastercard&logoColor=white" alt="Mastercard">
+                                    <img src="https://img.shields.io/badge/PayPal-00457C?style=flat&logo=paypal&logoColor=white" alt="PayPal">
+                                </div>
+                            </div>
+
+                            <div class="security-badges">
+                                <div class="badge-item">
+                                    <i class="fas fa-shield-alt text-success"></i>
+                                    <span>Compra 100% Segura</span>
+                                </div>
+                                <div class="badge-item">
+                                    <i class="fas fa-undo text-primary"></i>
+                                    <span>Devolución en 30 días</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        // Update quantity
+        function updateQuantity(productoId, change) {
+            const cartItem = document.querySelector(`[data-producto-id="${productoId}"]`);
+            const input = cartItem.querySelector('.quantity-input');
+            let newValue = parseInt(input.value) + change;
+            const min = parseInt(input.getAttribute('min'));
+            const max = parseInt(input.getAttribute('max'));
+            
+            if (newValue >= min && newValue <= max) {
+                // Actualizar en el servidor
+                fetch('/Carrito/ActualizarCantidad', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        productoId: productoId,
+                        cantidad: newValue
+                    })
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        input.value = newValue;
+                        updateCartTotals();
+                        updateItemsCount();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error al actualizar cantidad');
+                });
+            }
+        }
+
+        // Remove item
+        function removeItem(productoId) {
+            if (confirm('¿Estás seguro de que deseas eliminar este producto?')) {
+                fetch('/Carrito/Eliminar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        productoId: productoId
+                    })
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        const cartItem = document.querySelector(`[data-producto-id="${productoId}"]`);
+                        cartItem.style.opacity = '0';
+                        cartItem.style.transform = 'translateX(-100%)';
+                        
+                        setTimeout(() => {
+                            cartItem.remove();
+                            updateCartTotals();
+                            updateItemsCount();
+                            
+                            // Si no quedan items, recargar la página para mostrar carrito vacío
+                            if (document.querySelectorAll('.cart-item').length === 0) {
+                                location.reload();
+                            }
+                        }, 300);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error al eliminar producto');
+                });
+            }
+        }
+
+        // Apply coupon
+        function applyCoupon() {
+            const code = document.getElementById('couponCode').value.trim().toUpperCase();
+            const messageDiv = document.getElementById('couponMessage');
+            
+            if (!code) {
+                showCouponMessage('Por favor ingresa un código de cupón', 'error');
+                return;
+            }
+
+            if (code === 'DESCUENTO10') {
+                showCouponMessage('¡Cupón aplicado! Descuento de $10', 'success');
+                document.getElementById('discount').textContent = '-$10.00';
+                updateCartTotals();
+            } else {
+                showCouponMessage('Cupón inválido o expirado', 'error');
+            }
+        }
+
+        function showCouponMessage(message, type) {
+            const messageDiv = document.getElementById('couponMessage');
+            messageDiv.textContent = message;
+            messageDiv.className = `coupon-message ${type}`;
+            messageDiv.style.display = 'block';
+            
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 3000);
+        }
+
+        // Update totals
+        function updateCartTotals() {
+            let subtotal = 0;
+
+            document.querySelectorAll('.cart-item').forEach(item => {
+                const price = parseFloat(item.querySelector('.price-current').textContent.replace('$', '').replace(',', ''));
+                const quantity = parseInt(item.querySelector('.quantity-input').value);
+                const itemTotal = price * quantity;
+
+                item.querySelector('.price-total').textContent = `Total: $${itemTotal.toFixed(2)}`;
+                subtotal += itemTotal;
+            });
+
+            const discountText = document.getElementById('discount').textContent;
+            const discount = parseFloat(discountText.replace('-$', '').replace(',', '')) || 0;
+            const shipping = 3;
+            const tax = subtotal * 0.19;
+            const total = subtotal - discount + shipping + tax;
+
+            document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
+            document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+        }
+
+        function updateItemsCount() {
+            let count = 0;
+            document.querySelectorAll('.cart-item').forEach(item => {
+                count += parseInt(item.querySelector('.quantity-input').value);
+            });
+            
+            const countElement = document.querySelector('.items-count');
+            if (countElement) {
+                countElement.textContent = `${count} producto${count !== 1 ? 's' : ''}`;
+            }
+        }
+
+        function goToCheckout() {
+            if (confirm('¿Deseas proceder con el pago?')) {
+                fetch('/Carrito/ProcederAlPago', { method: 'POST' })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert("¡Orden creada con éxito!");
+                            window.location.href = '/';
+                        } else {
+                            alert("Error al procesar la orden: " + data.message);
+                        }
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        alert("Error inesperado");
+                    });
+            }
+        }
+    </script>
+}
+
+<style>
+    .empty-cart {
+        text-align: center;
+        padding: 5rem 2rem;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+</style>

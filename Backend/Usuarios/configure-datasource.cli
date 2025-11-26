@@ -1,0 +1,18 @@
+embed-server --server-config=standalone.xml --std-out=echo
+
+# Agregar driver MySQL (el módulo ya existe)
+/subsystem=datasources/jdbc-driver=mysql:add(driver-name=mysql,driver-module-name=com.mysql,driver-class-name=com.mysql.cj.jdbc.Driver)
+
+# Crear datasource
+data-source add --name=UsuariosDS \
+  --jndi-name=java:jboss/datasources/UsuariosDS \
+  --driver-name=mysql \
+  --connection-url=jdbc:mysql://${env.DB_HOST:localhost}:${env.DB_PORT:3306}/${env.DB_NAME:usuarios_db}?useSSL=false&allowPublicKeyRetrieval=true \
+  --user-name=${env.DB_USER:root} \
+  --password=${env.DB_PASSWORD:password} \
+  --validate-on-match=true \
+  --background-validation=false \
+  --valid-connection-checker-class-name=org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker \
+  --exception-sorter-class-name=org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLExceptionSorter
+
+stop-embedded-server

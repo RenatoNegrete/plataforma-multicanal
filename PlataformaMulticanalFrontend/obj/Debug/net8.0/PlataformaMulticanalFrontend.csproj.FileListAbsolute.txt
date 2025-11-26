@@ -1,0 +1,96 @@
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\appsettings.json
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\PlataformaMulticanalFrontend.staticwebassets.runtime.json
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\PlataformaMulticanalFrontend.exe
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\PlataformaMulticanalFrontend.deps.json
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\PlataformaMulticanalFrontend.runtimeconfig.json
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\PlataformaMulticanalFrontend.dll
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\PlataformaMulticanalFrontend.pdb
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\Microsoft.Extensions.Configuration.dll
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\Microsoft.Extensions.Configuration.Binder.dll
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\Microsoft.Extensions.Diagnostics.dll
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\Microsoft.Extensions.Diagnostics.Abstractions.dll
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\Microsoft.Extensions.Http.dll
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\Microsoft.Extensions.Logging.dll
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\Microsoft.Extensions.Options.ConfigurationExtensions.dll
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\Microsoft.Extensions.Primitives.dll
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\System.Diagnostics.DiagnosticSource.dll
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\PlataformaMulticanalFrontend.csproj.AssemblyReference.cache
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\PlataformaMulticanalFrontend.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\PlataformaMulticanalFrontend.AssemblyInfoInputs.cache
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\PlataformaMulticanalFrontend.AssemblyInfo.cs
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\PlataformaMulticanalFrontend.csproj.CoreCompileInputs.cache
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\PlataformaMulticanalFrontend.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\PlataformaMulticanalFrontend.RazorAssemblyInfo.cache
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\PlataformaMulticanalFrontend.RazorAssemblyInfo.cs
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\PlataformaMulticanalFrontend.sourcelink.json
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\staticwebassets\msbuild.PlataformaMulticanalFrontend.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\staticwebassets\msbuild.build.PlataformaMulticanalFrontend.props
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.PlataformaMulticanalFrontend.props
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.PlataformaMulticanalFrontend.props
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\scopedcss\bundle\PlataformaMulticanalFrontend.styles.css
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\scopedcss\projectbundle\PlataformaMulticanalFrontend.bundle.scp.css
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\Platafor.6A0326F9.Up2Date
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\PlataformaMulticanalFrontend.dll
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\refint\PlataformaMulticanalFrontend.dll
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\PlataformaMulticanalFrontend.pdb
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\PlataformaMulticanalFrontend.genruntimeconfig.cache
+C:\Users\JUAN JOSE BERMUDEZ\OneDrive - Pontificia Universidad Javeriana\Documentos\Adapterparcial1\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\ref\PlataformaMulticanalFrontend.dll
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\appsettings.json
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\PlataformaMulticanalFrontend.staticwebassets.runtime.json
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\PlataformaMulticanalFrontend.exe
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\PlataformaMulticanalFrontend.deps.json
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\PlataformaMulticanalFrontend.runtimeconfig.json
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\PlataformaMulticanalFrontend.dll
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\PlataformaMulticanalFrontend.pdb
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\Microsoft.Extensions.Configuration.dll
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\Microsoft.Extensions.Configuration.Binder.dll
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\Microsoft.Extensions.Diagnostics.dll
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\Microsoft.Extensions.Diagnostics.Abstractions.dll
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\Microsoft.Extensions.Http.dll
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\Microsoft.Extensions.Logging.dll
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\Microsoft.Extensions.Options.ConfigurationExtensions.dll
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\Microsoft.Extensions.Primitives.dll
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\bin\Debug\net8.0\System.Diagnostics.DiagnosticSource.dll
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\PlataformaMulticanalFrontend.csproj.AssemblyReference.cache
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\PlataformaMulticanalFrontend.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\PlataformaMulticanalFrontend.AssemblyInfoInputs.cache
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\PlataformaMulticanalFrontend.AssemblyInfo.cs
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\PlataformaMulticanalFrontend.csproj.CoreCompileInputs.cache
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\PlataformaMulticanalFrontend.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\PlataformaMulticanalFrontend.RazorAssemblyInfo.cache
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\PlataformaMulticanalFrontend.RazorAssemblyInfo.cs
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\PlataformaMulticanalFrontend.sourcelink.json
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\staticwebassets\msbuild.PlataformaMulticanalFrontend.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\staticwebassets\msbuild.build.PlataformaMulticanalFrontend.props
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.PlataformaMulticanalFrontend.props
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.PlataformaMulticanalFrontend.props
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\scopedcss\bundle\PlataformaMulticanalFrontend.styles.css
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\scopedcss\projectbundle\PlataformaMulticanalFrontend.bundle.scp.css
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\Platafor.6A0326F9.Up2Date
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\PlataformaMulticanalFrontend.dll
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\refint\PlataformaMulticanalFrontend.dll
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\PlataformaMulticanalFrontend.pdb
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\PlataformaMulticanalFrontend.genruntimeconfig.cache
+C:\Users\Usuario\Desktop\Universidad\Semestre_7\Arquitectura SW\plataforma-multicanal\PlataformaMulticanalFrontend\obj\Debug\net8.0\ref\PlataformaMulticanalFrontend.dll

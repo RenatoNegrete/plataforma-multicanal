@@ -1,0 +1,584 @@
+@{
+    ViewData["Title"] = "Dashboard Administrativo";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+}
+
+<!-- Admin Section -->
+<section class="admin-section">
+    <div class="container-fluid px-4">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-2 mb-4">
+                <div class="admin-sidebar">
+                    <div class="sidebar-brand">
+                        <i class="fas fa-user-shield"></i>
+                        <span>Admin Panel</span>
+                    </div>
+                    <nav class="admin-menu">
+                        <a asp-controller="Admin" asp-action="Dashboard" class="menu-item active">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Dashboard</span>
+                        </a>
+                        <a asp-controller="Admin" asp-action="Catalogo" class="menu-item">
+                            <i class="fas fa-box"></i>
+                            <span>Catálogo</span>
+                        </a>
+                       
+                        <a asp-controller="Admin" asp-action="Proveedores" class="menu-item">
+                            <i class="fas fa-truck"></i>
+                            <span>Proveedores</span>
+                        </a>
+                        <a asp-controller="Admin" asp-action="Inventarios" class="menu-item">
+                            <i class="fas fa-warehouse"></i>
+                            <span>Inventarios</span>
+                        </a>
+                        <a asp-controller="Admin" asp-action="Precios" class="menu-item">
+                            <i class="fas fa-tags"></i>
+                            <span>Precios</span>
+                        </a>
+                        
+                        <hr class="sidebar-divider">
+                        <a asp-controller="Home" asp-action="Index" class="menu-item">
+                            <i class="fas fa-store"></i>
+                            <span>Ver Tienda</span>
+                        </a>
+                        <a asp-controller="Account" asp-action="Logout" class="menu-item text-danger">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Cerrar Sesión</span>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-10">
+                <!-- Page Header -->
+                <div class="admin-header">
+                    <div>
+                        <h2><i class="fas fa-chart-line me-3"></i>Dashboard</h2>
+                        <p>Resumen general de tu plataforma</p>
+                    </div>
+                </div>
+
+                <!-- Mensajes de alerta -->
+                @if (TempData["Error"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="fas fa-exclamation-circle me-2"></i>@TempData["Error"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                }
+
+                @if (TempData["Success"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="fas fa-check-circle me-2"></i>@TempData["Success"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                }
+
+                <!-- Stats Cards -->
+                <div class="row g-3 mb-4">
+                    <!-- Ventas Hoy -->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-primary">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Ventas Hoy</span>
+                                <h3 class="stat-value">$@((ViewBag.VentasHoy ?? 0).ToString("N0"))</h3>
+                                @{
+                                    var cambio = ViewBag.CambioOrdenes ?? 0;
+                                    var esPositivo = cambio >= 0;
+                                }
+                                <span class="stat-change @(esPositivo ? "positive" : "negative")">
+                                    <i class="fas fa-arrow-@(esPositivo ? "up" : "down")"></i> 
+                                    @Math.Abs(cambio).ToString("F1")%
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pedidos Hoy -->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-success">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Pedidos Hoy</span>
+                                <h3 class="stat-value">@(ViewBag.OrdenesHoy ?? 0)</h3>
+                                <span class="stat-change @(esPositivo ? "positive" : "negative")">
+                                    <i class="fas fa-arrow-@(esPositivo ? "up" : "down")"></i> 
+                                    @Math.Abs(cambio).ToString("F1")%
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pedidos este Mes -->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-warning">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Pedidos este Mes</span>
+                                <h3 class="stat-value">@(ViewBag.OrdenesMes ?? 0)</h3>
+                                <span class="stat-change positive">
+                                    <i class="fas fa-chart-line"></i> $@((ViewBag.VentasMes ?? 0).ToString("N0"))
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stock Bajo -->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-danger">
+                                <i class="fas fa-box"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Stock Bajo</span>
+                                <h3 class="stat-value">@(ViewBag.ProductosStockBajo ?? 0)</h3>
+                                <span class="stat-change negative">
+                                    <i class="fas fa-exclamation-triangle"></i> Atención
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="row g-3 mb-4">
+                    <!-- Gráfico de Ventas -->
+                    <div class="col-lg-8">
+                        <div class="admin-card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-chart-area me-2"></i>Ventas de la Semana</h5>
+                                <small class="text-muted">Últimos 7 días</small>
+                            </div>
+                            <div class="card-body" style="min-height: 300px;">
+                                <canvas id="salesChart" height="80"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Estado del Inventario -->
+                    <div class="col-lg-4">
+                        <div class="admin-card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-box-open me-2"></i>Estado del Inventario</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="inventory-stats">
+                                    <div class="stat-item">
+                                        <div class="stat-item-header">
+                                            <i class="fas fa-boxes text-primary"></i>
+                                            <span>Total Productos</span>
+                                        </div>
+                                        <h3 class="stat-item-value">@(ViewBag.TotalProductos ?? 0)</h3>
+                                    </div>
+                                    
+                                    <div class="stat-item">
+                                        <div class="stat-item-header">
+                                            <i class="fas fa-exclamation-triangle text-warning"></i>
+                                            <span>Stock Bajo</span>
+                                        </div>
+                                        <h3 class="stat-item-value text-warning">@(ViewBag.ProductosStockBajo ?? 0)</h3>
+                                        <small class="text-muted">Menos de 10 unidades</small>
+                                    </div>
+                                    
+                                    <div class="stat-item">
+                                        <div class="stat-item-header">
+                                            <i class="fas fa-times-circle text-danger"></i>
+                                            <span>Sin Stock</span>
+                                        </div>
+                                        <h3 class="stat-item-value text-danger">@(ViewBag.ProductosSinStock ?? 0)</h3>
+                                        <small class="text-muted">Requiere reposición</small>
+                                    </div>
+                                    
+                                    <div class="stat-item">
+                                        <div class="stat-item-header">
+                                            <i class="fas fa-dollar-sign text-success"></i>
+                                            <span>Valor Inventario</span>
+                                        </div>
+                                        <h3 class="stat-item-value text-success">$@(ViewBag.ValorTotalInventario?.ToString("N0") ?? "0")</h3>
+                                        <small class="text-muted">Precio × Stock</small>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-3 d-grid">
+                                    <a asp-controller="Admin" asp-action="Inventarios" class="btn btn-outline-primary btn-sm">
+                                        <i class="fas fa-warehouse me-2"></i>Ver Inventario Completo
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Orders & Top Products -->
+                <div class="row g-3">
+                    <!-- Pedidos Recientes -->
+                    <div class="col-lg-7">
+                        <div class="admin-card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-shopping-bag me-2"></i>Pedidos Recientes</h5>
+                                <a asp-controller="Orden" asp-action="Index" class="text-primary">Ver todos</a>
+                            </div>
+                            <div class="card-body">
+                                @if (ViewBag.OrdenesRecientes != null && ((List<Orden>)ViewBag.OrdenesRecientes).Count > 0)
+                                {
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Pedido</th>
+                                                    <th>Cliente ID</th>
+                                                    <th>Fecha</th>
+                                                    <th>Total</th>
+                                                    <th>Productos</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var orden in (List<Orden>)ViewBag.OrdenesRecientes)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            <strong>
+                                                                <a asp-controller="Orden" asp-action="Details" asp-route-id="@orden.Id" class="text-primary">
+                                                                    #@(orden.Id?.Length > 8 ? orden.Id.Substring(0, 8) : orden.Id)...
+                                                                </a>
+                                                            </strong>
+                                                        </td>
+                                                        <td>
+                                                            <a asp-controller="Orden" asp-action="MisOrdenes" asp-route-clienteId="@orden.ClienteId">
+                                                                @orden.ClienteId
+                                                            </a>
+                                                        </td>
+                                                        <td>@orden.Fecha.ToString("dd MMM yyyy HH:mm")</td>
+                                                        <td><strong class="text-success">$@orden.Total.ToString("N0")</strong></td>
+                                                        <td>
+                                                            <span class="badge bg-info">
+                                                                @(orden.Productos?.Count ?? 0) items
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="text-center py-5">
+                                        <i class="fas fa-shopping-bag fa-3x text-muted mb-3"></i>
+                                        <p class="text-muted mb-3">No hay pedidos recientes</p>
+                                        <small class="text-muted">Los pedidos aparecerán aquí cuando se realicen compras</small>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Productos del Catálogo -->
+                    <div class="col-lg-5">
+                        <div class="admin-card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-fire me-2"></i>Productos del Catálogo</h5>
+                                <a asp-controller="Admin" asp-action="Catalogo" class="text-primary">Ver todo</a>
+                            </div>
+                            <div class="card-body">
+                                <div class="top-products">
+                                    @if (ViewBag.TopProductos != null && ((List<Producto>)ViewBag.TopProductos).Count > 0)
+                                    {
+                                        @for (int i = 0; i < ((List<Producto>)ViewBag.TopProductos).Count; i++)
+                                        {
+                                            var producto = ((List<Producto>)ViewBag.TopProductos)[i];
+                                            <div class="product-item">
+                                                <div class="product-rank">@(i + 1)</div>
+                                                <div class="product-info">
+                                                    <h6>@producto.Nombre</h6>
+                                                    <p class="mb-1">
+                                                        <small class="text-muted">@(producto.Categoria ?? "Sin categoría")</small>
+                                                    </p>
+                                                    <p class="mb-0">
+                                                        Stock: <strong>@producto.Stock</strong> unidades
+                                                        @if (producto.Stock < 10 && producto.Stock > 0)
+                                                        {
+                                                            <span class="badge bg-warning text-dark ms-2">
+                                                                <i class="fas fa-exclamation-triangle"></i> Bajo
+                                                            </span>
+                                                        }
+                                                        else if (producto.Stock == 0)
+                                                        {
+                                                            <span class="badge bg-danger ms-2">
+                                                                <i class="fas fa-times"></i> Agotado
+                                                            </span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="badge bg-success ms-2">
+                                                                <i class="fas fa-check"></i> Normal
+                                                            </span>
+                                                        }
+                                                    </p>
+                                                </div>
+                                                <div class="product-sales">
+                                                    <strong class="text-primary">$@producto.Precio.ToString("N0")</strong>
+                                                    <small class="text-muted d-block">c/u</small>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div class="text-center py-5">
+                                            <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
+                                            <p class="text-muted mb-3">No hay productos en el catálogo</p>
+                                            <a asp-controller="Admin" asp-action="Catalogo" class="btn btn-primary btn-sm">
+                                                <i class="fas fa-plus me-2"></i>Agregar Productos
+                                            </a>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resumen de Órdenes del Mes -->
+                <div class="row g-3 mt-2">
+                    <div class="col-12">
+                        <div class="admin-card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-calendar-check me-2"></i>Resumen del Mes</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row text-center">
+                                    <div class="col-md-3">
+                                        <div class="p-3">
+                                            <i class="fas fa-shopping-cart fa-2x text-primary mb-2"></i>
+                                            <h4 class="mb-0">@(ViewBag.OrdenesMes ?? 0)</h4>
+                                            <small class="text-muted">Total Órdenes</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="p-3">
+                                            <i class="fas fa-money-bill-wave fa-2x text-success mb-2"></i>
+                                            <h4 class="mb-0">$@((ViewBag.VentasMes ?? 0).ToString("N0"))</h4>
+                                            <small class="text-muted">Ingresos Totales</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="p-3">
+                                            <i class="fas fa-calculator fa-2x text-info mb-2"></i>
+                                            <h4 class="mb-0">$@((ViewBag.OrdenesMes > 0 ? (ViewBag.VentasMes ?? 0) / (ViewBag.OrdenesMes ?? 1) : 0).ToString("N0"))</h4>
+                                            <small class="text-muted">Ticket Promedio</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="p-3">
+                                            <i class="fas fa-boxes fa-2x text-warning mb-2"></i>
+                                            <h4 class="mb-0">@(ViewBag.TotalProductos ?? 0)</h4>
+                                            <small class="text-muted">Productos Activos</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        console.log('Iniciando carga de gráficos del dashboard...');
+
+        // ========== GRÁFICO DE VENTAS (Últimos 7 días) ==========
+        try {
+            const salesCtx = document.getElementById('salesChart');
+            if (salesCtx) {
+                console.log('Creando gráfico de ventas...');
+                
+                const ventasDiasRaw = '@Html.Raw(ViewBag.VentasDias ?? "")';
+                const ventasMontosRaw = '@Html.Raw(ViewBag.VentasMontos ?? "")';
+                
+                let labels, data;
+                
+                if (ventasDiasRaw && ventasMontosRaw) {
+                    try {
+                        labels = JSON.parse(ventasDiasRaw);
+                        data = JSON.parse(ventasMontosRaw);
+                        console.log('Datos de ventas cargados:', { labels, data });
+                    } catch (e) {
+                        console.error('Error al parsear datos de ventas:', e);
+                        labels = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
+                        data = [0, 0, 0, 0, 0, 0, 0];
+                    }
+                } else {
+                    console.warn('No hay datos de ventas, usando valores por defecto');
+                    labels = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
+                    data = [0, 0, 0, 0, 0, 0, 0];
+                }
+                
+                new Chart(salesCtx.getContext('2d'), {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Ventas ($)',
+                            data: data,
+                            borderColor: '#2563eb',
+                            backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                            tension: 0.4,
+                            fill: true,
+                            borderWidth: 3,
+                            pointRadius: 4,
+                            pointHoverRadius: 6,
+                            pointBackgroundColor: '#2563eb',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { 
+                                display: true,
+                                position: 'top',
+                                labels: {
+                                    font: { size: 12, weight: 'bold' },
+                                    padding: 15
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                padding: 12,
+                                titleFont: { size: 14 },
+                                bodyFont: { size: 13 },
+                                callbacks: {
+                                    label: function(context) {
+                                        return ' Ventas: $' + context.parsed.y.toLocaleString('es-CO');
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return '$' + value.toLocaleString('es-CO');
+                                    },
+                                    font: { size: 11 }
+                                },
+                                grid: {
+                                    color: 'rgba(0, 0, 0, 0.05)'
+                                }
+                            },
+                            x: {
+                                ticks: {
+                                    font: { size: 11 }
+                                },
+                                grid: {
+                                    display: false
+                                }
+                            }
+                        }
+                    }
+                });
+                console.log('✓ Gráfico de ventas creado exitosamente');
+            } else {
+                console.error('✗ No se encontró el elemento salesChart');
+            }
+        } catch (error) {
+            console.error('✗ Error al crear gráfico de ventas:', error);
+        }
+
+        // ========== GRÁFICO DE CATEGORÍAS ==========
+        try {
+            const categoriesLabelsRaw = '@Html.Raw(ViewBag.CategoriasLabels ?? "")';
+            const categoriesDataRaw = '@Html.Raw(ViewBag.CategoriasData ?? "")';
+            
+            const canvas = document.getElementById('categoriesChart');
+            
+            if (canvas && categoriesLabelsRaw && categoriesDataRaw) {
+                console.log('Creando gráfico de categorías...');
+                
+                try {
+                    const categoriesLabels = JSON.parse(categoriesLabelsRaw);
+                    const categoriesData = JSON.parse(categoriesDataRaw);
+                    
+                    console.log('Datos de categorías:', { categoriesLabels, categoriesData });
+                    
+                    const categoriesCtx = canvas.getContext('2d');
+                    new Chart(categoriesCtx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: categoriesLabels,
+                            datasets: [{
+                                data: categoriesData,
+                                backgroundColor: [
+                                    '#2563eb', '#10b981', '#f59e0b', '#ef4444', 
+                                    '#8b5cf6', '#ec4899', '#06b6d4', '#f97316'
+                                ],
+                                borderWidth: 2,
+                                borderColor: '#fff'
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: true,
+                            plugins: {
+                                legend: {
+                                    position: 'bottom',
+                                    labels: { 
+                                        padding: 15, 
+                                        font: { size: 12 }
+                                    }
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            const label = context.label || '';
+                                            const value = context.parsed || 0;
+                                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                            const percentage = ((value / total) * 100).toFixed(1);
+                                            return label + ': ' + value + ' productos (' + percentage + '%)';
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                    console.log('✓ Gráfico de categorías creado exitosamente');
+                } catch (e) {
+                    console.error('✗ Error al parsear datos de categorías:', e);
+                }
+            } else if (canvas) {
+                console.log('No hay datos de categorías para mostrar');
+                canvas.style.display = 'none';
+                const parent = canvas.parentElement;
+                const mensaje = document.createElement('div');
+                mensaje.className = 'text-center py-4';
+                mensaje.innerHTML = '<i class="fas fa-chart-pie fa-2x text-muted mb-2"></i><p class="text-muted mb-0">No hay datos de categorías</p>';
+                parent.appendChild(mensaje);
+            }
+        } catch (error) {
+            console.error('✗ Error al crear gráfico de categorías:', error);
+        }
+
+        console.log('Carga de gráficos completada');
+    </script>
+}

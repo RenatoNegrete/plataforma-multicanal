@@ -16,6 +16,8 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    
+    @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
     <!-- Top Header Bar -->
@@ -54,9 +56,9 @@
                 
                 <!-- Search Bar -->
                 <div class="col-lg-6 col-md-5">
-                    <form class="search-form">
+                    <form class="search-form" asp-controller="Catalogo" asp-action="Buscar" method="get">
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Buscar productos, servicios o contenido digital...">
+                            <input type="text" name="q" class="form-control" placeholder="Buscar productos, servicios o contenido digital...">
                             <button class="btn btn-primary" type="submit">
                                 <i class="fas fa-search"></i>
                             </button>
@@ -65,84 +67,117 @@
                 </div>
                 
                 <!-- User Actions -->
-                <div class="col-lg-4 col-md-4">
-                    <div class="user-actions">
-                        <a asp-controller="Account" asp-action="Login" class="action-item">
-                            <i class="fas fa-user"></i>
-                            <div class="action-text">
-                                <small>Hola, Ingresar</small>
-                                <strong>Mi Cuenta</strong>
-                            </div>
-                        </a>
-                        <a asp-controller="Perfil" asp-action="Historial" class="action-item">
-                            <i class="fas fa-box"></i>
-                            <div class="action-text">
-                                <small>Mis</small>
-                                <strong>Pedidos</strong>
-                            </div>
-                        </a>
-                        <a asp-controller="Carrito" asp-action="Index" class="action-item cart">
-                            <i class="fas fa-shopping-cart"></i>
-                            <span class="cart-badge">3</span>
-                            <div class="action-text">
-                                <small>Mi</small>
-                                <strong>Carrito</strong>
-                            </div>
-                        </a>
+               <!-- User Actions -->
+<div class="col-lg-4 col-md-4">
+    <div class="user-actions">
+        @{
+            var userName = Context.Session.GetString("UserName");
+            var userEmail = Context.Session.GetString("UserEmail");
+            var isAuthenticated = !string.IsNullOrEmpty(userEmail);
+        }
+
+        @if (isAuthenticated)
+        {
+            <!-- Usuario Autenticado -->
+            <div class="action-item dropdown">
+                <a href="#" class="dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-user-circle"></i>
+                    <div class="action-text">
+                        <small>Hola,</small>
+                        <strong>@(userName ?? "Usuario")</strong>
                     </div>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                    <li><a class="dropdown-item" asp-controller="Perfil" asp-action="Index">
+                        <i class="fas fa-user me-2"></i>Mi Perfil
+                    </a></li>
+                    
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" asp-controller="Account" asp-action="Logout">
+                        <i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión
+                    </a></li>
+                </ul>
+            </div>
+
+            <a asp-controller="Perfil" asp-action="Historial" class="action-item">
+                <i class="fas fa-box"></i>
+                <div class="action-text">
+                    <small>Mis</small>
+                    <strong>Pedidos</strong>
                 </div>
+            </a>
+        }
+        else
+        {
+            <!-- Usuario NO Autenticado -->
+            <a asp-controller="Account" asp-action="Login" class="action-item">
+                <i class="fas fa-sign-in-alt"></i>
+                <div class="action-text">
+                    <small>Hola,</small>
+                    <strong>Ingresar</strong>
+                </div>
+            </a>
+
+            <a asp-controller="Account" asp-action="Registro" class="action-item">
+                <i class="fas fa-user-plus"></i>
+                <div class="action-text">
+                    <small>Crear</small>
+                    <strong>Cuenta</strong>
+                </div>
+            </a>
+        }
+
+        <a asp-controller="Carrito" asp-action="Index" class="action-item cart">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-badge">0</span>
+            <div class="action-text">
+                <small>Mi</small>
+                <strong>Carrito</strong>
+            </div>
+        </a>
+    </div>
+</div>
             </div>
         </div>
     </nav>
 
     <!-- Categories Menu -->
     <div class="categories-menu">
-        <div class="container-fluid px-4">
-            <ul class="categories-list">
-                <li class="category-item dropdown">
-                    <a href="#" class="dropdown-toggle">
-                        <i class="fas fa-bars me-2"></i>Todas las Categorías
-                    </a>
-                </li>
-                <li class="category-item">
-                    <a asp-controller="Catalogo" asp-action="Index" asp-route-tipo="fisicos">
-                        <i class="fas fa-box me-2"></i>Productos Físicos
-                    </a>
-                </li>
-                <li class="category-item">
-                    <a asp-controller="Catalogo" asp-action="Index" asp-route-tipo="servicios">
-                        <i class="fas fa-briefcase me-2"></i>Servicios Profesionales
-                    </a>
-                </li>
-                <li class="category-item">
-                    <a asp-controller="Catalogo" asp-action="Index" asp-route-tipo="digitales">
-                        <i class="fas fa-cloud-download-alt me-2"></i>Contenido Digital
-                    </a>
-                </li>
-                <li class="category-item">
-                    <a href="#">
-                        <i class="fas fa-laptop me-2"></i>Tecnología
-                    </a>
-                </li>
-                <li class="category-item">
-                    <a href="#">
-                        <i class="fas fa-tshirt me-2"></i>Moda
-                    </a>
-                </li>
-                <li class="category-item">
-                    <a href="#">
-                        <i class="fas fa-home me-2"></i>Hogar
-                    </a>
-                </li>
-                <li class="category-item ms-auto">
-                    <a href="#" class="text-danger">
-                        <i class="fas fa-tags me-2"></i>Ofertas del Día
-                    </a>
-                </li>
-            </ul>
-        </div>
+    <div class="container-fluid px-4">
+        <ul class="categories-list">
+            <li class="category-item dropdown">
+                <a href="#" class="dropdown-toggle">
+                    <i class="fas fa-bars me-2"></i>Todas las Categorías
+                </a>
+            </li>
+            <li class="category-item">
+                <a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="fisico">
+                    <i class="fas fa-box me-2"></i>Físico
+                </a>
+            </li>
+            <li class="category-item">
+                <a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="servicio">
+                    <i class="fas fa-concierge-bell me-2"></i>Servicio
+                </a>
+            </li>
+            <li class="category-item">
+                <a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="suscripcion">
+                    <i class="fas fa-calendar-check me-2"></i>Suscripción
+                </a>
+            </li>
+            <li class="category-item">
+                <a asp-controller="Catalogo" asp-action="Index">
+                    <i class="fas fa-th-large me-2"></i>Todos los Productos
+                </a>
+            </li>
+            <li class="category-item ms-auto">
+                <a asp-controller="Catalogo" asp-action="Ofertas" class="text-danger">
+                    <i class="fas fa-tags me-2"></i>Ofertas del Día
+                </a>
+            </li>
+        </ul>
     </div>
-
+</div>
     <!-- Main Content -->
     <main>
         @RenderBody()
@@ -172,11 +207,11 @@
                     <div class="col-lg-2 col-md-6 mb-4">
                         <h6 class="footer-subtitle">Categorías</h6>
                         <ul class="footer-links">
-                            <li><a href="#">Productos Físicos</a></li>
-                            <li><a href="#">Servicios</a></li>
-                            <li><a href="#">Contenido Digital</a></li>
-                            <li><a href="#">Tecnología</a></li>
-                            <li><a href="#">Moda & Estilo</a></li>
+                            <li><a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="ropa">Ropa</a></li>
+                            <li><a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="electronica">Electrónica</a></li>
+                            <li><a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="hogar">Hogar</a></li>
+                            <li><a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="tecnologia">Tecnología</a></li>
+                            <li><a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="deportes">Deportes</a></li>
                         </ul>
                     </div>
                     

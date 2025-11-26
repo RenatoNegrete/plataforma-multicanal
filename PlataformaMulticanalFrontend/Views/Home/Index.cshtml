@@ -1,4 +1,6 @@
-﻿@{
+﻿@model List<PlataformaMulticanalFrontend.Models.Producto>
+
+@{
     ViewData["Title"] = "Inicio";
 }
 
@@ -12,19 +14,21 @@
                 
                 <!-- Search Bar -->
                 <div class="hero-search mt-4">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="¿Qué estás buscando hoy?">
-                        <button class="btn btn-primary" type="button">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
+                    <form asp-controller="Catalogo" asp-action="Buscar" method="get">
+                        <div class="input-group">
+                            <input type="text" name="q" class="form-control" placeholder="¿Qué estás buscando hoy?">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
                 </div>
                 
                 <div class="mt-3 quick-actions">
-                    <a href="#" class="btn btn-light btn-sm">Electrónica</a>
-                    <a href="#" class="btn btn-light btn-sm">Diseño Web</a>
-                    <a href="#" class="btn btn-light btn-sm">Cursos Online</a>
-                    <a href="#" class="btn btn-light btn-sm">Consultoría</a>
+                    <a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="electronica" class="btn btn-light btn-sm">Electrónica</a>
+                    <a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="tecnologia" class="btn btn-light btn-sm">Tecnología</a>
+                    <a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="ropa" class="btn btn-light btn-sm">Moda</a>
+                    <a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="hogar" class="btn btn-light btn-sm">Hogar</a>
                 </div>
             </div>
         </div>
@@ -36,35 +40,35 @@
     <div class="container-fluid px-4">
         <div class="row g-3">
             <div class="col-md-4">
-                <a asp-controller="Catalogo" asp-action="Index" asp-route-tipo="fisicos" class="text-decoration-none">
+                <a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="tecnologia" class="text-decoration-none">
                     <div class="category-item-card">
                         <div class="category-icon-box">
                             <i class="fas fa-box"></i>
                         </div>
-                        <h5>Productos Físicos</h5>
-                        <p>Electrónica, ropa, hogar y más</p>
+                        <h5>Tecnología</h5>
+                        <p>Computadores, accesorios y más</p>
                     </div>
                 </a>
             </div>
             <div class="col-md-4">
-                <a asp-controller="Catalogo" asp-action="Index" asp-route-tipo="servicios" class="text-decoration-none">
+                <a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="ropa" class="text-decoration-none">
                     <div class="category-item-card">
                         <div class="category-icon-box">
-                            <i class="fas fa-handshake"></i>
+                            <i class="fas fa-tshirt"></i>
                         </div>
-                        <h5>Servicios Profesionales</h5>
-                        <p>Diseño, desarrollo, marketing</p>
+                        <h5>Moda</h5>
+                        <p>Ropa y accesorios</p>
                     </div>
                 </a>
             </div>
             <div class="col-md-4">
-                <a asp-controller="Catalogo" asp-action="Index" asp-route-tipo="digitales" class="text-decoration-none">
+                <a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="hogar" class="text-decoration-none">
                     <div class="category-item-card">
                         <div class="category-icon-box">
-                            <i class="fas fa-cloud"></i>
+                            <i class="fas fa-home"></i>
                         </div>
-                        <h5>Contenido Digital</h5>
-                        <p>Cursos, ebooks, software</p>
+                        <h5>Hogar</h5>
+                        <p>Decoración y muebles</p>
                     </div>
                 </a>
             </div>
@@ -77,8 +81,8 @@
     <div class="container-fluid px-4">
         <div class="section-header d-flex justify-content-between align-items-center">
             <div>
-                <h2 class="section-title">Ofertas Destacadas</h2>
-                <p class="section-subtitle">Los mejores productos al mejor precio</p>
+                <h2 class="section-title">Productos Destacados</h2>
+                <p class="section-subtitle">Los mejores productos disponibles</p>
             </div>
             <a asp-controller="Catalogo" asp-action="Index" class="btn btn-outline-primary">
                 Ver Todo <i class="fas fa-arrow-right ms-2"></i>
@@ -86,222 +90,67 @@
         </div>
         
         <div class="row row-cols-2 row-cols-md-4 row-cols-lg-6 g-3">
-            <!-- Product 1 -->
-            <div class="col">
-                <div class="product-card">
-                    <div class="product-image-wrapper">
-                        <span class="badge bg-danger product-badge">-20%</span>
-                        <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=400&h=300&fit=crop" alt="Laptop">
-                    </div>
-                    <div class="product-card-body">
-                        <div class="product-category">Tecnología</div>
-                        <h5 class="product-title">Laptop Gaming Pro 15"</h5>
-                        <div class="product-price-section">
-                            <div>
-                                <span class="product-price-old">$2,000</span>
-                                <div class="product-price">$1,600</div>
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var producto in Model)
+                {
+                    <div class="col">
+                        <div class="product-card">
+                            <div class="product-image-wrapper">
+                                @if (producto.Stock > 0 && producto.Stock < 10)
+                                {
+                                    <span class="badge bg-warning product-badge">Pocas unidades</span>
+                                }
+                                else if (producto.Stock == 0)
+                                {
+                                    <span class="badge bg-danger product-badge">Agotado</span>
+                                }
+                                
+                                <img src="@(string.IsNullOrEmpty(producto.Imagen) ? "https://via.placeholder.com/400x300?text=Producto" : producto.Imagen)" 
+                                     alt="@producto.Nombre"
+                                     onerror="this.src='https://via.placeholder.com/400x300?text=Sin+Imagen'">
                             </div>
-                            <button class="btn-add-cart">
-                                <i class="fas fa-cart-plus"></i>
-                            </button>
+                            <div class="product-card-body">
+                                <div class="product-category">@(producto.Categoria ?? "General")</div>
+                                <h5 class="product-title">@producto.Nombre</h5>
+                                @if (!string.IsNullOrEmpty(producto.Descripcion))
+                                {
+                                    <p class="product-description">@producto.Descripcion.Substring(0, Math.Min(50, producto.Descripcion.Length))@(producto.Descripcion.Length > 50 ? "..." : "")</p>
+                                }
+                                <div class="product-price-section">
+                                    <div>
+                                        <div class="product-price">$@producto.Precio.ToString("N0")</div>
+                                        @if (producto.Stock > 0)
+                                        {
+                                            <small class="text-muted">@producto.Stock disponibles</small>
+                                        }
+                                    </div>
+                                    @if (producto.Stock > 0)
+                                    {
+                                        <button class="btn-add-cart" onclick="agregarAlCarrito('@producto.Id')">
+                                            <i class="fas fa-cart-plus"></i>
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn-add-cart" disabled>
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    }
+                                </div>
+                            </div>
                         </div>
                     </div>
+                }
+            }
+            else
+            {
+                <div class="col-12 text-center py-5">
+                    <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
+                    <h5>No hay productos disponibles</h5>
+                    <p class="text-muted">Por favor, verifica que el servicio de catálogo esté funcionando.</p>
                 </div>
-            </div>
-            
-            <!-- Product 2 -->
-            <div class="col">
-                <div class="product-card">
-                    <div class="product-image-wrapper">
-                        <span class="badge bg-success product-badge">Nuevo</span>
-                        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=300&fit=crop" alt="Desarrollo Web">
-                    </div>
-                    <div class="product-card-body">
-                        <div class="product-category">Servicios</div>
-                        <h5 class="product-title">Desarrollo Web Profesional</h5>
-                        <div class="product-price-section">
-                            <div>
-                                <div class="product-price">$500</div>
-                            </div>
-                            <button class="btn-add-cart">
-                                <i class="fas fa-cart-plus"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Product 3 -->
-            <div class="col">
-                <div class="product-card">
-                    <div class="product-image-wrapper">
-                        <span class="badge bg-warning product-badge">Popular</span>
-                        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=300&fit=crop" alt="Curso Python">
-                    </div>
-                    <div class="product-card-body">
-                        <div class="product-category">Digital</div>
-                        <h5 class="product-title">Curso Python Avanzado</h5>
-                        <div class="product-price-section">
-                            <div>
-                                <div class="product-price">$49</div>
-                            </div>
-                            <button class="btn-add-cart">
-                                <i class="fas fa-cart-plus"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Product 4 -->
-            <div class="col">
-                <div class="product-card">
-                    <div class="product-image-wrapper">
-                        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop" alt="Auriculares">
-                    </div>
-                    <div class="product-card-body">
-                        <div class="product-category">Audio</div>
-                        <h5 class="product-title">Auriculares Bluetooth Premium</h5>
-                        <div class="product-price-section">
-                            <div>
-                                <div class="product-price">$89</div>
-                            </div>
-                            <button class="btn-add-cart">
-                                <i class="fas fa-cart-plus"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Product 5 -->
-            <div class="col">
-                <div class="product-card">
-                    <div class="product-image-wrapper">
-                        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=300&fit=crop" alt="Smartwatch">
-                    </div>
-                    <div class="product-card-body">
-                        <div class="product-category">Tecnología</div>
-                        <h5 class="product-title">Smartwatch Serie 5</h5>
-                        <div class="product-price-section">
-                            <div>
-                                <div class="product-price">$299</div>
-                            </div>
-                            <button class="btn-add-cart">
-                                <i class="fas fa-cart-plus"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Product 6 -->
-            <div class="col">
-                <div class="product-card">
-                    <div class="product-image-wrapper">
-                        <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400&h=300&fit=crop" alt="Camiseta">
-                    </div>
-                    <div class="product-card-body">
-                        <div class="product-category">Moda</div>
-                        <h5 class="product-title">Camiseta Premium Cotton</h5>
-                        <div class="product-price-section">
-                            <div>
-                                <div class="product-price">$29</div>
-                            </div>
-                            <button class="btn-add-cart">
-                                <i class="fas fa-cart-plus"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Product 7 -->
-            <div class="col">
-                <div class="product-card">
-                    <div class="product-image-wrapper">
-                        <span class="badge bg-info product-badge">Curso</span>
-                        <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=400&h=300&fit=crop" alt="Curso JavaScript">
-                    </div>
-                    <div class="product-card-body">
-                        <div class="product-category">Digital</div>
-                        <h5 class="product-title">Curso JavaScript Full Stack</h5>
-                        <div class="product-price-section">
-                            <div>
-                                <div class="product-price">$79</div>
-                            </div>
-                            <button class="btn-add-cart">
-                                <i class="fas fa-cart-plus"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Product 8 -->
-            <div class="col">
-                <div class="product-card">
-                    <div class="product-image-wrapper">
-                        <img src="https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?w=400&h=300&fit=crop" alt="Servicio Marketing">
-                    </div>
-                    <div class="product-card-body">
-                        <div class="product-category">Servicios</div>
-                        <h5 class="product-title">Consultoría Marketing Digital</h5>
-                        <div class="product-price-section">
-                            <div>
-                                <div class="product-price">$350</div>
-                            </div>
-                            <button class="btn-add-cart">
-                                <i class="fas fa-cart-plus"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Product 9 -->
-            <div class="col">
-                <div class="product-card">
-                    <div class="product-image-wrapper">
-                        <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&h=300&fit=crop" alt="Smartwatch">
-                    </div>
-                    <div class="product-card-body">
-                        <div class="product-category">Tecnología</div>
-                        <h5 class="product-title">Reloj Inteligente Deportivo</h5>
-                        <div class="product-price-section">
-                            <div>
-                                <div class="product-price">$149</div>
-                            </div>
-                            <button class="btn-add-cart">
-                                <i class="fas fa-cart-plus"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Product 10 -->
-            <div class="col">
-                <div class="product-card">
-                    <div class="product-image-wrapper">
-                        <span class="badge bg-danger product-badge">-15%</span>
-                        <img src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=400&h=300&fit=crop" alt="Zapatillas">
-                    </div>
-                    <div class="product-card-body">
-                        <div class="product-category">Deportes</div>
-                        <h5 class="product-title">Zapatillas Running Pro</h5>
-                        <div class="product-price-section">
-                            <div>
-                                <span class="product-price-old">$120</span>
-                                <div class="product-price">$102</div>
-                            </div>
-                            <button class="btn-add-cart">
-                                <i class="fas fa-cart-plus"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            }
         </div>
     </div>
 </section>
@@ -358,4 +207,12 @@
     </div>
 </section>
 
-<!-- Features Compacto -->
+@section Scripts {
+    <script>
+        function agregarAlCarrito(productoId) {
+            // Aquí implementarías la lógica para agregar al carrito
+            console.log('Agregando producto al carrito:', productoId);
+            alert('Producto agregado al carrito (funcionalidad pendiente)');
+        }
+    </script>
+}
