@@ -5,3 +5,21 @@ spring:
   data:
     mongodb:
       uri: "mongodb://mongo:haLRwuliaFwbLKiuzQVTnbWSILCxvZLV@nozomi.proxy.rlwy.net:22466/catalogdb?authSource=admin"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - prometheus
+          - health
+          - info
+
+  endpoint:
+    prometheus:
+      enabled: true
+
+  prometheus:
+    metrics:
+      export:
+        enabled: true

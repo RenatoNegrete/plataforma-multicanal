@@ -488,3 +488,20 @@
         font-size: 1.5rem;
     }
 }
+
+.empty-cart {
+    text-align: center;
+    padding: 5rem 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.empty-cart i {
+    opacity: 0.5;
+}
+
+.empty-cart h3 {
+    color: #333;
+    margin-bottom: 0.5rem;
+}

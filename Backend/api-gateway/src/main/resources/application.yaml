@@ -17,6 +17,24 @@ spring:
           jwk-set-uri: https://www.googleapis.com/service_accounts/v1/jwk/securetoken%40system.gserviceaccount.com
           issuer-uri: https://securetoken.google.com/plataforma-multicanal-c9826
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - prometheus
+          - health
+          - info
+
+  endpoint:
+    prometheus:
+      enabled: true
+
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+
 services:
   usuarios: ${USUARIOS_SERVICE_URL:http://usuarios-service:8080}
   catalogo: ${CATALOGO_SERVICE_URL:http://catalogo-service:8080}

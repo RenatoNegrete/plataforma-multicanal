@@ -1,0 +1,26 @@
+global:
+  scrape_interval: 5s
+
+scrape_configs:
+  - job_name: 'spring-services'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets:
+          - 'api-gateway:8080'
+          - 'catalogo-service:8080'
+          - 'pagos-service:8080'
+          - 'proveedores-service:8080'
+          - 'ordenes-service:8080'
+
+  - job_name: 'python-services'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets:
+          - 'envios-service:8000'
+          - 'notificaciones-service:8000'
+
+  - job_name: 'jakarta-usuarios'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets:
+          - 'usuarios-service:9990'

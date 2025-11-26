@@ -12,10 +12,9 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30); // Sesión expira en 30 minutos
+    options.IdleTimeout = TimeSpan.FromHours(2); // Sesión expira en 30 minutos
     options.Cookie.HttpOnly = true; // Cookie solo accesible por HTTP (seguridad)
     options.Cookie.IsEssential = true; // Cookie esencial para la aplicación
-    options.Cookie.Name = ".PlataformaMulticanal.Session"; // Nombre de la cookie
 });
 
 // Configurar HttpClient para servicios API

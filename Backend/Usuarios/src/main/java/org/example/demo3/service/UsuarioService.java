@@ -6,6 +6,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
 
+import org.eclipse.microprofile.metrics.annotation.Counted;
+import org.eclipse.microprofile.metrics.annotation.Timed;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
@@ -23,6 +26,10 @@ public class UsuarioService {
     @PersistenceContext(unitName = "usuariosPU")
     private EntityManager em;
 
+    @Timed(name = "registrar_usuario_tiempo",
+           description = "Tiempo que tarda registrar un usuario")
+    @Counted(name = "registrar_usuario_total",
+             description = "Cantidad de registros de usuarios")
     @Transactional
     public Usuario registrarUsuario(RegistroRequest request) {
         
@@ -51,6 +58,8 @@ public class UsuarioService {
         return usuario;
     }
 
+    @Timed(name = "obtener_usuario_tiempo")
+    @Counted(name = "obtener_usuario_total")
     public Usuario obtenerUsuario(Long id) {
         Usuario usuario = em.find(Usuario.class, id);
         if (usuario == null) {
@@ -59,11 +68,14 @@ public class UsuarioService {
         return usuario;
     }
 
+    @Timed(name = "listar_usuarios_tiempo")
     public List<Usuario> listarUsuarios() {
         return em.createQuery("SELECT u FROM Usuario u", Usuario.class)
                  .getResultList();
     }
 
+    @Timed(name = "actualizar_usuario_tiempo")
+    @Counted(name = "actualizar_usuario_total")
     @Transactional
     public Usuario actualizarUsuario(Long id, Usuario actualizar) {
         Usuario usuario = obtenerUsuario(id);
@@ -76,12 +88,15 @@ public class UsuarioService {
         return usuario;
     }
 
+    @Timed(name = "eliminar_usuario_tiempo")
+    @Counted(name = "eliminar_usuario_total")
     @Transactional
     public void eliminarUsuario(Long id) {
         Usuario usuario = obtenerUsuario(id);
         em.remove(usuario);
     }
 
+    @Timed(name = "buscar_usuario_email_tiempo")
     public Usuario obtenerUsuarioPorEmail(String email) {
         try {
             return em.createNamedQuery("Usuario.findByEmail", Usuario.class)
@@ -95,6 +110,7 @@ public class UsuarioService {
         }
     }
 
+    @Timed(name = "contar_usuarios_tiempo")
     public Long contarUsuarios() {
         return em.createQuery("SELECT COUNT(u) FROM Usuario u", Long.class)
                 .getSingleResult();

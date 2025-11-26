@@ -2,6 +2,7 @@ import json
 import asyncio
 from fastapi import FastAPI
 from aiokafka import AIOKafkaConsumer
+from prometheus_fastapi_instrumentator import Instrumentator
 import sib_api_v3_sdk
 from sib_api_v3_sdk.rest import ApiException
 
@@ -25,6 +26,8 @@ app = FastAPI()
 @app.get("/api/notificaciones/status")
 def root():
     return {"status": "Kafka Email Service Running"}
+
+Instrumentator().instrument(app).expose(app)
 
 # =======================
 # EMAIL SENDER FUNCTION

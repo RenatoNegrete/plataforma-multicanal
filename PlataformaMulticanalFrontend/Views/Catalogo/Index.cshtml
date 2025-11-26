@@ -349,7 +349,6 @@
                 icon.classList.toggle('far');
                 icon.classList.toggle('fas');
                 
-                // Aquí puedes agregar lógica para guardar en localStorage o hacer una petición al servidor
                 const isActive = this.classList.contains('active');
                 console.log(isActive ? 'Agregado a favoritos' : 'Removido de favoritos');
             });
@@ -359,26 +358,156 @@
         document.querySelectorAll('.btn-add-cart').forEach(btn => {
             btn.addEventListener('click', function(e) {
                 e.preventDefault();
+                
+                if (this.disabled) return;
+                
+                // Obtener datos del producto desde el DOM
+                const productoCard = this.closest('.product-card');
                 const productoId = this.dataset.productoId;
+                const nombre = productoCard.querySelector('.product-title a').textContent.trim();
+                const precioText = productoCard.querySelector('.product-price').textContent.trim();
+                const precio = parseFloat(precioText.replace('$', '').replace(',', ''));
+                const imagenUrl = productoCard.querySelector('.product-image').src;
+                
+                // Preparar datos para enviar
+                const data = {
+                    productoId: productoId,
+                    nombre: nombre,
+                    precio: precio,
+                    cantidad: 1,
+                    imagenUrl: imagenUrl
+                };
                 
                 // Animación de feedback
                 const originalHTML = this.innerHTML;
-                this.innerHTML = '<i class="fas fa-check"></i>';
-                this.classList.add('btn-success');
+                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                this.disabled = true;
                 
-                setTimeout(() => {
+                // Enviar al servidor
+                fetch('/Carrito/Agregar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        // Animación de éxito
+                        this.innerHTML = '<i class="fas fa-check"></i>';
+                        this.classList.add('btn-success');
+                        
+                        // Actualizar contador del carrito si existe
+                        updateCartBadge(result.totalItems);
+                        
+                        // Mostrar notificación
+                        showNotification('Producto agregado al carrito', 'success');
+                        
+                        setTimeout(() => {
+                            this.innerHTML = originalHTML;
+                            this.classList.remove('btn-success');
+                            this.disabled = false;
+                        }, 1500);
+                    } else {
+                        throw new Error(result.message || 'Error al agregar producto');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
                     this.innerHTML = originalHTML;
-                    this.classList.remove('btn-success');
-                }, 1500);
-                
-                // Aquí puedes agregar la lógica para agregar al carrito
-                console.log('Producto agregado al carrito:', productoId);
-                
-                // Puedes mostrar un toast o notificación
-                // alert('Producto agregado al carrito');
+                    this.disabled = false;
+                    showNotification('Error al agregar producto al carrito', 'error');
+                });
             });
         });
+
+        // Actualizar badge del carrito en el header/navbar
+        function updateCartBadge(totalItems) {
+            const badge = document.querySelector('.cart-badge');
+            if (badge) {
+                badge.textContent = totalItems;
+                badge.style.display = totalItems > 0 ? 'inline-block' : 'none';
+            }
+        }
+
+        // Mostrar notificación toast
+        function showNotification(message, type = 'success') {
+            // Crear elemento de notificación
+            const notification = document.createElement('div');
+            notification.className = `toast-notification toast-${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Mostrar con animación
+            setTimeout(() => notification.classList.add('show'), 10);
+            
+            // Ocultar y eliminar después de 3 segundos
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Cargar total de items al cargar la página
+        fetch('/Carrito/ObtenerTotal')
+            .then(response => response.json())
+            .then(result => {
+                updateCartBadge(result.totalItems);
+            })
+            .catch(error => console.error('Error al cargar total del carrito:', error));
     </script>
+
+    <style>
+        /* Estilos para las notificaciones toast */
+        .toast-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            z-index: 9999;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            min-width: 300px;
+        }
+
+        .toast-notification.show {
+            transform: translateX(0);
+        }
+
+        .toast-notification.toast-success {
+            border-left: 4px solid #28a745;
+        }
+
+        .toast-notification.toast-success i {
+            color: #28a745;
+            font-size: 1.5rem;
+        }
+
+        .toast-notification.toast-error {
+            border-left: 4px solid #dc3545;
+        }
+
+        .toast-notification.toast-error i {
+            color: #dc3545;
+            font-size: 1.5rem;
+        }
+
+        .toast-notification span {
+            font-weight: 500;
+            color: #333;
+        }
+    </style>
 }
 
 <style>

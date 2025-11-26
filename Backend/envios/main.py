@@ -1,7 +1,8 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
 from pydantic import BaseModel
 from typing import List
 from kafka import KafkaProducer
+from prometheus_fastapi_instrumentator import Instrumentator
 import json
 import requests
 
@@ -166,3 +167,5 @@ def cotizar_test():
         "json_enviado": JSON_QUEMADO,
         "respuesta_envio_click": response.json()
     }
+
+Instrumentator().instrument(api).expose(api)

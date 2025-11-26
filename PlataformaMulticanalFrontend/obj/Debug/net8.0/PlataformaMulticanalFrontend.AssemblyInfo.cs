@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PlataformaMulticanalFrontend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+be6b4ba01006ea3cdbebd78fe54300c68147a040")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4c6b03733cb3d45bb3735e6397af95dd34483688")]
 [assembly: System.Reflection.AssemblyProductAttribute("PlataformaMulticanalFrontend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PlataformaMulticanalFrontend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
