@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-PagosApplication<pagos>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.example.proyecto.pagos.PagosApplication",
+            "projectName": "pagos",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

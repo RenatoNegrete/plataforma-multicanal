@@ -1,0 +1,50 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      mvc:
+        http-client:
+         connect-timeout: 3000
+         read-timeout: 10000
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: https://www.googleapis.com/service_accounts/v1/jwk/securetoken%40system.gserviceaccount.com
+          issuer-uri: https://securetoken.google.com/plataforma-multicanal-c9826
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - prometheus
+          - health
+          - info
+
+  endpoint:
+    prometheus:
+      enabled: true
+
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+
+services:
+  usuarios: ${USUARIOS_SERVICE_URL:http://usuarios-service:8080}
+  catalogo: ${CATALOGO_SERVICE_URL:http://catalogo-service:8080}
+  ordenes: ${ORDENES_SERVICE_URL:http://ordenes-service:8080}
+  pagos: ${PAGOS_SERVICE_URL:http://pagos-service:8080}
+  proveedores: ${PROVEEDORES_SERVICE_URL:http://proveedores-service:8080}
+  notificaciones: ${NOTIFICACIONES_SERVICE_URL:http://notificaciones-service:8080}
+  reportes: ${REPORTES_SERVICE_URL:http://localhost:8088}
+  recomendaciones: ${RECOMENDACIONES_SERVICE_URL:http://localhost:8086}
+  logistica: ${LOGISTICA_SERVICE_URL:http://envios-service:8000}
+
+firebase:
+  apiKey: AIzaSyAyoikLdOvSQyz5K5zPgHfKkLV5mwFm5nI
