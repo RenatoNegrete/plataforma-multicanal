@@ -40,7 +40,6 @@ COPY . .
 # ============================
 EXPOSE 8000
 
-ENTRYPOINT ["./wait-for-kafka.sh"]
 
 # ============================
 # 8. Ejecutar FastAPI

@@ -38,7 +38,6 @@ EXPOSE 8000
 RUN useradd -m myuser
 USER myuser
 
-ENTRYPOINT ["./wait-for-kafka.sh"]
 
 # Comando para ejecutar FastAPI con Uvicorn
 CMD ["/venv/bin/uvicorn", "main:api", "--host", "0.0.0.0", "--port", "8000"]
