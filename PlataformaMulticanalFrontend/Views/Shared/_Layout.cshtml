@@ -1,0 +1,287 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Plataforma Multicanal</title>
+    
+    <!-- Bootstrap 5.3 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+    <!-- Top Header Bar -->
+    <div class="top-header">
+        <div class="container-fluid px-4">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="top-header-left">
+                        <span><i class="fas fa-phone-alt me-1"></i> +57 300 123 4567</span>
+                        <span class="ms-3"><i class="fas fa-envelope me-1"></i> soporte@multicanal.com</span>
+                    </div>
+                </div>
+                <div class="col-md-6 text-end">
+                    <div class="top-header-right">
+                        <a href="#"><i class="fab fa-facebook me-2"></i></a>
+                        <a href="#"><i class="fab fa-instagram me-2"></i></a>
+                        <a href="#"><i class="fab fa-twitter me-2"></i></a>
+                        <span class="ms-3"><i class="fas fa-truck me-1"></i> Envío gratis desde $50</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navbar -->
+    <nav class="main-navbar sticky-top">
+        <div class="container-fluid px-4">
+            <div class="row align-items-center py-2">
+                <!-- Logo -->
+                <div class="col-lg-2 col-md-3">
+                    <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span>MULTICANAL</span>
+                    </a>
+                </div>
+                
+                <!-- Search Bar -->
+                <div class="col-lg-6 col-md-5">
+                    <form class="search-form" asp-controller="Catalogo" asp-action="Buscar" method="get">
+                        <div class="input-group">
+                            <input type="text" name="q" class="form-control" placeholder="Buscar productos, servicios o contenido digital...">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- User Actions -->
+               <!-- User Actions -->
+<div class="col-lg-4 col-md-4">
+    <div class="user-actions">
+        @{
+            var userName = Context.Session.GetString("UserName");
+            var userEmail = Context.Session.GetString("UserEmail");
+            var isAuthenticated = !string.IsNullOrEmpty(userEmail);
+        }
+
+        @if (isAuthenticated)
+        {
+            <!-- Usuario Autenticado -->
+            <div class="action-item dropdown">
+                <a href="#" class="dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-user-circle"></i>
+                    <div class="action-text">
+                        <small>Hola,</small>
+                        <strong>@(userName ?? "Usuario")</strong>
+                    </div>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                    <li><a class="dropdown-item" asp-controller="Perfil" asp-action="Index">
+                        <i class="fas fa-user me-2"></i>Mi Perfil
+                    </a></li>
+                    
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" asp-controller="Account" asp-action="Logout">
+                        <i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión
+                    </a></li>
+                </ul>
+            </div>
+
+            <a asp-controller="Perfil" asp-action="Historial" class="action-item">
+                <i class="fas fa-box"></i>
+                <div class="action-text">
+                    <small>Mis</small>
+                    <strong>Pedidos</strong>
+                </div>
+            </a>
+        }
+        else
+        {
+            <!-- Usuario NO Autenticado -->
+            <a asp-controller="Account" asp-action="Login" class="action-item">
+                <i class="fas fa-sign-in-alt"></i>
+                <div class="action-text">
+                    <small>Hola,</small>
+                    <strong>Ingresar</strong>
+                </div>
+            </a>
+
+            <a asp-controller="Account" asp-action="Registro" class="action-item">
+                <i class="fas fa-user-plus"></i>
+                <div class="action-text">
+                    <small>Crear</small>
+                    <strong>Cuenta</strong>
+                </div>
+            </a>
+        }
+
+        <a asp-controller="Carrito" asp-action="Index" class="action-item cart">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-badge">0</span>
+            <div class="action-text">
+                <small>Mi</small>
+                <strong>Carrito</strong>
+            </div>
+        </a>
+    </div>
+</div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Categories Menu -->
+    <div class="categories-menu">
+    <div class="container-fluid px-4">
+        <ul class="categories-list">
+            <li class="category-item dropdown">
+                <a href="#" class="dropdown-toggle">
+                    <i class="fas fa-bars me-2"></i>Todas las Categorías
+                </a>
+            </li>
+            <li class="category-item">
+                <a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="fisico">
+                    <i class="fas fa-box me-2"></i>Físico
+                </a>
+            </li>
+            <li class="category-item">
+                <a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="servicio">
+                    <i class="fas fa-concierge-bell me-2"></i>Servicio
+                </a>
+            </li>
+            <li class="category-item">
+                <a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="suscripcion">
+                    <i class="fas fa-calendar-check me-2"></i>Suscripción
+                </a>
+            </li>
+            <li class="category-item">
+                <a asp-controller="Catalogo" asp-action="Index">
+                    <i class="fas fa-th-large me-2"></i>Todos los Productos
+                </a>
+            </li>
+            <li class="category-item ms-auto">
+                <a asp-controller="Catalogo" asp-action="Ofertas" class="text-danger">
+                    <i class="fas fa-tags me-2"></i>Ofertas del Día
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+    <!-- Main Content -->
+    <main>
+        @RenderBody()
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-top">
+            <div class="container-fluid px-4">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <h5 class="footer-title">
+                            <i class="fas fa-shopping-bag me-2"></i>MULTICANAL
+                        </h5>
+                        <p class="footer-text">
+                            La plataforma todo-en-uno para comprar productos físicos, contratar servicios profesionales y adquirir contenidos digitales.
+                        </p>
+                        <div class="social-links mt-3">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-2 col-md-6 mb-4">
+                        <h6 class="footer-subtitle">Categorías</h6>
+                        <ul class="footer-links">
+                            <li><a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="ropa">Ropa</a></li>
+                            <li><a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="electronica">Electrónica</a></li>
+                            <li><a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="hogar">Hogar</a></li>
+                            <li><a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="tecnologia">Tecnología</a></li>
+                            <li><a asp-controller="Catalogo" asp-action="Index" asp-route-categoria="deportes">Deportes</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="col-lg-2 col-md-6 mb-4">
+                        <h6 class="footer-subtitle">Ayuda</h6>
+                        <ul class="footer-links">
+                            <li><a href="#">Preguntas Frecuentes</a></li>
+                            <li><a href="#">Cómo Comprar</a></li>
+                            <li><a href="#">Métodos de Pago</a></li>
+                            <li><a href="#">Envíos y Entregas</a></li>
+                            <li><a href="#">Devoluciones</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="col-lg-2 col-md-6 mb-4">
+                        <h6 class="footer-subtitle">Mi Cuenta</h6>
+                        <ul class="footer-links">
+                            <li><a asp-controller="Perfil" asp-action="Index">Mi Perfil</a></li>
+                            <li><a asp-controller="Perfil" asp-action="Historial">Mis Pedidos</a></li>
+                            <li><a href="#">Lista de Deseos</a></li>
+                            <li><a href="#">Seguimiento</a></li>
+                            <li><a asp-controller="Account" asp-action="Login">Iniciar Sesión</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <h6 class="footer-subtitle">Newsletter</h6>
+                        <p class="footer-text">Suscríbete y recibe ofertas exclusivas</p>
+                        <form class="newsletter-form">
+                            <div class="input-group">
+                                <input type="email" class="form-control" placeholder="tu@email.com">
+                                <button class="btn btn-primary" type="submit">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </form>
+                        <div class="payment-methods mt-3">
+                            <img src="https://img.shields.io/badge/Visa-1A1F71?logo=visa&logoColor=white" alt="Visa">
+                            <img src="https://img.shields.io/badge/Mastercard-EB001B?logo=mastercard&logoColor=white" alt="Mastercard">
+                            <img src="https://img.shields.io/badge/PayPal-00457C?logo=paypal&logoColor=white" alt="PayPal">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="container-fluid px-4">
+                <div class="row align-items-center">
+                    <div class="col-md-6 text-center text-md-start">
+                        <p class="mb-0">&copy; 2024 Plataforma Multicanal. Todos los derechos reservados.</p>
+                    </div>
+                    <div class="col-md-6 text-center text-md-end">
+                        <a href="#">Términos de Servicio</a>
+                        <span class="mx-2">|</span>
+                        <a href="#">Política de Privacidad</a>
+                        <span class="mx-2">|</span>
+                        <a href="#">Cookies</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

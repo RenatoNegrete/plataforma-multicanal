@@ -1,0 +1,338 @@
+@{
+    ViewData["Title"] = "Crear Cuenta";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Plataforma Multicanal</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/auth.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-left">
+            <div class="auth-brand">
+                <a asp-controller="Home" asp-action="Index">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span>MULTICANAL</span>
+                </a>
+            </div>
+            <div class="auth-illustration">
+                <i class="fas fa-user-plus"></i>
+                <h2>Únete a nosotros</h2>
+                <p>Descubre miles de productos y ofertas exclusivas</p>
+            </div>
+        </div>
+
+        <div class="auth-right">
+            <div class="auth-form-container">
+                <div class="auth-header">
+                    <h1>Crear Cuenta</h1>
+                    <p>¿Ya tienes cuenta? <a asp-controller="Account" asp-action="Login">Inicia sesión</a></p>
+                </div>
+
+                <form asp-controller="Account" asp-action="Registro" method="post" class="auth-form" id="registroForm">
+                    
+                    @if (TempData["Error"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-circle me-2"></i>
+                            <strong>Error:</strong> @TempData["Error"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+
+                    <div class="role-label">Tipo de cuenta</div>
+                    <div class="role-selector">
+                        <label class="role-option active" for="roleRegCliente">
+                            <input type="radio" id="roleRegCliente" name="userRole" value="cliente" checked>
+                            <i class="fas fa-user"></i>
+                            <div class="role-title">Cliente</div>
+                        </label>
+                        
+                        <label class="role-option" for="roleRegProveedor">
+                            <input type="radio" id="roleRegProveedor" name="userRole" value="proveedor">
+                            <i class="fas fa-store"></i>
+                            <div class="role-title">Proveedor</div>
+                        </label>
+                    </div>
+
+                    <div class="social-login">
+                        <button type="button" class="btn-social" onclick="alert('Funcionalidad próximamente')">
+                            <i class="fab fa-google"></i>
+                            Google
+                        </button>
+                        <button type="button" class="btn-social" onclick="alert('Funcionalidad próximamente')">
+                            <i class="fab fa-facebook-f"></i>
+                            Facebook
+                        </button>
+                    </div>
+
+                    <div class="divider">
+                        <span>O con tu correo</span>
+                    </div>
+
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="firstName">Nombre <span class="text-danger">*</span></label>
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="firstName" 
+                                       name="firstName" 
+                                       placeholder="Juan" 
+                                       required
+                                       autocomplete="given-name">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="lastName">Apellido <span class="text-danger">*</span></label>
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="lastName" 
+                                       name="lastName" 
+                                       placeholder="Pérez" 
+                                       required
+                                       autocomplete="family-name">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Correo Electrónico <span class="text-danger">*</span></label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" 
+                                   class="form-control" 
+                                   id="email" 
+                                   name="email" 
+                                   placeholder="tu@email.com" 
+                                   required
+                                   autocomplete="email">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="telefono">Teléfono</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-phone"></i>
+                            <input type="tel" 
+                                   class="form-control" 
+                                   id="telefono" 
+                                   name="telefono" 
+                                   placeholder="+57 300 123 4567"
+                                   autocomplete="tel">
+                        </div>
+                        <small class="text-muted">Opcional</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="direccion">Dirección</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="direccion" 
+                                   name="direccion" 
+                                   placeholder="Calle 123 #45-67"
+                                   autocomplete="street-address">
+                        </div>
+                        <small class="text-muted">Opcional</small>
+                    </div>
+
+                    <div class="form-group" id="urlProveedorGroup">
+                        <label for="urlProveedor">
+                            Sitio Web / URL 
+                            <span class="text-danger">*</span>
+                            <i class="fas fa-info-circle" 
+                               data-bs-toggle="tooltip" 
+                               data-bs-placement="top" 
+                               title="URL de tu tienda online o sitio web empresarial"></i>
+                        </label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-globe"></i>
+                            <input type="url" 
+                                   class="form-control" 
+                                   id="urlProveedor" 
+                                   name="urlProveedor" 
+                                   placeholder="https://tusitio.com"
+                                   autocomplete="url">
+                        </div>
+                        <small class="text-muted">Ingresa la URL completa de tu negocio</small>
+                        <div class="url-preview" id="urlPreview">
+                            <i class="fas fa-link"></i> 
+                            <span id="urlPreviewText"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Contraseña <span class="text-danger">*</span></label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" 
+                                   class="form-control" 
+                                   id="password" 
+                                   name="password" 
+                                   placeholder="••••••••" 
+                                   required 
+                                   minlength="6"
+                                   autocomplete="new-password">
+                            <button type="button" class="btn-toggle-password" onclick="togglePassword('password')">
+                                <i class="fas fa-eye" id="toggleIcon1"></i>
+                            </button>
+                        </div>
+                        <small class="text-muted">Mínimo 6 caracteres</small>
+                    </div>
+
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" 
+                               type="checkbox" 
+                               id="terms" 
+                               name="terms"
+                               required>
+                        <label class="form-check-label" for="terms">
+                            Acepto los <a href="#" onclick="alert('Términos próximamente'); return false;">Términos y Condiciones</a> 
+                            y la <a href="#" onclick="alert('Política próximamente'); return false;">Política de Privacidad</a>
+                            <span class="text-danger">*</span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-auth">
+                        Crear Cuenta
+                        <i class="fas fa-arrow-right ms-2"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+        document.querySelectorAll('.role-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.role-option').forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+                const radio = this.querySelector('input[type="radio"]');
+                radio.checked = true;
+                
+                // Mostrar/ocultar campo de URL según el rol
+                const urlGroup = document.getElementById('urlProveedorGroup');
+                const urlInput = document.getElementById('urlProveedor');
+                
+                if (radio.value === 'proveedor') {
+                    urlGroup.classList.add('show');
+                    urlInput.required = true;
+                } else {
+                    urlGroup.classList.remove('show');
+                    urlInput.required = false;
+                    urlInput.value = '';
+                    document.getElementById('urlPreview').classList.remove('show');
+                }
+            });
+        });
+
+        // Preview de URL
+        document.getElementById('urlProveedor').addEventListener('input', function(e) {
+            const urlValue = e.target.value;
+            const preview = document.getElementById('urlPreview');
+            const previewText = document.getElementById('urlPreviewText');
+            
+            if (urlValue.length > 0) {
+                previewText.textContent = urlValue;
+                preview.classList.add('show');
+            } else {
+                preview.classList.remove('show');
+            }
+        });
+
+        function togglePassword(fieldId) {
+            const password = document.getElementById(fieldId);
+            const icon = document.getElementById('toggleIcon1');
+            
+            if (password.type === 'password') {
+                password.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                password.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // Validación del formulario
+        document.getElementById('registroForm').addEventListener('submit', function(e) {
+            const password = document.getElementById('password').value;
+            const terms = document.getElementById('terms').checked;
+
+            if (password.length < 6) {
+                e.preventDefault();
+                alert('La contraseña debe tener al menos 6 caracteres');
+                return false;
+            }
+
+            if (!terms) {
+                e.preventDefault();
+                alert('Debes aceptar los términos y condiciones');
+                return false;
+            }
+
+            if (userRole === 'proveedor') {
+                if (!urlProveedor || urlProveedor.trim() === '') {
+                    e.preventDefault();
+                    alert('Debes ingresar la URL de tu sitio web como proveedor');
+                    return false;
+                }
+
+                // Validar formato básico de URL
+                try {
+                    new URL(urlProveedor);
+                } catch (error) {
+                    e.preventDefault();
+                    alert('Por favor ingresa una URL válida (ejemplo: https://tusitio.com)');
+                    return false;
+                }
+            }
+        });
+
+        // Auto-cerrar alertas después de 5 segundos
+        setTimeout(function() {
+            var alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                var bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            });
+        }, 5000);
+    </script>
+</body>
+</html>
+```
+
+---
+
+## 🎯 **Verificación Final**
+
+### **Archivos que debes tener:**
+```
+PlataformaMulticanalFrontend/
+├── Controllers/
+│   └── AccountController.cs (ya lo tienes del paso anterior)
+├── Services/
+│   └── UsuarioApiService.cs (ya lo tienes del paso anterior)
+├── Views/
+│   └── Account/
+│       ├── Login.cshtml ✅ (usar el de arriba)
+│       └── Registro.cshtml ✅ (usar el de arriba)
+└── Program.cs ✅ (usar el de arriba)

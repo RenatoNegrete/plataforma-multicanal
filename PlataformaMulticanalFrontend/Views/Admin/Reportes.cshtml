@@ -1,0 +1,607 @@
+@model List<PlataformaMulticanalFrontend.Models.Producto>
+
+@{
+    ViewData["Title"] = "Reportes y Analytics";
+    
+    // Validar que el modelo no sea nulo
+    var productos = Model ?? new List<PlataformaMulticanalFrontend.Models.Producto>();
+    
+    // Estadísticas generales
+    var totalProductos = productos.Count;
+    var valorTotalInventario = productos.Sum(p => p.Precio * p.Stock);
+    var productoMasCaro = productos.OrderByDescending(p => p.Precio).FirstOrDefault();
+    var productoMasBarato = productos.Where(p => p.Precio > 0).OrderBy(p => p.Precio).FirstOrDefault();
+    var stockTotal = productos.Sum(p => p.Stock);
+    var precioPromedio = productos.Any() ? productos.Average(p => p.Precio) : 0;
+    
+    // Productos por categoría
+    var porCategoria = productos
+        .GroupBy(p => p.Categoria ?? "Sin categoría")
+        .Select(g => new {
+            Categoria = g.Key,
+            Cantidad = g.Count(),
+            ValorTotal = g.Sum(p => p.Precio * p.Stock),
+            StockTotal = g.Sum(p => p.Stock),
+            PrecioPromedio = g.Average(p => p.Precio)
+        })
+        .OrderByDescending(x => x.ValorTotal)
+        .ToList();
+    
+    // Estados de stock
+    var productosSinStock = productos.Count(p => p.Stock == 0);
+    var productosStockBajo = productos.Count(p => p.Stock > 0 && p.Stock < 10);
+    var productosStockNormal = productos.Count(p => p.Stock >= 10 && p.Stock < 50);
+    var productosStockAlto = productos.Count(p => p.Stock >= 50);
+    
+    // Top productos por valor de inventario
+    var topProductosPorValor = productos
+        .Select(p => new {
+            Producto = p,
+            ValorInventario = p.Precio * p.Stock
+        })
+        .OrderByDescending(x => x.ValorInventario)
+        .Take(10)
+        .ToList();
+
+    // Datos para gráficos
+    var categoriasLabels = string.Join(",", porCategoria.Select(c => $"'{c.Categoria}'"));
+    var categoriasValores = string.Join(",", porCategoria.Select(c => c.ValorTotal));
+    var categoriasColores = "'#2563eb','#10b981','#f59e0b','#ef4444','#8b5cf6','#ec4899','#14b8a6','#f97316'";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+}
+
+<section class="admin-section">
+    <div class="container-fluid px-4">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-2 mb-4">
+                <div class="admin-sidebar">
+                    <div class="sidebar-brand">
+                        <i class="fas fa-user-shield"></i>
+                        <span>Admin Panel</span>
+                    </div>
+                    <nav class="admin-menu">
+                        <a asp-controller="Admin" asp-action="Dashboard" class="menu-item">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Dashboard</span>
+                        </a>
+                        <a asp-controller="Admin" asp-action="Catalogo" class="menu-item">
+                            <i class="fas fa-box"></i>
+                            <span>Catálogo</span>
+                        </a>
+                        <a asp-controller="Admin" asp-action="Proveedores" class="menu-item">
+                            <i class="fas fa-truck"></i>
+                            <span>Proveedores</span>
+                        </a>
+                        <a asp-controller="Admin" asp-action="Inventarios" class="menu-item">
+                            <i class="fas fa-warehouse"></i>
+                            <span>Inventarios</span>
+                        </a>
+                        <a asp-controller="Admin" asp-action="Precios" class="menu-item">
+                            <i class="fas fa-tags"></i>
+                            <span>Precios</span>
+                        </a>
+                        <a href="#" class="menu-item active">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Reportes</span>
+                        </a>
+                        <hr class="sidebar-divider">
+                        <a asp-controller="Home" asp-action="Index" class="menu-item">
+                            <i class="fas fa-store"></i>
+                            <span>Ver Tienda</span>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-10">
+                <!-- Page Header -->
+                <div class="admin-header">
+                    <div>
+                        <h2><i class="fas fa-chart-bar me-3"></i>Reportes y Analytics</h2>
+                        <p>Análisis detallado de inventario y productos</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-outline-primary" onclick="window.print()">
+                            <i class="fas fa-print me-2"></i>Imprimir Reporte
+                        </button>
+                        <button class="btn btn-primary" onclick="exportarExcel()">
+                            <i class="fas fa-file-excel me-2"></i>Exportar Excel
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mensajes -->
+                @if (TempData["Success"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="fas fa-check-circle me-2"></i>@TempData["Success"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                }
+                @if (TempData["Error"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="fas fa-exclamation-triangle me-2"></i>@TempData["Error"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                }
+
+                <!-- Estadísticas Principales -->
+                <div class="row g-3 mb-4">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-primary">
+                                <i class="fas fa-boxes"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Total Productos</span>
+                                <h3 class="stat-value">@totalProductos</h3>
+                                <span class="stat-change text-muted">
+                                    <i class="fas fa-box"></i> @stockTotal unidades
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-success">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Valor Inventario</span>
+                                <h3 class="stat-value">$@valorTotalInventario.ToString("N0")</h3>
+                                <span class="stat-change text-success">
+                                    <i class="fas fa-chart-line"></i> Total
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-info">
+                                <i class="fas fa-calculator"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Precio Promedio</span>
+                                <h3 class="stat-value">$@precioPromedio.ToString("N0")</h3>
+                                <span class="stat-change text-muted">
+                                    <i class="fas fa-chart-area"></i> Media
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-warning">
+                                <i class="fas fa-layer-group"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Categorías</span>
+                                <h3 class="stat-value">@porCategoria.Count</h3>
+                                <span class="stat-change text-muted">
+                                    <i class="fas fa-tags"></i> Activas
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gráficos y Análisis -->
+                <div class="row g-3 mb-4">
+                    <div class="col-lg-8">
+                        <div class="admin-card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-chart-pie me-2"></i>Valor de Inventario por Categoría</h5>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="categoriaValorChart" height="80"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="admin-card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-chart-doughnut me-2"></i>Distribución de Stock</h5>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="distribucionStockChart"></canvas>
+                                <div class="mt-3">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span><i class="fas fa-square text-danger"></i> Sin Stock</span>
+                                        <strong>@productosSinStock</strong>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span><i class="fas fa-square text-warning"></i> Stock Bajo</span>
+                                        <strong>@productosStockBajo</strong>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span><i class="fas fa-square text-success"></i> Stock Normal</span>
+                                        <strong>@productosStockNormal</strong>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <span><i class="fas fa-square text-primary"></i> Stock Alto</span>
+                                        <strong>@productosStockAlto</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Análisis de Precios -->
+                <div class="row g-3 mb-4">
+                    <div class="col-lg-6">
+                        <div class="admin-card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-money-bill-wave me-2"></i>Análisis de Precios</h5>
+                            </div>
+                            <div class="card-body">
+                                @if (productoMasCaro != null && productoMasBarato != null)
+                                {
+                                    <div class="mb-4">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <span class="text-muted">Producto Más Caro</span>
+                                            <strong class="text-success">$@productoMasCaro.Precio.ToString("N0")</strong>
+                                        </div>
+                                        <div class="p-3 bg-light rounded">
+                                            <div class="d-flex align-items-center gap-2">
+                                                <img src="@(string.IsNullOrEmpty(productoMasCaro.Imagen) ? "https://via.placeholder.com/50" : productoMasCaro.Imagen)" 
+                                                     alt="@productoMasCaro.Nombre" 
+                                                     style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                                                <div>
+                                                    <strong>@productoMasCaro.Nombre</strong>
+                                                    <br><small class="text-muted">@productoMasCaro.Categoria</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <span class="text-muted">Producto Más Barato</span>
+                                            <strong class="text-info">$@productoMasBarato.Precio.ToString("N0")</strong>
+                                        </div>
+                                        <div class="p-3 bg-light rounded">
+                                            <div class="d-flex align-items-center gap-2">
+                                                <img src="@(string.IsNullOrEmpty(productoMasBarato.Imagen) ? "https://via.placeholder.com/50" : productoMasBarato.Imagen)" 
+                                                     alt="@productoMasBarato.Nombre" 
+                                                     style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                                                <div>
+                                                    <strong>@productoMasBarato.Nombre</strong>
+                                                    <br><small class="text-muted">@productoMasBarato.Categoria</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <p class="text-muted text-center">No hay datos suficientes</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="admin-card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-warehouse me-2"></i>Estado de Stock</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span><i class="fas fa-check-circle text-success me-2"></i>Stock Normal (10-49)</span>
+                                        <strong>@productosStockNormal productos</strong>
+                                    </div>
+                                    <div class="progress" style="height: 30px;">
+                                        <div class="progress-bar bg-success" 
+                                             style="width: @(totalProductos > 0 ? (productosStockNormal * 100.0 / totalProductos) : 0)%">
+                                            @(totalProductos > 0 ? Math.Round(productosStockNormal * 100.0 / totalProductos, 1) : 0)%
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span><i class="fas fa-arrow-up text-primary me-2"></i>Stock Alto (≥50)</span>
+                                        <strong>@productosStockAlto productos</strong>
+                                    </div>
+                                    <div class="progress" style="height: 30px;">
+                                        <div class="progress-bar bg-primary" 
+                                             style="width: @(totalProductos > 0 ? (productosStockAlto * 100.0 / totalProductos) : 0)%">
+                                            @(totalProductos > 0 ? Math.Round(productosStockAlto * 100.0 / totalProductos, 1) : 0)%
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span><i class="fas fa-exclamation-triangle text-warning me-2"></i>Stock Bajo (&lt;10)</span>
+                                        <strong>@productosStockBajo productos</strong>
+                                    </div>
+                                    <div class="progress" style="height: 30px;">
+                                        <div class="progress-bar bg-warning" 
+                                             style="width: @(totalProductos > 0 ? (productosStockBajo * 100.0 / totalProductos) : 0)%">
+                                            @(totalProductos > 0 ? Math.Round(productosStockBajo * 100.0 / totalProductos, 1) : 0)%
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span><i class="fas fa-times-circle text-danger me-2"></i>Sin Stock (0)</span>
+                                        <strong>@productosSinStock productos</strong>
+                                    </div>
+                                    <div class="progress" style="height: 30px;">
+                                        <div class="progress-bar bg-danger" 
+                                             style="width: @(totalProductos > 0 ? (productosSinStock * 100.0 / totalProductos) : 0)%">
+                                            @(totalProductos > 0 ? Math.Round(productosSinStock * 100.0 / totalProductos, 1) : 0)%
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Productos por Categoría -->
+                <div class="admin-card mb-4">
+                    <div class="card-header">
+                        <h5><i class="fas fa-chart-pie me-2"></i>Análisis por Categoría</h5>
+                    </div>
+                    <div class="card-body">
+                        @if (porCategoria.Any())
+                        {
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Categoría</th>
+                                            <th class="text-center">Productos</th>
+                                            <th class="text-center">Stock Total</th>
+                                            <th class="text-end">Precio Promedio</th>
+                                            <th class="text-end">Valor Total</th>
+                                            <th class="text-center">% del Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var cat in porCategoria)
+                                        {
+                                            var porcentaje = valorTotalInventario > 0 ? (cat.ValorTotal / valorTotalInventario * 100) : 0;
+                                            
+                                            <tr>
+                                                <td>
+                                                    <strong>@cat.Categoria</strong>
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="badge bg-primary">@cat.Cantidad</span>
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="badge bg-info">@cat.StockTotal</span>
+                                                </td>
+                                                <td class="text-end">
+                                                    <strong class="text-success">$@cat.PrecioPromedio.ToString("N0")</strong>
+                                                </td>
+                                                <td class="text-end">
+                                                    <strong>$@cat.ValorTotal.ToString("N0")</strong>
+                                                </td>
+                                                <td class="text-center">
+                                                    <div class="progress" style="height: 25px;">
+                                                        <div class="progress-bar" style="width: @porcentaje%">
+                                                            @Math.Round(porcentaje, 1)%
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                    <tfoot class="table-light">
+                                        <tr>
+                                            <td><strong>TOTAL</strong></td>
+                                            <td class="text-center"><strong>@totalProductos</strong></td>
+                                            <td class="text-center"><strong>@stockTotal</strong></td>
+                                            <td class="text-end"><strong>$@precioPromedio.ToString("N0")</strong></td>
+                                            <td class="text-end"><strong>$@valorTotalInventario.ToString("N0")</strong></td>
+                                            <td class="text-center"><strong>100%</strong></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <p class="text-muted text-center py-4">No hay datos para mostrar</p>
+                        }
+                    </div>
+                </div>
+
+                <!-- Top 10 Productos por Valor -->
+                <div class="admin-card">
+                    <div class="card-header">
+                        <h5><i class="fas fa-trophy me-2"></i>Top 10 Productos por Valor de Inventario</h5>
+                    </div>
+                    <div class="card-body">
+                        @if (topProductosPorValor.Any())
+                        {
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Producto</th>
+                                            <th>Categoría</th>
+                                            <th class="text-end">Precio</th>
+                                            <th class="text-center">Stock</th>
+                                            <th class="text-end">Valor Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for (int i = 0; i < topProductosPorValor.Count; i++)
+                                        {
+                                            var item = topProductosPorValor[i];
+                                            var badgeColor = i < 3 ? "bg-warning" : "bg-secondary";
+                                            
+                                            <tr>
+                                                <td>
+                                                    <span class="badge @badgeColor">@(i + 1)</span>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <img src="@(string.IsNullOrEmpty(item.Producto.Imagen) ? "https://via.placeholder.com/40" : item.Producto.Imagen)" 
+                                                             alt="@item.Producto.Nombre" 
+                                                             style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px;">
+                                                        <strong>@item.Producto.Nombre</strong>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span class="badge bg-primary">
+                                                        @(string.IsNullOrEmpty(item.Producto.Categoria) ? "Sin categoría" : item.Producto.Categoria)
+                                                    </span>
+                                                </td>
+                                                <td class="text-end">
+                                                    <strong class="text-success">$@item.Producto.Precio.ToString("N0")</strong>
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="badge bg-info">@item.Producto.Stock</span>
+                                                </td>
+                                                <td class="text-end">
+                                                    <strong class="text-primary">$@item.ValorInventario.ToString("N0")</strong>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <p class="text-muted text-center py-4">No hay productos disponibles</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Gráfico de Valor por Categoría
+        const categoriaValorCtx = document.getElementById('categoriaValorChart').getContext('2d');
+        new Chart(categoriaValorCtx, {
+            type: 'bar',
+            data: {
+                labels: [@Html.Raw(categoriasLabels)],
+                datasets: [{
+                    label: 'Valor Inventario ($)',
+                    data: [@Html.Raw(categoriasValores)],
+                    backgroundColor: [@Html.Raw(categoriasColores)],
+                    borderRadius: 8,
+                    borderWidth: 2,
+                    borderColor: 'rgba(255, 255, 255, 0.8)'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return '$' + context.parsed.y.toLocaleString('es-CO');
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return '$' + value.toLocaleString('es-CO');
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Gráfico de Distribución de Stock
+        const distribucionStockCtx = document.getElementById('distribucionStockChart').getContext('2d');
+        new Chart(distribucionStockCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Sin Stock', 'Stock Bajo', 'Stock Normal', 'Stock Alto'],
+                datasets: [{
+                    data: [@productosSinStock, @productosStockBajo, @productosStockNormal, @productosStockAlto],
+                    backgroundColor: ['#ef4444', '#f59e0b', '#10b981', '#2563eb'],
+                    borderWidth: 3,
+                    borderColor: '#ffffff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const percentage = ((context.parsed / total) * 100).toFixed(1);
+                                return context.label + ': ' + context.parsed + ' (' + percentage + '%)';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Función para exportar a Excel
+        function exportarExcel() {
+            // Aquí podrías implementar la exportación real
+            alert('Funcionalidad de exportación a Excel - Implementar según necesidad');
+        }
+    </script>
+
+    <style>
+        @@media print {
+            .admin-sidebar,
+            .admin-header .header-actions,
+            .btn {
+                display: none !important;
+            }
+            
+            .admin-card {
+                page-break-inside: avoid;
+            }
+        }
+        
+        .stat-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        .product-thumb {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: rgba(37, 99, 235, 0.05);
+        }
+    </style>
+}

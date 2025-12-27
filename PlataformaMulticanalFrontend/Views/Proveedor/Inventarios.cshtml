@@ -1,0 +1,440 @@
+﻿@model List<PlataformaMulticanalFrontend.Models.Producto>
+
+@{
+    ViewData["Title"] = "Gestión de Inventarios";
+    var productosSinStock = ViewBag.ProductosSinStock as List<PlataformaMulticanalFrontend.Models.Producto> ?? new List<PlataformaMulticanalFrontend.Models.Producto>();
+    var productosStockBajo = ViewBag.ProductosStockBajo as List<PlataformaMulticanalFrontend.Models.Producto> ?? new List<PlataformaMulticanalFrontend.Models.Producto>();
+    var productosStockNormal = ViewBag.ProductosStockNormal as List<PlataformaMulticanalFrontend.Models.Producto> ?? new List<PlataformaMulticanalFrontend.Models.Producto>();
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+}
+
+<section class="admin-section">
+    <div class="container-fluid px-4">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-2 mb-4">
+                <div class="admin-sidebar">
+                    <div class="sidebar-brand">
+                        <i class="fas fa-user-shield"></i>
+                        <span>Admin Panel</span>
+                    </div>
+                    <nav class="admin-menu">
+                        <a asp-controller="Proveedor" asp-action="Dashboard" class="menu-item">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Dashboard</span>
+                        </a>
+                        <a asp-controller="Proveedor" asp-action="Catalogo" class="menu-item">
+                            <i class="fas fa-box"></i>
+                            <span>Catálogo</span>
+                        </a>
+                        <a href="#" class="menu-item active">
+                            <i class="fas fa-warehouse"></i>
+                            <span>Inventarios</span>
+                        </a>
+                        <a asp-controller="Proveedor" asp-action="Precios" class="menu-item">
+                            <i class="fas fa-tags"></i>
+                            <span>Precios</span>
+                        </a>
+                      
+                        <hr class="sidebar-divider">
+                        <a asp-controller="Home" asp-action="Index" class="menu-item">
+                            <i class="fas fa-store"></i>
+                            <span>Ver Tienda</span>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-10">
+                <div class="admin-header">
+                    <div>
+                        <h2><i class="fas fa-warehouse me-3"></i>Gestión de Inventarios</h2>
+                        <p>Control de stock y movimientos de inventario</p>
+                    </div>
+                    <div class="header-actions">
+                        <a asp-controller="Proveedor" asp-action="Catalogo" class="btn btn-primary">
+                            <i class="fas fa-plus me-2"></i>Agregar Producto
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Alerts con datos reales -->
+                <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                        <div class="alert alert-danger d-flex align-items-center">
+                            <i class="fas fa-exclamation-triangle fa-2x me-3"></i>
+                            <div>
+                                <strong>@productosSinStock.Count productos</strong> sin stock
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="alert alert-warning d-flex align-items-center">
+                            <i class="fas fa-box fa-2x me-3"></i>
+                            <div>
+                                <strong>@productosStockBajo.Count productos</strong> con stock bajo
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="alert alert-success d-flex align-items-center">
+                            <i class="fas fa-check-circle fa-2x me-3"></i>
+                            <div>
+                                <strong>@productosStockNormal.Count productos</strong> con stock normal
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filtro de vista -->
+                <div class="admin-card mb-4">
+                    <div class="card-header">
+                        <h5><i class="fas fa-filter me-2"></i>Filtrar Inventario</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-outline-primary active" onclick="filtrarInventario('todos')">
+                                Todos (@Model.Count)
+                            </button>
+                            <button type="button" class="btn btn-outline-danger" onclick="filtrarInventario('critico')">
+                                Sin Stock (@productosSinStock.Count)
+                            </button>
+                            <button type="button" class="btn btn-outline-warning" onclick="filtrarInventario('bajo')">
+                                Stock Bajo (@productosStockBajo.Count)
+                            </button>
+                            <button type="button" class="btn btn-outline-success" onclick="filtrarInventario('normal')">
+                                Stock Normal (@productosStockNormal.Count)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Inventory Table -->
+                <div class="admin-card mb-4">
+                    <div class="card-header">
+                        <h5><i class="fas fa-list me-2"></i>Control de Inventario</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        @if (Model.Any())
+                        {
+                            <div class="table-responsive">
+                                <table class="table table-hover mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Producto</th>
+                                            <th>Categoría</th>
+                                            <th>Stock Actual</th>
+                                            <th>Precio</th>
+                                            <th>Valor Stock</th>
+                                            <th>Estado</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="inventarioTableBody">
+                                        @foreach (var producto in Model.OrderBy(p => p.Stock))
+                                        {
+                                            var estadoClass = producto.Stock == 0 ? "table-danger" : 
+                                                             producto.Stock < 10 ? "table-warning" : "";
+                                            var badgeClass = producto.Stock == 0 ? "bg-danger" : 
+                                                            producto.Stock < 10 ? "bg-warning" : "bg-success";
+                                            var estadoTexto = producto.Stock == 0 ? "Sin Stock" : 
+                                                             producto.Stock < 10 ? "Stock Bajo" : "Normal";
+                                            var categoriaStock = producto.Stock == 0 ? "critico" : 
+                                                                producto.Stock < 10 ? "bajo" : "normal";
+                                            
+                                            <tr class="@estadoClass" data-categoria="@categoriaStock">
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <img src="@(string.IsNullOrEmpty(producto.Imagen) ? "https://via.placeholder.com/50" : producto.Imagen)" 
+                                                             class="product-thumb me-2" 
+                                                             alt="@producto.Nombre"
+                                                             style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                                                        <div>
+                                                            <strong>@producto.Nombre</strong>
+                                                            @if (!string.IsNullOrEmpty(producto.Id))
+                                                            {
+                                                                <br><small class="text-muted">ID: @producto.Id</small>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span class="badge bg-secondary">
+                                                        @(string.IsNullOrEmpty(producto.Categoria) ? "Sin categoría" : producto.Categoria)
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span class="badge @badgeClass fs-6">@producto.Stock</span>
+                                                </td>
+                                                <td>
+                                                    <strong>$@producto.Precio.ToString("N0")</strong>
+                                                </td>
+                                                <td>
+                                                    $@((producto.Precio * producto.Stock).ToString("N0"))
+                                                </td>
+                                                <td>
+                                                    <span class="badge @badgeClass">@estadoTexto</span>
+                                                </td>
+                                                <td>
+                                                    <div class="btn-group btn-group-sm">
+                                                        <button class="btn btn-outline-primary" 
+                                                                onclick="abrirModalEditar('@producto.Id', '@producto.Nombre', @producto.Precio, @producto.Stock, '@producto.Categoria', '@(string.IsNullOrEmpty(producto.Imagen) ? "" : producto.Imagen)')"
+                                                                title="Editar">
+                                                            <i class="fas fa-edit"></i>
+                                                        </button>
+                                                        @if (producto.Stock == 0 || producto.Stock < 10)
+                                                        {
+                                                            <button class="btn btn-outline-warning" 
+                                                                    title="Requiere reposición">
+                                                                <i class="fas fa-exclamation-triangle"></i>
+                                                            </button>
+                                                        }
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="text-center py-5">
+                                <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
+                                <p class="text-muted">No hay productos en el inventario</p>
+                                <a asp-controller="Proveedor" asp-action="Catalogo" class="btn btn-primary">
+                                    <i class="fas fa-plus me-2"></i>Agregar primer producto
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Resumen de Inventario -->
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="admin-card">
+                            <div class="card-body">
+                                <h6 class="text-muted mb-3">Productos Sin Stock</h6>
+                                @if (productosSinStock.Any())
+                                {
+                                    <div class="list-group list-group-flush">
+                                        @foreach (var producto in productosSinStock.Take(5))
+                                        {
+                                            <div class="list-group-item px-0">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <span class="text-truncate">@producto.Nombre</span>
+                                                    <span class="badge bg-danger">0</span>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                    @if (productosSinStock.Count > 5)
+                                    {
+                                        <small class="text-muted">Y @(productosSinStock.Count - 5) más...</small>
+                                    }
+                                }
+                                else
+                                {
+                                    <p class="text-muted mb-0">No hay productos sin stock</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="admin-card">
+                            <div class="card-body">
+                                <h6 class="text-muted mb-3">Stock Bajo (menos de 10)</h6>
+                                @if (productosStockBajo.Any())
+                                {
+                                    <div class="list-group list-group-flush">
+                                        @foreach (var producto in productosStockBajo.Take(5))
+                                        {
+                                            <div class="list-group-item px-0">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <span class="text-truncate">@producto.Nombre</span>
+                                                    <span class="badge bg-warning">@producto.Stock</span>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                    @if (productosStockBajo.Count > 5)
+                                    {
+                                        <small class="text-muted">Y @(productosStockBajo.Count - 5) más...</small>
+                                    }
+                                }
+                                else
+                                {
+                                    <p class="text-muted mb-0">No hay productos con stock bajo</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="admin-card">
+                            <div class="card-body">
+                                <h6 class="text-muted mb-3">Estadísticas Generales</h6>
+                                <div class="mb-3">
+                                    <small class="text-muted">Total Productos</small>
+                                    <h4 class="mb-0">@Model.Count</h4>
+                                </div>
+                                <div class="mb-3">
+                                    <small class="text-muted">Valor Total Inventario</small>
+                                    <h4 class="mb-0 text-success">$@Model.Sum(p => p.Precio * p.Stock).ToString("N0")</h4>
+                                </div>
+                                <div>
+                                    <small class="text-muted">Unidades Totales</small>
+                                    <h4 class="mb-0">@Model.Sum(p => p.Stock)</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modal de Edición -->
+<div class="modal fade" id="modalEditarProducto" tabindex="-1" aria-labelledby="modalEditarProductoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditarProductoLabel">
+                    <i class="fas fa-edit me-2"></i>Editar Producto
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="formEditarProducto" method="post" asp-controller="Proveedor" asp-action="EditarProducto">
+                <div class="modal-body">
+                    <input type="hidden" id="editId" name="id" />
+                    <input type="hidden" id="editIdProducto" name="producto.Id" />
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <img id="editImagen" src="" alt="Producto" class="img-fluid rounded mb-3" style="max-height: 200px; object-fit: cover;">
+                        </div>
+                        <div class="col-md-6">
+                            <h5 id="editNombreDisplay" class="mb-3"></h5>
+                            <p class="text-muted">ID: <span id="editIdDisplay"></span></p>
+                        </div>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="editNombre" class="form-label fw-bold">Nombre del Producto</label>
+                            <input type="text" class="form-control" id="editNombre" name="producto.Nombre" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="editCategoria" class="form-label fw-bold">Categoría</label>
+                            <input type="text" class="form-control" id="editCategoria" name="producto.Categoria">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="editPrecio" class="form-label fw-bold">Precio</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="editPrecio" name="producto.Precio" min="0" step="0.01" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="editStock" class="form-label fw-bold">Stock</label>
+                            <input type="number" class="form-control" id="editStock" name="producto.Stock" min="0" required>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="editImagenUrl" class="form-label fw-bold">URL de Imagen</label>
+                            <input type="url" class="form-control" id="editImagenUrl" name="producto.Imagen">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-2"></i>Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-2"></i>Guardar Cambios
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function abrirModalEditar(id, nombre, precio, stock, categoria, imagen) {
+            // Rellenar el formulario con los datos del producto
+            document.getElementById('editId').value = id;
+            document.getElementById('editIdDisplay').textContent = id;
+            document.getElementById('editNombre').value = nombre;
+            document.getElementById('editNombreDisplay').textContent = nombre;
+            document.getElementById('editPrecio').value = precio;
+            document.getElementById('editStock').value = stock;
+            document.getElementById('editCategoria').value = categoria || '';
+            document.getElementById('editImagenUrl').value = imagen || '';
+            
+            // Mostrar imagen
+            const imgElement = document.getElementById('editImagen');
+            imgElement.src = imagen || 'https://via.placeholder.com/200';
+            
+            // Abrir el modal
+            const modal = new bootstrap.Modal(document.getElementById('modalEditarProducto'));
+            modal.show();
+        }
+
+        function filtrarInventario(categoria) {
+            // Actualizar botones activos
+            document.querySelectorAll('.btn-group .btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Filtrar filas
+            const filas = document.querySelectorAll('#inventarioTableBody tr');
+            filas.forEach(fila => {
+                if (categoria === 'todos') {
+                    fila.style.display = '';
+                } else {
+                    const filaCategoria = fila.getAttribute('data-categoria');
+                    fila.style.display = filaCategoria === categoria ? '' : 'none';
+                }
+            });
+        }
+    </script>
+
+    <style>
+        .product-thumb {
+            border: 1px solid #dee2e6;
+        }
+        
+        .list-group-item {
+            border-left: 0;
+            border-right: 0;
+        }
+        
+        .list-group-item:first-child {
+            border-top: 0;
+        }
+        
+        .list-group-item:last-child {
+            border-bottom: 0;
+        }
+
+        .btn-group .btn {
+            transition: all 0.2s;
+        }
+
+        .table tbody tr {
+            transition: opacity 0.3s;
+        }
+    </style>
+}

@@ -1,8 +1,6 @@
 using Google.Protobuf.WellKnownTypes;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProviderAPI.DTOs;
-using ProviderAPI.Services;
 using ProviderData.Protos;
 
 namespace ProviderAPI.Controllers
@@ -12,14 +10,13 @@ namespace ProviderAPI.Controllers
     public class ProviderController : ControllerBase
     {
         private readonly ProductService.ProductServiceClient _grpcClient;
-        private readonly KafkaProducerService _kafkaProducer;
 
-        public ProviderController(ProductService.ProductServiceClient grpcClient, KafkaProducerService kafkaProducer)
+        public ProviderController(ProductService.ProductServiceClient grpcClient)
         {
             _grpcClient = grpcClient;
-            _kafkaProducer = kafkaProducer;
         }
 
+        // GET: api/provider
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -27,6 +24,8 @@ namespace ProviderAPI.Controllers
             return Ok(reply.Products);
         }
 
+
+        // GET: api/provider/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -34,6 +33,8 @@ namespace ProviderAPI.Controllers
             return Ok(reply);
         }
 
+
+        // POST: api/provider/create
         [HttpPost("create")]
         public async Task<IActionResult> Create(ProductRequest product)
         {
@@ -41,51 +42,53 @@ namespace ProviderAPI.Controllers
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 
+
+        // POST: api/provider/receive-order
         [HttpPost("receive-order")]
         public async Task<IActionResult> ReceiveOrder([FromBody] OrderBatchRequest batch)
         {
-            var total = 0;
-
             if (batch == null || batch.Items == null || !batch.Items.Any())
-                return BadRequest("La order tiene que contener al menos un item");
+                return BadRequest("La orden debe contener al menos un ítem");
 
+            var total = 0;
             var detailedItems = new List<object>();
 
             foreach (var item in batch.Items)
             {
-                var order = new OrderRequest
+                var product = await _grpcClient.GetByIdAsync(
+                    new ProductIdRequest { Id = item.ProductId }
+                );
+
+                total += product.Precio * item.Quantity;
+
+                await _grpcClient.CreateOrderAsync(new OrderRequest
                 {
                     ProductId = item.ProductId,
                     BuyerEmail = batch.CustomerMail,
                     Quantity = item.Quantity
-                };
-                var product = await _grpcClient.GetByIdAsync(new ProductIdRequest { Id = item.ProductId });
-                total += product.Price * item.Quantity;
-                await _grpcClient.CreateOrderAsync(order);
+                });
+
                 detailedItems.Add(new
                 {
                     ProductId = item.ProductId,
-                    ProductName = product.Name,
+                    ProductName = product.Nombre,
                     Quantity = item.Quantity,
-                    UnitPrice = product.Price,
-                    SubTotal = product.Price * item.Quantity
+                    UnitPrice = product.Precio,
+                    SubTotal = product.Precio * item.Quantity
                 });
             }
 
-            var eventMessage = new
+            return Ok(new
             {
-                CustomerEmail = batch.CustomerMail,
-                Total = total,
-                ItemsCount = batch.Items.Count,
-                Items = detailedItems,
-                Timestamp = DateTime.UtcNow
-            };
-
-            await _kafkaProducer.PublishAsync(eventMessage);
-
-            return Ok(new { message = "Orden recibida correctamente", items = batch.Items.Count, total });
+                message = "Orden recibida correctamente",
+                customer = batch.CustomerMail,
+                total,
+                items = detailedItems
+            });
         }
 
+
+        // PUT: api/provider/5
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, ProductRequest product)
         {
@@ -94,6 +97,8 @@ namespace ProviderAPI.Controllers
             return NoContent();
         }
 
+
+        // DELETE: api/provider/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

@@ -113,6 +113,30 @@ services:
     networks:
       - microservices-network
 
+  proveedores-service:
+    build:
+      context: ./proveedores
+      dockerfile: Dockerfile
+    container_name: proveedores-service
+    ports:
+      - "8088:8080"
+    depends_on:
+      - catalogo-service
+    networks:
+      - microservices-network
+
+  ordenes-service:
+    build:
+      context: ./ordenes
+      dockerfile: Dockerfile
+    container_name: ordenes-service
+    ports:
+      - "8082:8080"
+    depends_on:
+      - catalogo-service
+    networks:
+      - microservices-network
+
   notificaciones-service:
     build:
       context: ./notificaciones
@@ -152,6 +176,27 @@ services:
       - usuarios-service
     networks:
       - microservices-network
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - microservices-network
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+    networks:
+      - microservices-network
+
 
 networks:
   microservices-network:

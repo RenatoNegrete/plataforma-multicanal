@@ -28,6 +28,7 @@ public class AuthController {
 
         String email = (String) request.get("email");
         String password = (String) request.get("password");
+        String rol = (String) request.get("rol");
 
         // 1. Registrar en Firebase
         String firebaseUrl =
@@ -53,18 +54,32 @@ public class AuthController {
         Map<String, Object> firebaseData = firebaseResponse.getBody();
         String uid = (String) firebaseData.get("localId");
 
-        // 2. Enviar datos extra al microservicio de usuarios
-        Map<String, Object> extraData = new HashMap<>();
-        extraData.put("email", request.get("email"));
-        extraData.put("nombre", request.get("nombre"));
-        extraData.put("telefono", request.get("telefono"));
-        extraData.put("direccion", request.get("direccion"));
+        if (rol.equals("usuario")) {
+            Map<String, Object> extraData = new HashMap<>();
+            extraData.put("email", request.get("email"));
+            extraData.put("nombre", request.get("nombre"));
+            extraData.put("telefono", request.get("telefono"));
+            extraData.put("direccion", request.get("direccion"));
 
-        restTemplate.postForEntity(
-            "http://usuarios-service:8080/usuarios-service/api/usuarios/register",
-            extraData,
-            Void.class
-        );
+            restTemplate.postForEntity(
+                "http://usuarios-service:8080/usuarios-service/api/usuarios/register",
+                extraData,
+                Void.class
+            );
+        } else if (rol.equals("proveedor")) {
+            Map<String, Object> extraData = new HashMap<>();
+            extraData.put("nombre", request.get("nombre"));
+            extraData.put("email", request.get("email"));
+            extraData.put("telefono", request.get("telefono"));
+            extraData.put("direccion", request.get("direccion"));
+            extraData.put("url", request.get("url"));
+
+            restTemplate.postForEntity(
+                "http://proveedores-service:8080/api/proveedores",
+                extraData,
+                Void.class
+            );
+        }
 
         return ResponseEntity.ok(firebaseData);
     }
